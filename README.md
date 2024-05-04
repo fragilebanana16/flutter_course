@@ -7,3 +7,18 @@ https://www.youtube.com/watch?v=_VShCq9b53Y&list=PL3nPgdhXQtHcOCxrusIBlOH8UbwCIP
 
 1.Riverpod不同widget传值：全局定义StateProvider，使用入参watch获取
 2.Route使用push组件注入的方式进行切换页面
+
+## 构建
+说明：https://flutter.cn/docs/deployment/android
+
+## 快速构建：
+使用如下命令：
+1.cd [project]。
+2.flutter build apk --split-per-abi.
+
+设备安装 APK 文件
+1.用 USB 线将 Android 设备连接到电脑上；
+2.输入命令 cd [project]；
+3.运行 flutter install
+
+使用app-armeabi-v7a-release.apk

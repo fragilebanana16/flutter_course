@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course/pages/welcome.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      home: const Welcome(),
     );
   }
 }
@@ -55,6 +56,7 @@ class MyHomePage extends ConsumerWidget {
       floatingActionButton:
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         FloatingActionButton(
+          heroTag: "add",
           onPressed: () => {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) => const SecondPage()))
@@ -63,6 +65,7 @@ class MyHomePage extends ConsumerWidget {
           child: const Icon(Icons.arrow_back),
         ),
         FloatingActionButton(
+          heroTag: "goback",
           onPressed: () => {ref.read(appCount.notifier).state++},
           tooltip: 'Increment',
           child: const Icon(Icons.add),
@@ -72,15 +75,20 @@ class MyHomePage extends ConsumerWidget {
   }
 }
 
-class SecondPage extends StatelessWidget {
+class SecondPage extends ConsumerWidget {
   const SecondPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    int count = ref.watch(appCount);
+
     return Scaffold(
         appBar: AppBar(),
-        body: Container(
-          child: Text("count value"),
+        body: Center(
+          child: Text(
+            "$count",
+            style: TextStyle(fontSize: 30),
+          ),
         ));
   }
 }
