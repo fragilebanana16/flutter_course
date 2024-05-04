@@ -1,16 +1,9 @@
 # flutter_course
-
-A new Flutter project.
+https://www.youtube.com/watch?v=_VShCq9b53Y&list=PL3nPgdhXQtHcOCxrusIBlOH8UbwCIP_Qk
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+-vscode + as模拟器
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1.Riverpod不同widget传值：全局定义StateProvider，使用入参watch获取
+2.Route使用push组件注入的方式进行切换页面
