@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_course/common/widgets/text_widgets.dart';
+import 'widgets.dart';
 
 class Welcome extends StatelessWidget {
-  const Welcome({super.key});
+  Welcome({super.key});
 
+  final PageController _controller = PageController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,14 +12,19 @@ class Welcome extends StatelessWidget {
       body: Stack(
         children: [
           PageView(
+            controller: _controller,
             scrollDirection: Axis.horizontal,
             children: [
-              Column(
-                children: [
-                  Image.asset("assets/images/reading.png"),
-                  text24Normal(text: "First learning")
-                ],
-              )
+              appOnBoardingPage(_controller,
+                  imagePath: "assets/images/reading.png",
+                  title: "Learn stack manage",
+                  subTitle: "Books, shelf list, all in one page.",
+                  index: 1),
+              appOnBoardingPage(_controller,
+                  imagePath: "assets/images/music.png",
+                  title: "Second music",
+                  subTitle: "Music management in one project with flutter",
+                  index: 2)
             ],
           ),
           const Positioned(
