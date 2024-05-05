@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/common/widgets/app_shadow.dart';
-import '../common/widgets/text_widgets.dart';
+import 'package:flutter_course/common/widgets/text_widgets.dart';
 
 Widget appOnBoardingPage(PageController controller,
     {String imagePath = "assets/images/reading.png",

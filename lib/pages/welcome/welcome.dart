@@ -1,17 +1,17 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_course/pages/notifier/welcome_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'widgets.dart';
 
-final indexProvider = StateProvider<int>((ref) => 0)
 class Welcome extends ConsumerWidget {
   Welcome({super.key});
 
   final PageController _controller = PageController();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final index = ref.watch(indexProvider);
+    final index = ref.watch(indexDotProvider);
     return Container(
         child: SafeArea(
       child: Scaffold(
@@ -24,7 +24,7 @@ class Welcome extends ConsumerWidget {
                 // welcome pages
                 PageView(
                   onPageChanged: (value) {
-                    ref.read(indexProvider.notifier).state = value;
+                    ref.read(indexDotProvider.notifier).changeIndex(value);
                   },
                   controller: _controller,
                   scrollDirection: Axis.horizontal,
