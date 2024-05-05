@@ -1,20 +1,17 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'widgets.dart';
 
-class Welcome extends StatefulWidget {
+final indexProvider = StateProvider<int>((ref) => 0)
+class Welcome extends ConsumerWidget {
   Welcome({super.key});
 
-  @override
-  State<Welcome> createState() => _WelcomeState();
-}
-
-class _WelcomeState extends State<Welcome> {
   final PageController _controller = PageController();
-  int dotIndex = 0;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final index = ref.watch(indexProvider);
     return Container(
         child: SafeArea(
       child: Scaffold(
@@ -27,10 +24,7 @@ class _WelcomeState extends State<Welcome> {
                 // welcome pages
                 PageView(
                   onPageChanged: (value) {
-                    print(value.toString());
-                    setState(() {
-                      dotIndex = value;
-                    });
+                    ref.read(indexProvider.notifier).state = value;
                   },
                   controller: _controller,
                   scrollDirection: Axis.horizontal,
@@ -52,8 +46,8 @@ class _WelcomeState extends State<Welcome> {
                 Positioned(
                   bottom: 100,
                   child: DotsIndicator(
+                    position: index,
                     dotsCount: 2,
-                    position: dotIndex,
                     mainAxisAlignment: MainAxisAlignment.center,
                     decorator: DotsDecorator(
                         size: const Size.square(9.0),
