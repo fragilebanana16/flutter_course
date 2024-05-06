@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/common/widgets/app_shadow.dart';
 import 'package:flutter_course/common/widgets/text_widgets.dart';
+import 'package:flutter_course/pages/signin/sign_in.dart';
 
-Widget appOnBoardingPage(PageController controller,
+Widget appOnBoardingPage(PageController controller, BuildContext context,
     {String imagePath = "assets/images/reading.png",
     String title = "",
     String subTitle = "",
@@ -20,17 +21,22 @@ Widget appOnBoardingPage(PageController controller,
         padding: const EdgeInsets.only(left: 30, right: 30),
         child: text16Normal(text: subTitle),
       ),
-      _nextButton(index, controller)
+      _nextButton(index, controller, context)
     ],
   );
 }
 
-Widget _nextButton(int index, PageController controller) {
+Widget _nextButton(int index, PageController controller, BuildContext context) {
   return GestureDetector(
     onTap: () {
       if (index < 2) {
         controller.animateToPage(index,
             duration: const Duration(milliseconds: 200), curve: Curves.linear);
+      } else {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => const SignIn()));
       }
     },
     child: Container(
