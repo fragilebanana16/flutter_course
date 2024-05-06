@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course/pages/signin/sign_in.dart';
 import 'package:flutter_course/pages/welcome/welcome.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,22 +14,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(360, 690),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, child) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
-          theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-              useMaterial3: true,
-              textTheme:
-                  Typography.englishLike2018.apply(fontSizeFactor: 1.sp)),
-          home: child,
-        );
-      },
-      child: Welcome(),
+      designSize: const Size(375, 812),
+      // minTextAdapt: true,
+      // splitScreenMode: true,
+      builder: (context, child) => MaterialApp(
+        // debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+            textTheme: Typography.englishLike2018.apply(fontSizeFactor: 1.sp)),
+        initialRoute: "/",
+        routes: {
+          "/": (context) => Welcome(),
+          "/signIn": (context) => const SignIn()
+        },
+        // home: child, // can not use with initialRoute
+      ),
     );
   }
 }

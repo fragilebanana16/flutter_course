@@ -33,10 +33,11 @@ Widget _nextButton(int index, PageController controller, BuildContext context) {
         controller.animateToPage(index,
             duration: const Duration(milliseconds: 200), curve: Curves.linear);
       } else {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => const SignIn()));
+        Navigator.pushNamed(context, "/signIn");
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (BuildContext context) => const SignIn()));
       }
     },
     child: Container(
