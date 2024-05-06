@@ -32,7 +32,7 @@ class Welcome extends ConsumerWidget {
                     appOnBoardingPage(_controller, context,
                         imagePath: "assets/images/reading.png",
                         title: "Learn stack manage",
-                        subTitle: "Books, shelf list, all in one page.",
+                        subTitle: "Books, shelf list, chat all in one page.",
                         index: 1),
                     appOnBoardingPage(_controller, context,
                         imagePath: "assets/images/music.png",
