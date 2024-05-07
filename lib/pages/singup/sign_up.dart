@@ -4,10 +4,10 @@ import 'package:flutter_course/common/widgets/app_textfields.dart';
 import 'package:flutter_course/common/widgets/text_widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../common/widgets/button_widget.dart';
-import 'widgets/sign_in_widgets.dart';
+import '../signin/widgets/sign_in_widgets.dart';
 
-class SignIn extends StatelessWidget {
-  const SignIn({super.key});
+class SignUp extends StatelessWidget {
+  const SignUp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +22,22 @@ class SignIn extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  thirdPartyLogin(),
+                  SizedBox(
+                    height: 30.h,
+                  ),
                   Center(
-                    child: text14Normal(text: "Select method to log in"),
+                    child: text14Normal(text: "Register one account"),
                   ),
                   SizedBox(
                     height: 50.h,
+                  ),
+                  // email
+                  appTextField(
+                      text: "Username",
+                      iconName: "assets/icons/user.png",
+                      hintText: "Username here"),
+                  SizedBox(
+                    height: 20.h,
                   ),
                   // email
                   appTextField(
@@ -46,24 +56,29 @@ class SignIn extends StatelessWidget {
                   SizedBox(
                     height: 20.h,
                   ),
+                  // confirm password
+                  appTextField(
+                      text: "Confirm Password",
+                      iconName: "assets/icons/password.png",
+                      hintText: "Confirm password",
+                      obscureText: true),
+                  SizedBox(
+                    height: 20.h,
+                  ),
                   //forget
                   Container(
                     margin: EdgeInsets.only(left: 25.w),
-                    child: textUnderline(text: "Forgot password?"),
-                  ),
-                  SizedBox(
-                    height: 100.h,
-                  ),
-                  // login
-                  Center(
-                    child: appButton(
-                        buttonName: "Login", isLogin: true, context: context),
+                    child: text14Normal(
+                        text: "By creating an account, you argree our terms."),
                   ),
                   SizedBox(
                     height: 20.h,
                   ),
                   Center(
-                    child: appButton(buttonName: "Register", context: context),
+                    child: appButton(
+                        buttonName: "Register",
+                        isLogin: true,
+                        context: context),
                   ),
                 ],
               ),

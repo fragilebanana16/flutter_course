@@ -20,7 +20,7 @@ Widget text16Normal(
 Widget text14Normal(
     {String text = "", Color color = AppColors.primaryThreeElementText}) {
   return Text(text,
-      textAlign: TextAlign.center,
+      textAlign: TextAlign.start,
       style: TextStyle(
           color: color, fontSize: 14.sp, fontWeight: FontWeight.normal));
 }

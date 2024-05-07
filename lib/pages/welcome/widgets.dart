@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/common/widgets/app_shadow.dart';
 import 'package:flutter_course/common/widgets/text_widgets.dart';
-import 'package:flutter_course/pages/signin/sign_in.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget appOnBoardingPage(PageController controller, BuildContext context,
     {String imagePath = "assets/images/reading.png",
@@ -11,7 +11,10 @@ Widget appOnBoardingPage(PageController controller, BuildContext context,
     index = 0}) {
   return Column(
     children: [
-      Image.asset(imagePath),
+      Container(
+        height: 360,
+        child: Image.asset(imagePath), // fix height avoid flashing
+      ),
       Container(
         margin: const EdgeInsets.only(top: 15),
         child: text24Normal(text: title),
@@ -46,8 +49,9 @@ Widget _nextButton(int index, PageController controller, BuildContext context) {
       margin: const EdgeInsets.only(top: 20, left: 25, right: 25),
       decoration: appBoxShadow(),
       child: Center(
-          child:
-              text16Normal(text: "next", color: AppColors.primaryBackground)),
+          child: text16Normal(
+              text: index < 2 ? "Next" : "Get Started",
+              color: AppColors.primaryBackground)),
     ),
   );
 }
