@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course/common/utils/app_styles.dart';
 import 'package:flutter_course/pages/signin/sign_in.dart';
 import 'package:flutter_course/pages/welcome/welcome.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,10 +21,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => MaterialApp(
         // debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
-        theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-            textTheme: Typography.englishLike2018.apply(fontSizeFactor: 1.sp)),
+        theme: AppTheme.appThemeData,
         initialRoute: "/",
         routes: {
           "/": (context) => Welcome(),
