@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/common/widgets/text_widgets.dart';
 
-AppBar buildAppBar() {
+AppBar buildAppBar({String title = ""}) {
   return AppBar(
     bottom: PreferredSize(
       preferredSize: const Size.fromHeight(1),
@@ -12,6 +12,6 @@ AppBar buildAppBar() {
       ),
     ),
     centerTitle: true,
-    title: text16Normal(text: "Login", color: AppColors.primaryText),
+    title: text16Normal(text: title, color: AppColors.primaryText),
   );
 }

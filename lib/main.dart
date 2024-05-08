@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_styles.dart';
 import 'package:flutter_course/pages/signin/sign_in.dart';
+import 'package:flutter_course/pages/singup/sign_up.dart';
 import 'package:flutter_course/pages/welcome/welcome.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,7 +26,8 @@ class MyApp extends StatelessWidget {
         initialRoute: "/",
         routes: {
           "/": (context) => Welcome(),
-          "/signIn": (context) => const SignIn()
+          "/signIn": (context) => const SignIn(),
+          "/register": (context) => SignUp()
         },
         // home: child, // can not use with initialRoute
       ),

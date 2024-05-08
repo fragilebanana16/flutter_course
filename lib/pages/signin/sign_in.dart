@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course/common/widgets/app_bar.dart';
 import 'package:flutter_course/common/widgets/app_textfields.dart';
 import 'package:flutter_course/common/widgets/text_widgets.dart';
+import 'package:flutter_course/pages/singup/sign_up.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../common/widgets/button_widget.dart';
 import 'widgets/sign_in_widgets.dart';
@@ -15,7 +16,7 @@ class SignIn extends StatelessWidget {
       color: Colors.white,
       child: SafeArea(
         child: Scaffold(
-            appBar: buildAppBar(),
+            appBar: buildAppBar(title: "Login"),
             backgroundColor: Colors.white,
             body: SingleChildScrollView(
               // avoid keyboard overflow
@@ -63,7 +64,11 @@ class SignIn extends StatelessWidget {
                     height: 20.h,
                   ),
                   Center(
-                    child: appButton(buttonName: "Register", context: context),
+                    child: appButton(
+                      buttonName: "Register",
+                      context: context,
+                      func: () => Navigator.pushNamed(context, "/register"),
+                    ),
                   ),
                 ],
               ),

@@ -8,7 +8,8 @@ Widget appTextField(
     {String text = "",
     String iconName = "",
     String hintText = "Type in...",
-    bool obscureText = false}) {
+    bool obscureText = false,
+    void Function(String value)? func}) {
   return Container(
     padding: EdgeInsets.only(left: 25.w, right: 25.w),
     child: Column(
@@ -48,7 +49,7 @@ Widget appTextField(
                             borderSide: BorderSide(color: Colors.transparent)),
                         disabledBorder: const OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent))),
-                    onChanged: (value) {},
+                    onChanged: (value) => func!(value),
                     maxLines: 1,
                     autocorrect: false,
                     obscureText: obscureText, // password char
