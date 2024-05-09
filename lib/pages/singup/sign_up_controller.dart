@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_course/common/global_loader.dart/global_loader.dart';
 import 'package:flutter_course/common/widgets/popup_messages.dart';
 import 'package:flutter_course/pages/singup/notifier/register_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,22 +42,27 @@ class SignUpController {
       return;
     }
 
-    try {
-      var ctx = Navigator.of(ref.context);
-      final credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-      if (kDebugMode) {
-        print(credential);
+    ref.read(apploaderProvider.notifier).setLoaderValue(true);
+    Future.delayed(const Duration(seconds: 2), () async {
+      try {
+        var ctx = Navigator.of(ref.context);
+        final credential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
+        if (kDebugMode) {
+          print(credential);
+        }
+
+        if (credential.user != null) {
+          await credential.user?.sendEmailVerification();
+          await credential.user?.updateDisplayName(name);
+          toastInfo("Success!");
+          ctx.pop();
+        }
+      } catch (e) {
+        toastInfo("Err! $e");
       }
 
-      if (credential.user != null) {
-        await credential.user?.sendEmailVerification();
-        await credential.user?.updateDisplayName(name);
-        toastInfo("Success!");
-        ctx.pop();
-      }
-    } catch (e) {
-      toastInfo("Err! $e");
-    }
+      ref.read(apploaderProvider.notifier).setLoaderValue(false);
+    });
   }
 }
