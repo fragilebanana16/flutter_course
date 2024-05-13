@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/global_loader.dart/global_loader.dart';
@@ -11,21 +13,13 @@ class SignUpController {
   SignUpController({required this.ref});
 
   Future<void> handleSignUp() async {
-    http.Response res = await http.post(
-      Uri.parse('http://192.168.0.107:8080/auth/test'),
-      body: '',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-    );
-    print(res);
     var state = ref.read(registerNotiferProvider);
-    String name = state.userName;
+    String userName = state.userName;
     String email = state.email;
     String password = state.password;
     String rePassword = state.rePassword;
 
-    if (state.userName.isEmpty || name.isEmpty) {
+    if (state.userName.isEmpty || userName.isEmpty) {
       toastInfo("userName empty!");
       return;
     }
@@ -51,26 +45,38 @@ class SignUpController {
     }
 
     ref.read(apploaderProvider.notifier).setLoaderValue(true);
-    // Future.delayed(const Duration(seconds: 2), () async {
-    //   try {
-    //     var ctx = Navigator.of(ref.context);
-    //     final credential = await FirebaseAuth.instance
-    //         .createUserWithEmailAndPassword(email: email, password: password);
-    //     if (kDebugMode) {
-    //       print(credential);
-    //     }
 
-    //     if (credential.user != null) {
-    //       await credential.user?.sendEmailVerification();
-    //       await credential.user?.updateDisplayName(name);
-    //       toastInfo("Success!");
-    //       ctx.pop();
-    //     }
-    //   } catch (e) {
-    //     toastInfo("Err! $e");
-    //   }
+    var requestBody = {
+      "username": userName,
+      "password": password,
+      "email": email,
+      "auth_level": "admin"
+    };
 
-    //   ref.read(apploaderProvider.notifier).setLoaderValue(false);
-    // });
+    String jsonString = jsonEncode(requestBody);
+    try {
+      var ctx = Navigator.of(ref.context);
+      http.Response res = await http.post(
+        Uri.parse('http://192.168.0.107:8080/auth/register'),
+        body: jsonString,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      if (kDebugMode) {
+        print(res);
+      }
+
+      if (res.statusCode == 200) {
+        toastInfo("Success!");
+        ctx.pop();
+      }
+    } catch (e) {
+      toastInfo("Err! $e");
+    }
+
+    ref.read(apploaderProvider.notifier).setLoaderValue(false);
+
+    // Future.delayed(const Duration(seconds: 2), () async { dosomething });
   }
 }
