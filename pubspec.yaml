@@ -41,7 +41,7 @@ dependencies:
   riverpod_generator: ^2.2.5
   build_runner: ^2.4.9
   fluttertoast: ^8.2.5
-  firebase_auth: ^4.16.0
+  http: ^1.1.0
 
 dev_dependencies:
   flutter_test:
