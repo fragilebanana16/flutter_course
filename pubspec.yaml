@@ -42,6 +42,7 @@ dependencies:
   build_runner: ^2.4.9
   fluttertoast: ^8.2.5
   http: ^1.1.0
+  shared_preferences: ^2.2.3
 
 dev_dependencies:
   flutter_test:

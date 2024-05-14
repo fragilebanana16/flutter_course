@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/global_loader.dart/global_loader.dart';
+import 'package:flutter_course/common/widgets/popup_messages.dart';
+import 'package:flutter_course/global.dart';
 import 'package:flutter_course/pages/signin/notifier/sign_in_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,6 +27,18 @@ class SignInController {
     signInEntity.password = password;
     ref.read(apploaderProvider.notifier).setLoaderValue(true);
     print(signInEntity.toJson());
+
+    try {
+      var navigator = Navigator.of(ref.context);
+      Global.storageService.setString("", "");
+      navigator.push(MaterialPageRoute(
+          builder: (BuildContext context) => Scaffold(
+                appBar: AppBar(),
+                body: Container(),
+              )));
+    } catch (e) {
+      toastInfo(e.toString());
+    }
 
     await Future.delayed(const Duration(seconds: 2), () async {});
     ref.read(apploaderProvider.notifier).setLoaderValue(false);
