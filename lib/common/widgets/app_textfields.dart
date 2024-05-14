@@ -5,7 +5,8 @@ import 'package:flutter_course/common/widgets/text_widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget appTextField(
-    {String text = "",
+    {TextEditingController? controller,
+    String text = "",
     String iconName = "",
     String hintText = "Type in...",
     bool obscureText = false,
@@ -33,6 +34,7 @@ Widget appTextField(
                   width: 200.w,
                   height: 50.h,
                   child: TextField(
+                    controller: controller,
                     cursorColor: Colors.grey,
                     cursorWidth: 1.0,
                     style: const TextStyle(color: Colors.black),

@@ -77,6 +77,6 @@ class SignUpController {
 
     ref.read(apploaderProvider.notifier).setLoaderValue(false);
 
-    // Future.delayed(const Duration(seconds: 2), () async { dosomething });
+    // await Future.delayed(const Duration(seconds: 2), () async { dosomething });
   }
 }

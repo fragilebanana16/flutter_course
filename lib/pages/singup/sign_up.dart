@@ -9,14 +9,12 @@ import 'package:flutter_course/pages/singup/sign_up_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../common/widgets/button_widget.dart';
-import '../signin/widgets/sign_in_widgets.dart';
 
 class SignUp extends ConsumerWidget {
   const SignUp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final regProvider = ref.watch(registerNotiferProvider);
     final loader = ref.watch(apploaderProvider);
     final signUpController = SignUpController(ref: ref);
     return Container(
