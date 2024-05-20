@@ -19,4 +19,8 @@ class StorageService {
   bool isFirstOpened() {
     return _pref.getBool(AppConstants.OPEN_FIRST_TIME_KEY) ?? false;
   }
+
+  bool isLoggedIn() {
+    return _pref.getBool(AppConstants.LOGGED_IN) ?? false;
+  }
 }

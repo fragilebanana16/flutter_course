@@ -27,8 +27,14 @@ class AppPages {
       if (res.isNotEmpty) {
         bool firstTimeOpened = Global.storageService.isFirstOpened();
         if (res.first.path == AppRoutesNames.WELCOME && firstTimeOpened) {
-          return MaterialPageRoute(
-              builder: (_) => SignIn(), settings: settings);
+          bool isLoggedIn = Global.storageService.isLoggedIn();
+          if (isLoggedIn) {
+            return MaterialPageRoute(
+                builder: (_) => Application(), settings: settings);
+          } else {
+            return MaterialPageRoute(
+                builder: (_) => SignIn(), settings: settings);
+          }
         } else {
           if (kDebugMode) {
             print("first time run");

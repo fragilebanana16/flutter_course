@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/global_loader.dart/global_loader.dart';
+import 'package:flutter_course/common/utils/constants.dart';
 import 'package:flutter_course/common/widgets/popup_messages.dart';
 import 'package:flutter_course/global.dart';
 import 'package:flutter_course/pages/application/application.dart';
@@ -31,7 +32,7 @@ class SignInController {
 
     try {
       var navigator = Navigator.of(ref.context);
-      Global.storageService.setString("", "");
+      Global.storageService.setBool(AppConstants.LOGGED_IN, true);
 
       // navigator.push(MaterialPageRoute(
       //     builder: (BuildContext context) => Scaffold(
