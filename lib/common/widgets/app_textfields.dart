@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 Widget appTextField(
     {TextEditingController? controller,
     String text = "",
-    String iconName = "",
+    IconData icon = Icons.home,
     String hintText = "Type in...",
     bool obscureText = false,
     void Function(String value)? func}) {
@@ -28,7 +28,7 @@ Widget appTextField(
             children: [
               Container(
                 margin: EdgeInsets.only(left: 14.w),
-                child: appImage(imagePath: iconName),
+                child: appImage(icon: icon),
               ),
               Container(
                   width: 200.w,

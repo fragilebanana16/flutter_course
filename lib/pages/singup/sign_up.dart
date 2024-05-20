@@ -41,7 +41,7 @@ class SignUp extends ConsumerWidget {
                         // email
                         appTextField(
                             text: "Username",
-                            iconName: "assets/icons/user.png",
+                            icon: Icons.person,
                             hintText: "Username here",
                             func: (value) => ref
                                 .read(registerNotiferProvider.notifier)
@@ -52,7 +52,7 @@ class SignUp extends ConsumerWidget {
                         // email
                         appTextField(
                             text: "Email",
-                            iconName: "assets/icons/user.png",
+                            icon: Icons.email,
                             hintText: "email here",
                             func: (value) => ref
                                 .read(registerNotiferProvider.notifier)
@@ -63,7 +63,7 @@ class SignUp extends ConsumerWidget {
                         // password
                         appTextField(
                             text: "Password",
-                            iconName: "assets/icons/password.png",
+                            icon: Icons.password,
                             hintText: "password",
                             obscureText: true,
                             func: (value) => ref
@@ -75,7 +75,7 @@ class SignUp extends ConsumerWidget {
                         // confirm password
                         appTextField(
                             text: "Confirm Password",
-                            iconName: "assets/icons/password.png",
+                            icon: Icons.password,
                             hintText: "Confirm password",
                             obscureText: true,
                             func: (value) => ref

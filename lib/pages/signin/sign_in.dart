@@ -53,7 +53,7 @@ class _SignInState extends ConsumerState<SignIn> {
                         appTextField(
                             controller: _controller.userNameController,
                             text: "Email",
-                            iconName: "assets/icons/user.png",
+                            icon: Icons.email,
                             hintText: "email here",
                             func: (value) => ref
                                 .read(signInNotifierProvider.notifier)
@@ -65,7 +65,7 @@ class _SignInState extends ConsumerState<SignIn> {
                         appTextField(
                             controller: _controller.passwordController,
                             text: "Password",
-                            iconName: "assets/icons/password.png",
+                            icon: Icons.password,
                             hintText: "password",
                             obscureText: true,
                             func: (value) => ref
