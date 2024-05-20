@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
+import 'package:flutter_course/common/utils/constants.dart';
 import 'package:flutter_course/common/widgets/app_shadow.dart';
 import 'package:flutter_course/common/widgets/text_widgets.dart';
+import 'package:flutter_course/global.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget appOnBoardingPage(PageController controller, BuildContext context,
@@ -36,6 +38,8 @@ Widget _nextButton(int index, PageController controller, BuildContext context) {
         controller.animateToPage(index,
             duration: const Duration(milliseconds: 200), curve: Curves.linear);
       } else {
+        // first time arrive this
+        Global.storageService.setBool(AppConstants.OPEN_FIRST_TIME_KEY, true);
         Navigator.pushNamed(context, "/signIn");
         // Navigator.push(
         //     context,

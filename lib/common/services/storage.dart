@@ -1,3 +1,4 @@
+import 'package:flutter_course/common/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageService {
@@ -9,5 +10,13 @@ class StorageService {
 
   Future<bool> setString(String key, String value) async {
     return await _pref.setString(key, value);
+  }
+
+  setBool(String key, bool value) async {
+    return await _pref.setBool(key, value);
+  }
+
+  bool isFirstOpened() {
+    return _pref.getBool(AppConstants.OPEN_FIRST_TIME_KEY) ?? false;
   }
 }

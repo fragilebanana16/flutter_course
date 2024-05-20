@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course/common/routes/routes.dart';
 import 'package:flutter_course/common/utils/app_styles.dart';
 import 'package:flutter_course/global.dart';
+import 'package:flutter_course/pages/application/application.dart';
 import 'package:flutter_course/pages/signin/sign_in.dart';
 import 'package:flutter_course/pages/singup/sign_up.dart';
 import 'package:flutter_course/pages/welcome/welcome.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-void main() {
-  Global.init();
+Future<void> main() async {
+  await Global.init();
   runApp(const ProviderScope(child: MyApp()));
 }
+
+var routesMap = {
+  "/": (context) => Welcome(),
+  "/signIn": (context) => const SignIn(),
+  "/register": (context) => const SignUp(),
+  "/application": (context) => const Application()
+};
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -26,11 +35,8 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: AppTheme.appThemeData,
         initialRoute: "/",
-        routes: {
-          "/": (context) => Welcome(),
-          "/signIn": (context) => const SignIn(),
-          "/register": (context) => SignUp()
-        },
+        // routes: routesMap,
+        onGenerateRoute: AppPages.generateRouteSettings,
         // home: child, // can not use with initialRoute
       ),
     );
