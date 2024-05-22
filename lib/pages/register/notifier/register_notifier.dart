@@ -1,4 +1,4 @@
-import 'package:flutter_course/pages/singup/notifier/register_state.dart';
+import 'package:flutter_course/pages/register/notifier/register_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'register_notifier.g.dart';
 

@@ -4,7 +4,7 @@ import 'package:flutter_course/common/utils/app_styles.dart';
 import 'package:flutter_course/global.dart';
 import 'package:flutter_course/pages/application/application.dart';
 import 'package:flutter_course/pages/signin/sign_in.dart';
-import 'package:flutter_course/pages/singup/sign_up.dart';
+import 'package:flutter_course/pages/register/register.dart';
 import 'package:flutter_course/pages/welcome/welcome.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,7 +17,7 @@ Future<void> main() async {
 var routesMap = {
   "/": (context) => Welcome(),
   "/signIn": (context) => const SignIn(),
-  "/register": (context) => const SignUp(),
+  "/register": (context) => const Register(),
   "/application": (context) => const Application()
 };
 

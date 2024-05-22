@@ -4,13 +4,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/global_loader.dart/global_loader.dart';
 import 'package:flutter_course/common/widgets/popup_messages.dart';
-import 'package:flutter_course/pages/singup/notifier/register_notifier.dart';
+import 'package:flutter_course/pages/register/notifier/register_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
-class SignUpController {
+class RegisterController {
   late WidgetRef ref;
-  SignUpController({required this.ref});
+  RegisterController({required this.ref});
 
   Future<void> handleSignUp() async {
     var state = ref.read(registerNotiferProvider);

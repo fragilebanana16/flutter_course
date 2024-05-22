@@ -4,19 +4,19 @@ import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/common/widgets/app_bar.dart';
 import 'package:flutter_course/common/widgets/app_textfields.dart';
 import 'package:flutter_course/common/widgets/text_widgets.dart';
-import 'package:flutter_course/pages/singup/notifier/register_notifier.dart';
-import 'package:flutter_course/pages/singup/sign_up_controller.dart';
+import 'package:flutter_course/pages/register/notifier/register_notifier.dart';
+import 'package:flutter_course/pages/register/register_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../common/widgets/button_widget.dart';
 
-class SignUp extends ConsumerWidget {
-  const SignUp({super.key});
+class Register extends ConsumerWidget {
+  const Register({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final loader = ref.watch(apploaderProvider);
-    final signUpController = SignUpController(ref: ref);
+    final signUpController = RegisterController(ref: ref);
     return Container(
       color: Colors.white,
       child: SafeArea(

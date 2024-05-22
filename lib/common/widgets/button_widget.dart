@@ -4,7 +4,7 @@ import 'package:flutter_course/common/widgets/app_bar.dart';
 import 'package:flutter_course/common/widgets/app_shadow.dart';
 import 'package:flutter_course/common/widgets/text_widgets.dart';
 import 'package:flutter_course/pages/signin/widgets/sign_in_widgets.dart';
-import 'package:flutter_course/pages/singup/sign_up.dart';
+import 'package:flutter_course/pages/register/register.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget appButton(
