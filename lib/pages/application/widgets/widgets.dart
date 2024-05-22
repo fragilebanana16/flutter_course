@@ -5,26 +5,26 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 var bottomTabs = <BottomNavigationBarItem>[
   BottomNavigationBarItem(
-      icon: bottomContainer(icon: Icons.home),
+      icon: _bottomContainer(icon: Icons.home),
       activeIcon:
-          bottomContainer(icon: Icons.home, color: AppColors.primaryElement),
+          _bottomContainer(icon: Icons.home, color: AppColors.primaryElement),
       backgroundColor: AppColors.primaryBackground,
       label: "Home"),
   BottomNavigationBarItem(
-      icon: bottomContainer(icon: Icons.search),
+      icon: _bottomContainer(icon: Icons.search),
       activeIcon:
-          bottomContainer(icon: Icons.search, color: AppColors.primaryElement),
+          _bottomContainer(icon: Icons.search, color: AppColors.primaryElement),
       backgroundColor: AppColors.primaryBackground,
       label: "Search"),
   BottomNavigationBarItem(
-      icon: bottomContainer(icon: Icons.access_alarm),
-      activeIcon: bottomContainer(
+      icon: _bottomContainer(icon: Icons.access_alarm),
+      activeIcon: _bottomContainer(
           icon: Icons.access_alarm, color: AppColors.primaryElement),
       backgroundColor: AppColors.primaryBackground,
       label: "Other")
 ];
 
-Widget bottomContainer(
+Widget _bottomContainer(
     {IconData icon = Icons.home,
     width = 15,
     double height = 15,
@@ -34,4 +34,20 @@ Widget bottomContainer(
     height: 15.h,
     child: appImageWithColor(icon: icon, color: AppColors.primaryText),
   );
+}
+
+Widget appScreens({int index = 0}) {
+  List<Widget> screens = [
+    Center(
+      child: appImage(icon: Icons.dangerous, width: 200, height: 200),
+    ),
+    Center(
+      child: appImage(icon: Icons.wallet, width: 200, height: 200),
+    ),
+    Center(
+      child: appImage(icon: Icons.g_mobiledata, width: 200, height: 200),
+    ),
+  ];
+
+  return screens[index];
 }

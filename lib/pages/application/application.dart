@@ -16,7 +16,7 @@ class Application extends ConsumerWidget {
       color: Colors.white,
       child: SafeArea(
           child: Scaffold(
-        body: Container(),
+        body: appScreens(index: curIndex),
         bottomNavigationBar: Container(
           width: 375.w,
           height: 58.h,
