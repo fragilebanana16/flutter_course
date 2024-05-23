@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/common/widgets/image_widget.dart';
+import 'package:flutter_course/pages/home/view/home.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 var bottomTabs = <BottomNavigationBarItem>[
@@ -38,6 +39,7 @@ Widget _bottomContainer(
 
 Widget appScreens({int index = 0}) {
   List<Widget> screens = [
+    const Home(),
     Center(
       child: appImage(icon: Icons.dangerous, width: 200, height: 200),
     ),

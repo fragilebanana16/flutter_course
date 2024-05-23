@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course/common/widgets/app_bar.dart';
 import 'package:flutter_course/common/widgets/app_shadow.dart';
 import 'package:flutter_course/pages/application/notifier/application_nav_notifier.dart';
-import 'package:flutter_course/pages/application/widgets/widgets.dart';
+import 'package:flutter_course/pages/application/widgets/app_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
