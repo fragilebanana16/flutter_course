@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course/common/global_loader.dart/global_loader.dart';
 import 'package:flutter_course/common/widgets/popup_messages.dart';
 import 'package:flutter_course/pages/register/notifier/register_notifier.dart';
+import 'package:flutter_course/pages/register/repo/register_repo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
 
 class RegisterController {
   late WidgetRef ref;
@@ -56,13 +56,8 @@ class RegisterController {
     String jsonString = jsonEncode(requestBody);
     try {
       var ctx = Navigator.of(ref.context);
-      http.Response res = await http.post(
-        Uri.parse('http://192.168.0.107:8080/auth/register'),
-        body: jsonString,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      );
+      final res = await RegisterRepo.Register(jsonString);
+
       if (kDebugMode) {
         print(res);
       }

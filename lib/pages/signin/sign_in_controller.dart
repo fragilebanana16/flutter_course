@@ -3,19 +3,19 @@ import 'package:flutter_course/common/global_loader.dart/global_loader.dart';
 import 'package:flutter_course/common/utils/constants.dart';
 import 'package:flutter_course/common/widgets/popup_messages.dart';
 import 'package:flutter_course/global.dart';
+import 'package:flutter_course/main.dart';
 import 'package:flutter_course/pages/application/application.dart';
 import 'package:flutter_course/pages/signin/notifier/sign_in_notifier.dart';
+import 'package:flutter_course/pages/signin/repo/sign_in_repo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SignInController {
-  late WidgetRef ref;
-
-  SignInController(this.ref);
+  SignInController();
 
   TextEditingController userNameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  Future<void> handleSignIn() async {
+  Future<void> handleSignIn(WidgetRef ref) async {
     var state = ref.read(signInNotifierProvider);
     String userName = state.userName;
     String password = state.password;
@@ -32,6 +32,9 @@ class SignInController {
 
     try {
       var navigator = Navigator.of(ref.context);
+
+      SignInRepo.SignIn();
+
       Global.storageService.setBool(AppConstants.LOGGED_IN, true);
 
       // navigator.push(MaterialPageRoute(
@@ -42,6 +45,9 @@ class SignInController {
 
       // remove previous routes when met the provided route
       navigator.pushNamedAndRemoveUntil("/application", (route) => false);
+
+      // navKey.currentState
+      //     ?.pushNamedAndRemoveUntil("/application", (route) => false);
 
       // navigator.pushNamed("/application");
     } catch (e) {

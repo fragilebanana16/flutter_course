@@ -21,6 +21,8 @@ var routesMap = {
   "/application": (context) => const Application()
 };
 
+final GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
       // minTextAdapt: true,
       // splitScreenMode: true,
       builder: (context, child) => MaterialApp(
+        navigatorKey: navKey,
         // debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: AppTheme.appThemeData,

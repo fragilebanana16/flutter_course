@@ -1,0 +1,3 @@
+class SignInRepo {
+  static SignIn() {}
+}
