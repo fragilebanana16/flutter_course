@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter_course/common/models/user.dart';
 import 'package:flutter_course/common/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,5 +25,12 @@ class StorageService {
 
   bool isLoggedIn() {
     return _pref.getBool(AppConstants.LOGGED_IN) ?? false;
+  }
+
+  UserProfile getUserProfile() {
+    var profile = _pref.getString(AppConstants.USER_PROFILE) ?? "";
+    var profileJson = jsonDecode(profile);
+    var userEntity = UserProfile.fromJson(profileJson);
+    return userEntity;
   }
 }
