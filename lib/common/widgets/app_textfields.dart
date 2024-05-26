@@ -30,36 +30,50 @@ Widget appTextField(
                 margin: EdgeInsets.only(left: 14.w),
                 child: appImage(icon: icon),
               ),
-              Container(
-                  width: 200.w,
-                  height: 50.h,
-                  child: TextField(
-                    controller: controller,
-                    cursorColor: Colors.grey,
-                    cursorWidth: 1.0,
-                    style: const TextStyle(color: Colors.black),
-                    keyboardType: TextInputType.multiline,
-                    decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(left: 10.h),
-                        hintText: hintText,
-                        hintStyle: TextStyle(fontSize: 14.sp),
-                        border: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent)),
-                        enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent)),
-                        focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent)),
-                        disabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent))),
-                    onChanged: (value) => func!(value),
-                    maxLines: 1,
-                    autocorrect: false,
-                    obscureText: obscureText, // password char
-                  ))
+              appTextOnlyField(
+                  controller: controller,
+                  hintText: hintText,
+                  func: func,
+                  obscureText: obscureText)
             ],
           ),
         )
       ],
     ),
   );
+}
+
+Widget appTextOnlyField(
+    {TextEditingController? controller,
+    String hintText = "Type in info",
+    double width = 280,
+    double height = 50,
+    bool obscureText = false,
+    void Function(String value)? func}) {
+  return Container(
+      width: width.w,
+      height: height.h,
+      child: TextField(
+        controller: controller,
+        cursorColor: Colors.grey,
+        cursorWidth: 1.0,
+        style: const TextStyle(color: Colors.black),
+        keyboardType: TextInputType.multiline,
+        decoration: InputDecoration(
+            contentPadding: EdgeInsets.only(left: 10.h, top: 7.h),
+            hintText: hintText,
+            hintStyle: TextStyle(fontSize: 14.sp),
+            border: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.transparent)),
+            enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.transparent)),
+            focusedBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.transparent)),
+            disabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.transparent))),
+        onChanged: (value) => func!(value),
+        maxLines: 1,
+        autocorrect: false,
+        obscureText: obscureText, // password char
+      ));
 }

@@ -4,3 +4,10 @@ class AppConstants {
   static const String LOGGED_IN = "logged_in";
   static const String USER_PROFILE = "profile";
 }
+
+class ImageRes {
+  static const String _imageBasePath = "assets/images";
+  static const String homeBanner1 = '$_imageBasePath/homeBanner_main.png';
+  static const String homeBanner2 = '$_imageBasePath/homeBanner_media.png';
+  static const String homeBanner3 = '$_imageBasePath/homeBanner_music.png';
+}

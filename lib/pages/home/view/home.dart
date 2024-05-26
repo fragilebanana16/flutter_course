@@ -2,15 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/common/widgets/app_bar.dart';
+import 'package:flutter_course/common/widgets/search_bar.dart';
 import 'package:flutter_course/common/widgets/text_widgets.dart';
 import 'package:flutter_course/global.dart';
+import 'package:flutter_course/pages/home/view/widgets/home_widget.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class Home extends StatelessWidget {
+class Home extends ConsumerWidget {
   const Home({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: buildAppBar(title: "Home"),
       body: Padding(
@@ -20,17 +23,16 @@ class Home extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  child: text24Normal(
-                      text: "Damn",
-                      color: AppColors.primaryThreeElementText,
-                      fontWeight: FontWeight.bold),
+                helloText(),
+                userName(),
+                SizedBox(
+                  height: 20.h,
                 ),
-                Container(
-                  child: text24Normal(
-                      text: Global.storageService.getUserProfile().userName!,
-                      fontWeight: FontWeight.bold),
-                )
+                searchBar(),
+                SizedBox(
+                  height: 20.h,
+                ),
+                banner(ref: ref)
               ],
             ),
           )),

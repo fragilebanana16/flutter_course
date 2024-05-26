@@ -26,14 +26,11 @@ var bottomTabs = <BottomNavigationBarItem>[
 ];
 
 Widget _bottomContainer(
-    {IconData icon = Icons.home,
-    width = 15,
-    double height = 15,
-    Color color = AppColors.primaryElement}) {
+    {IconData icon = Icons.home, Color color = AppColors.primaryText}) {
   return SizedBox(
     width: 15.w,
     height: 15.h,
-    child: appImageWithColor(icon: icon, color: AppColors.primaryText),
+    child: appImage(icon: icon, size: 24, color: color),
   );
 }
 
@@ -41,13 +38,13 @@ Widget appScreens({int index = 0}) {
   List<Widget> screens = [
     const Home(),
     Center(
-      child: appImage(icon: Icons.dangerous, width: 200, height: 200),
+      child: appImage(icon: Icons.dangerous, size: 200),
     ),
     Center(
-      child: appImage(icon: Icons.wallet, width: 200, height: 200),
+      child: appImage(icon: Icons.wallet, size: 200),
     ),
     Center(
-      child: appImage(icon: Icons.g_mobiledata, width: 200, height: 200),
+      child: appImage(icon: Icons.g_mobiledata, size: 200),
     ),
   ];
 
