@@ -25,7 +25,7 @@ Widget helloText() {
   );
 }
 
-Widget banner({required WidgetRef ref}) {
+Widget banner({required WidgetRef ref, required PageController controller}) {
   return Column(
     children: [
       // banners
@@ -33,6 +33,7 @@ Widget banner({required WidgetRef ref}) {
         width: 325.w,
         height: 160.h,
         child: PageView(
+          controller: controller,
           onPageChanged: (index) {
             ref.read(homeScreenBannerDotsProvider.notifier).setIndex(index);
           },

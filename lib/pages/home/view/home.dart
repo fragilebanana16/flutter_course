@@ -5,15 +5,31 @@ import 'package:flutter_course/common/widgets/app_bar.dart';
 import 'package:flutter_course/common/widgets/search_bar.dart';
 import 'package:flutter_course/common/widgets/text_widgets.dart';
 import 'package:flutter_course/global.dart';
+import 'package:flutter_course/pages/home/controller/home_controller.dart';
 import 'package:flutter_course/pages/home/view/widgets/home_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class Home extends ConsumerWidget {
+class Home extends ConsumerStatefulWidget {
   const Home({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _HomeState();
+}
+
+class _HomeState extends ConsumerState<Home> {
+  late PageController _controller;
+
+  // int controller whenever provider changes
+  @override
+  void didChangeDependencies() {
+    _controller =
+        PageController(initialPage: ref.watch(homeScreenBannerDotsProvider));
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(title: "Home"),
       body: Padding(
@@ -32,7 +48,7 @@ class Home extends ConsumerWidget {
                 SizedBox(
                   height: 20.h,
                 ),
-                banner(ref: ref)
+                banner(ref: ref, controller: _controller)
               ],
             ),
           )),
