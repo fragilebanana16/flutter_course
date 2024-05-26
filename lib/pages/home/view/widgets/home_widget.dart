@@ -8,21 +8,30 @@ import 'package:flutter_course/pages/home/controller/home_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Widget userName() {
-  return Container(
-    child: text24Normal(
-        text: Global.storageService.getUserProfile().userName!,
-        fontWeight: FontWeight.bold),
-  );
+class UserName extends StatelessWidget {
+  const UserName({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: text24Normal(
+          text: Global.storageService.getUserProfile().userName!,
+          fontWeight: FontWeight.bold),
+    );
+  }
 }
 
-Widget helloText() {
-  return Container(
-    child: text24Normal(
-        text: "Damn",
-        color: AppColors.primaryThreeElementText,
-        fontWeight: FontWeight.bold),
-  );
+class HelloText extends StatelessWidget {
+  const HelloText({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: text24Normal(
+          text: "Damn",
+          color: AppColors.primaryThreeElementText,
+          fontWeight: FontWeight.bold),
+    );
+  }
 }
 
 Widget banner({required WidgetRef ref, required PageController controller}) {
