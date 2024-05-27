@@ -1,10 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/common/widgets/app_bar.dart';
 import 'package:flutter_course/common/widgets/search_bar.dart';
-import 'package:flutter_course/common/widgets/text_widgets.dart';
-import 'package:flutter_course/global.dart';
 import 'package:flutter_course/pages/home/controller/home_controller.dart';
 import 'package:flutter_course/pages/home/view/widgets/home_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,7 +44,7 @@ class _HomeState extends ConsumerState<Home> {
                 SizedBox(
                   height: 20.h,
                 ),
-                banner(ref: ref, controller: _controller)
+                HomeBanner(ref: ref, controller: _controller)
               ],
             ),
           )),

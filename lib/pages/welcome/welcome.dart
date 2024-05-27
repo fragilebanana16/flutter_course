@@ -1,5 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_course/common/utils/constants.dart';
 import 'package:flutter_course/pages/welcome/notifier/welcome_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,13 +30,17 @@ class Welcome extends ConsumerWidget {
                   controller: _controller,
                   scrollDirection: Axis.horizontal,
                   children: [
-                    appOnBoardingPage(_controller, context,
-                        imagePath: "assets/images/reading.png",
+                    AppOnBoardingPage(
+                        controller: _controller,
+                        context: context,
+                        imagePath: ImageRes.welcomePage1,
                         title: "Learn stack manage",
                         subTitle: "Books, shelf list, chat all in one page.",
                         index: 1),
-                    appOnBoardingPage(_controller, context,
-                        imagePath: "assets/images/music.png",
+                    AppOnBoardingPage(
+                        controller: _controller,
+                        context: context,
+                        imagePath: ImageRes.welcomePage2,
                         title: "Second music",
                         subTitle:
                             "Music management in one project with flutter",

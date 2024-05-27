@@ -44,8 +44,8 @@ class _SignInState extends ConsumerState<SignIn> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         thirdPartyLogin(),
-                        Center(
-                          child: text14Normal(text: "Select method to log in"),
+                        const Center(
+                          child: Text14Normal(text: "Select method to log in"),
                         ),
                         SizedBox(
                           height: 50.h,

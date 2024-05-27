@@ -6,29 +6,45 @@ import 'package:flutter_course/common/widgets/text_widgets.dart';
 import 'package:flutter_course/global.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Widget appOnBoardingPage(PageController controller, BuildContext context,
-    {String imagePath = "assets/images/reading.png",
-    String title = "",
-    String subTitle = "",
-    index = 0}) {
-  return Column(
-    children: [
-      Container(
-        height: 360,
-        child: Image.asset(imagePath), // fix height avoid flashing
-      ),
-      Container(
-        margin: const EdgeInsets.only(top: 15),
-        child: text24Normal(text: title),
-      ),
-      Container(
-        margin: const EdgeInsets.only(top: 15),
-        padding: const EdgeInsets.only(left: 30, right: 30),
-        child: text16Normal(text: subTitle),
-      ),
-      _nextButton(index, controller, context)
-    ],
-  );
+class AppOnBoardingPage extends StatelessWidget {
+  final PageController controller;
+  final BuildContext context;
+  final String imagePath;
+  final String title;
+  final String subTitle;
+  final int index;
+
+  const AppOnBoardingPage(
+      {Key? key,
+      required this.controller,
+      required this.context,
+      required this.imagePath,
+      required this.title,
+      required this.subTitle,
+      required this.index})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(
+          height: 360,
+          child: Image.asset(imagePath), // fix height avoid flashing
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 15),
+          child: text24Normal(text: title),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 15),
+          padding: const EdgeInsets.only(left: 30, right: 30),
+          child: text16Normal(text: subTitle),
+        ),
+        _nextButton(index, controller, context)
+      ],
+    );
+  }
 }
 
 Widget _nextButton(int index, PageController controller, BuildContext context) {

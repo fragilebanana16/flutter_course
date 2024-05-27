@@ -33,7 +33,7 @@ class Register extends ConsumerWidget {
                           height: 30.h,
                         ),
                         Center(
-                          child: text14Normal(text: "Register one account"),
+                          child: Text14Normal(text: "Register one account"),
                         ),
                         SizedBox(
                           height: 50.h,
@@ -87,7 +87,7 @@ class Register extends ConsumerWidget {
                         //forget
                         Container(
                           margin: EdgeInsets.only(left: 25.w),
-                          child: text14Normal(
+                          child: const Text14Normal(
                               text:
                                   "By creating an account, you argree our terms."),
                         ),

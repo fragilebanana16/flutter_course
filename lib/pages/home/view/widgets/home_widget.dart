@@ -34,41 +34,49 @@ class HelloText extends StatelessWidget {
   }
 }
 
-Widget banner({required WidgetRef ref, required PageController controller}) {
-  return Column(
-    children: [
-      // banners
-      SizedBox(
-        width: 325.w,
-        height: 160.h,
-        child: PageView(
-          controller: controller,
-          onPageChanged: (index) {
-            ref.read(homeScreenBannerDotsProvider.notifier).setIndex(index);
-          },
-          children: [
-            bannerContainer(imagePath: ImageRes.homeBanner1),
-            bannerContainer(imagePath: ImageRes.homeBanner2),
-            bannerContainer(imagePath: ImageRes.homeBanner3),
-          ],
+class HomeBanner extends StatelessWidget {
+  final PageController controller;
+  final WidgetRef ref;
+
+  const HomeBanner({super.key, required this.controller, required this.ref});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // banners
+        SizedBox(
+          width: 325.w,
+          height: 160.h,
+          child: PageView(
+            controller: controller,
+            onPageChanged: (index) {
+              ref.read(homeScreenBannerDotsProvider.notifier).setIndex(index);
+            },
+            children: [
+              bannerContainer(imagePath: ImageRes.homeBanner1),
+              bannerContainer(imagePath: ImageRes.homeBanner2),
+              bannerContainer(imagePath: ImageRes.homeBanner3),
+            ],
+          ),
         ),
-      ),
-      SizedBox(
-        height: 5.h,
-      ),
-      // dots
-      DotsIndicator(
-        position: ref.watch(homeScreenBannerDotsProvider),
-        dotsCount: 3,
-        mainAxisAlignment: MainAxisAlignment.center,
-        decorator: DotsDecorator(
-            size: const Size.square(9.0),
-            activeSize: const Size(24.0, 8.0),
-            activeShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.w))),
-      )
-    ],
-  );
+        SizedBox(
+          height: 5.h,
+        ),
+        // dots
+        DotsIndicator(
+          position: ref.watch(homeScreenBannerDotsProvider),
+          dotsCount: 3,
+          mainAxisAlignment: MainAxisAlignment.center,
+          decorator: DotsDecorator(
+              size: const Size.square(9.0),
+              activeSize: const Size(24.0, 8.0),
+              activeShape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.w))),
+        )
+      ],
+    );
+  }
 }
 
 Widget bannerContainer({required String imagePath}) {
