@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../utils/constants.dart';
+
 BoxDecoration appBoxShadow(
     {Color color = AppColors.primaryElement,
     double radius = 15,
@@ -10,7 +12,7 @@ BoxDecoration appBoxShadow(
     BoxBorder? border}) {
   return BoxDecoration(
       color: color,
-      borderRadius: BorderRadius.circular(15),
+      borderRadius: BorderRadius.circular(radius),
       border: border,
       boxShadow: [
         BoxShadow(
@@ -49,4 +51,26 @@ BoxDecoration appBoxDecorationTextField(
       color: color,
       borderRadius: BorderRadius.circular(15),
       border: Border.all(color: borderColor));
+}
+
+class AppBoxDecoration extends StatelessWidget {
+  final double width;
+  final double height;
+  final String imagePath;
+  const AppBoxDecoration({
+    Key? key,
+    required this.width,
+    required this.height,
+    required this.imagePath,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+            image: DecorationImage(image: AssetImage(imagePath)),
+            borderRadius: BorderRadius.circular(20.w)));
+  }
 }

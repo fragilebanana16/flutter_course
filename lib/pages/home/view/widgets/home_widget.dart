@@ -2,11 +2,73 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/common/utils/constants.dart';
+import 'package:flutter_course/common/widgets/app_shadow.dart';
+import 'package:flutter_course/common/widgets/image_widget.dart';
 import 'package:flutter_course/common/widgets/text_widgets.dart';
 import 'package:flutter_course/global.dart';
 import 'package:flutter_course/pages/home/controller/home_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+class HomeMenuBar extends StatelessWidget {
+  const HomeMenuBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // all
+        Container(
+            margin: EdgeInsets.only(top: 15.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text16Normal(
+                    text: "Select you dishes", fontWeight: FontWeight.bold),
+                GestureDetector(
+                  child: const Text10Normal(
+                      text: "All",
+                      color: AppColors.primaryThirdElementText,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            )),
+
+        SizedBox(
+          height: 14.h,
+        ),
+        // button
+        Container(
+            child: Row(
+          children: [
+            Container(
+              decoration:
+                  appBoxShadow(color: AppColors.primaryElement, radius: 6.w),
+              padding: EdgeInsets.only(
+                  left: 15.w, right: 15.w, top: 5.h, bottom: 5.h),
+              child: const Text11Normal(text: "All"),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 30.w),
+              child: const Text11Normal(
+                text: "Pop",
+                color: AppColors.primaryThirdElementText,
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 30.w),
+              child: const Text11Normal(
+                text: "Music",
+                color: AppColors.primaryThirdElementText,
+              ),
+            ),
+          ],
+        ))
+      ],
+    );
+  }
+}
 
 class UserName extends StatelessWidget {
   const UserName({Key? key}) : super(key: key);
@@ -28,7 +90,7 @@ class HelloText extends StatelessWidget {
     return Container(
       child: text24Normal(
           text: "Damn",
-          color: AppColors.primaryThreeElementText,
+          color: AppColors.primaryThirdElementText,
           fontWeight: FontWeight.bold),
     );
   }
@@ -86,5 +148,25 @@ Widget bannerContainer({required String imagePath}) {
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         image: DecorationImage(image: AssetImage(imagePath), fit: BoxFit.fill)),
+  );
+}
+
+AppBar homeAppBar() {
+  return AppBar(
+    backgroundColor: Colors.green,
+    leading: Container(), // arrow back
+    leadingWidth: 0,
+
+    title: Container(
+      color: Colors.red,
+      margin: EdgeInsets.only(left: 7.w, right: 7.w),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        appImage(icon: Icons.menu, size: 20.w),
+        GestureDetector(
+          child: AppBoxDecoration(
+              width: 40.w, height: 40.w, imagePath: ImageRes.welcomePage1),
+        ),
+      ]),
+    ),
   );
 }

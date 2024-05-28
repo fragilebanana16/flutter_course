@@ -39,7 +39,7 @@ class AppOnBoardingPage extends StatelessWidget {
         Container(
           margin: const EdgeInsets.only(top: 15),
           padding: const EdgeInsets.only(left: 30, right: 30),
-          child: text16Normal(text: subTitle),
+          child: Text16Normal(text: subTitle),
         ),
         _nextButton(index, controller, context)
       ],
@@ -69,7 +69,7 @@ Widget _nextButton(int index, PageController controller, BuildContext context) {
       margin: const EdgeInsets.only(top: 20, left: 25, right: 25),
       decoration: appBoxShadow(),
       child: Center(
-          child: text16Normal(
+          child: Text16Normal(
               text: index < 2 ? "Next" : "Get Started",
               color: AppColors.primaryBackground)),
     ),
