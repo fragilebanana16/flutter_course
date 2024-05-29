@@ -5,7 +5,7 @@ exports.test = catchAsync(async (req, res, next) => {
   console.log('test')
   try {
     const result = await db.pool.query('SELECT * FROM users')
-    return res.status(200).json(result)
+    return res.status(200).json("fine")
   } catch (error) {
     return res.status(500).json({ error: error.message })
   }

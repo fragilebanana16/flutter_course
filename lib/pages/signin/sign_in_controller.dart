@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/global_loader.dart/global_loader.dart';
 import 'package:flutter_course/common/models/user.dart';
+import 'package:flutter_course/common/services/http_util.dart';
 import 'package:flutter_course/common/utils/constants.dart';
 import 'package:flutter_course/common/widgets/popup_messages.dart';
 import 'package:flutter_course/global.dart';
@@ -38,10 +39,13 @@ class SignInController {
 
       SignInRepo.SignIn();
 
+      var rep = HttpUtil().post("auth/test");
+      print(rep);
       Global.storageService.setBool(AppConstants.LOGGED_IN, true);
       Global.storageService
           .setString(AppConstants.USER_PROFILE, jsonEncode(signInEntity));
-
+      Global.storageService
+          .setString(AppConstants.USER_TOKEN, jsonEncode(signInEntity));
       // navigator.push(MaterialPageRoute(
       //     builder: (BuildContext context) => Scaffold(
       //           appBar: AppBar(),

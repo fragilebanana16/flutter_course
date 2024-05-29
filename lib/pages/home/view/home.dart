@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/widgets/app_bar.dart';
+import 'package:flutter_course/common/widgets/image_widget.dart';
 import 'package:flutter_course/common/widgets/search_bar.dart';
 import 'package:flutter_course/pages/home/controller/home_controller.dart';
 import 'package:flutter_course/pages/home/view/widgets/home_widget.dart';
@@ -49,7 +50,8 @@ class _HomeState extends ConsumerState<Home> {
                   height: 20.h,
                 ),
                 HomeBanner(ref: ref, controller: _controller),
-                const HomeMenuBar()
+                const HomeMenuBar(),
+                const GridItem(),
               ],
             ),
           )),

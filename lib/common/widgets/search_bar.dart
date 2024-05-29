@@ -20,7 +20,7 @@ Widget searchBar() {
         child: Row(
           children: [
             Container(
-                child: appImage(
+                child: appIcon(
                     icon: Icons.search, size: 24, color: AppColors.primaryText),
                 margin: EdgeInsets.only(left: 17.w)),
             Container(
@@ -37,8 +37,8 @@ Widget searchBar() {
         child: Container(
           width: 40.w,
           height: 40.h,
-          child: appImage(
-              icon: Icons.settings, color: AppColors.primaryBackground),
+          child:
+              appIcon(icon: Icons.settings, color: AppColors.primaryBackground),
           decoration:
               appBoxShadow(border: Border.all(color: AppColors.primaryElement)),
         ),

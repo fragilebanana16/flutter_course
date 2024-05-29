@@ -10,6 +10,33 @@ import 'package:flutter_course/pages/home/controller/home_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+class GridItem extends StatelessWidget {
+  const GridItem({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: GridView.builder(
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2, crossAxisSpacing: 40, mainAxisSpacing: 40),
+          itemCount: 6,
+          itemBuilder: (_, int inedx) {
+            return Container(
+              width: 325.w,
+              height: 160.h,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  image: DecorationImage(
+                      image: AssetImage(ImageRes.homeBanner1),
+                      fit: BoxFit.fill)),
+            );
+          }),
+    );
+  }
+}
+
 class HomeMenuBar extends StatelessWidget {
   const HomeMenuBar({Key? key}) : super(key: key);
 
@@ -161,7 +188,7 @@ AppBar homeAppBar() {
       color: Colors.red,
       margin: EdgeInsets.only(left: 7.w, right: 7.w),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        appImage(icon: Icons.menu, size: 20.w),
+        appIcon(icon: Icons.menu, size: 20.w),
         GestureDetector(
           child: AppBoxDecoration(
               width: 40.w, height: 40.w, imagePath: ImageRes.welcomePage1),

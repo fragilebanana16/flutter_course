@@ -33,4 +33,8 @@ class StorageService {
     var userEntity = UserProfile.fromJson(profileJson);
     return userEntity;
   }
+
+  String getUserToken() {
+    return _pref.getString(AppConstants.USER_TOKEN) ?? "";
+  }
 }
