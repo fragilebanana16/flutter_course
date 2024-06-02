@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_course/common/utils/constants.dart';
 import 'package:flutter_course/global.dart';
 
 class HttpUtil {
@@ -12,13 +13,26 @@ class HttpUtil {
 
   HttpUtil._internal() {
     BaseOptions options = BaseOptions(
-        baseUrl: "http://192.168.0.107:8080/",
+        baseUrl: AppConstants.SERVER_API_URL,
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 5),
         headers: {},
         contentType: "application/json: charset=utf-8",
         responseType: ResponseType.json);
     dio = Dio(options);
+
+    dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (options, handler) {
+        return handler.next(options);
+      },
+      onResponse: (response, handler) {
+        return handler.next(response);
+      },
+      onError: (error, handler) {
+        ErrorEntity errInfo = createErrorEntity(error);
+        print(errInfo.toString());
+      },
+    ));
   }
 
   Map<String, dynamic>? getAuthHeader() {
@@ -44,9 +58,45 @@ class HttpUtil {
       reqOptions.headers!.addAll(authorization);
     }
 
-    var rep = await dio.post(path,
+    var rsp = await dio.post(path,
         data: data, queryParameters: queryParameters, options: reqOptions);
 
-    return rep.data;
+    return rsp;
+  }
+}
+
+class ErrorEntity implements Exception {
+  int code = -1;
+  String message = "";
+  ErrorEntity({required this.code, required this.message});
+
+  @override
+  String toString() {
+    if (message == "") {
+      return "Exception";
+    }
+
+    return "Exception code $code, $message";
+  }
+}
+
+ErrorEntity createErrorEntity(DioException error) {
+  switch (error.type) {
+    case DioExceptionType.connectionTimeout:
+      return ErrorEntity(code: -1, message: "connectionTimeout");
+    case DioExceptionType.sendTimeout:
+      return ErrorEntity(code: -1, message: "sendTimeout");
+    case DioExceptionType.receiveTimeout:
+      return ErrorEntity(code: -1, message: "receiveTimeout");
+    case DioExceptionType.badCertificate:
+      return ErrorEntity(code: -1, message: "badCertificate");
+    case DioExceptionType.badResponse:
+      return ErrorEntity(code: -1, message: "badResponse");
+    case DioExceptionType.cancel:
+      return ErrorEntity(code: -1, message: "cancel");
+    case DioExceptionType.connectionError:
+      return ErrorEntity(code: -1, message: "connectionError");
+    case DioExceptionType.unknown:
+      return ErrorEntity(code: -1, message: "unknown");
   }
 }

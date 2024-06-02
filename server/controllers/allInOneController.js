@@ -16,6 +16,20 @@ exports.test = catchAsync(async (req, res, next) => {
   // });
 });
 
+exports.logIn = catchAsync(async (req, res, next) => {
+  console.log('logIn')
+  try {
+    return res.status(200).json({
+      userName: req.query.userName,
+      avatar: "userId/images/avatar.jpg",
+      email: 'didnot use',
+      password: req.query.password,
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message })
+  }
+});
+
 exports.register = catchAsync(async (req, res, next)  => {
   const { username, password, email, auth_level } = req.body;
   try {

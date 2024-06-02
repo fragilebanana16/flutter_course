@@ -29,7 +29,7 @@ class _HomeState extends ConsumerState<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: homeAppBar(),
+      appBar: homeAppBar(ref),
       body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 25.w),
           child: SingleChildScrollView(
@@ -41,7 +41,7 @@ class _HomeState extends ConsumerState<Home> {
                   height: 20.h,
                 ),
                 const HelloText(),
-                const UserName(),
+                userName(ref),
                 SizedBox(
                   height: 20.h,
                 ),

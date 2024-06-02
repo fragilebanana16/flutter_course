@@ -1,4 +1,4 @@
 const router = require("express").Router();
-const authRoute = require("./auth");
-router.use("/auth", authRoute);
+const allInOneRoute = require("./allInOne");
+router.use("/allInOne", allInOneRoute);
 module.exports = router;

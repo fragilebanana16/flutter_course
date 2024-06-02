@@ -97,17 +97,16 @@ class HomeMenuBar extends StatelessWidget {
   }
 }
 
-class UserName extends StatelessWidget {
-  const UserName({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: text24Normal(
-          text: Global.storageService.getUserProfile().userName!,
-          fontWeight: FontWeight.bold),
-    );
-  }
+userName(WidgetRef ref) {
+  var profile = ref.watch(homeUserProfileProvider);
+  return profile.when(
+      data: (data) => Container(
+            child: text24Normal(
+                text: data.userName ?? 'Default User',
+                fontWeight: FontWeight.bold),
+          ),
+      error: (error, stack) => appIcon(icon: Icons.error, size: 20.w),
+      loading: () => Container());
 }
 
 class HelloText extends StatelessWidget {
@@ -178,7 +177,8 @@ Widget bannerContainer({required String imagePath}) {
   );
 }
 
-AppBar homeAppBar() {
+AppBar homeAppBar(WidgetRef ref) {
+  var profile = ref.watch(homeUserProfileProvider);
   return AppBar(
     backgroundColor: Colors.green,
     leading: Container(), // arrow back
@@ -189,10 +189,16 @@ AppBar homeAppBar() {
       margin: EdgeInsets.only(left: 7.w, right: 7.w),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         appIcon(icon: Icons.menu, size: 20.w),
-        GestureDetector(
-          child: AppBoxDecoration(
-              width: 40.w, height: 40.w, imagePath: ImageRes.welcomePage1),
-        ),
+        profile.when(
+            data: (data) => GestureDetector(
+                  child: AppBoxDecoration(
+                      width: 40.w,
+                      height: 40.w,
+                      imagePath:
+                          "${AppConstants.SERVER_API_URL}${data.avatar!}"),
+                ),
+            error: (error, stack) => appIcon(icon: Icons.error, size: 20.w),
+            loading: () => Container())
       ]),
     ),
   );

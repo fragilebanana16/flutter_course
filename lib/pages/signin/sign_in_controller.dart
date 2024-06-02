@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/global_loader.dart/global_loader.dart';
@@ -28,42 +29,44 @@ class SignInController {
     userNameController.text = userName;
     passwordController.text = password;
 
-    UserProfile signInEntity = UserProfile();
-    signInEntity.userName = userName;
-    signInEntity.password = password;
+    UserProfile userProfile = UserProfile();
+    userProfile.userName = userName;
+    userProfile.password = password;
+
     ref.read(apploaderProvider.notifier).setLoaderValue(true);
-    print(signInEntity.toJson());
+    print(userProfile.toJson());
 
     try {
       var navigator = Navigator.of(ref.context);
+      var rsp = await SignInRepo.SignIn(param: userProfile);
+      // if rsp 200 code
+      if (rsp.statusCode == 200) {
+        Global.storageService.setBool(AppConstants.LOGGED_IN, true);
+        Global.storageService
+            .setString(AppConstants.USER_PROFILE, jsonEncode(rsp.data));
+        // Global.storageService
+        //     .setString(AppConstants.USER_TOKEN, jsonEncode(userProfile));
+        // navigator.push(MaterialPageRoute(
+        //     builder: (BuildContext context) => Scaffold(
+        //           appBar: AppBar(),
+        //           body: const Application(),
+        //         )));
 
-      SignInRepo.SignIn();
+        // remove previous routes when met the provided route
+        navigator.pushNamedAndRemoveUntil("/application", (route) => false);
 
-      var rep = HttpUtil().post("auth/test");
-      print(rep);
-      Global.storageService.setBool(AppConstants.LOGGED_IN, true);
-      Global.storageService
-          .setString(AppConstants.USER_PROFILE, jsonEncode(signInEntity));
-      Global.storageService
-          .setString(AppConstants.USER_TOKEN, jsonEncode(signInEntity));
-      // navigator.push(MaterialPageRoute(
-      //     builder: (BuildContext context) => Scaffold(
-      //           appBar: AppBar(),
-      //           body: const Application(),
-      //         )));
+        // navKey.currentState
+        //     ?.pushNamedAndRemoveUntil("/application", (route) => false);
 
-      // remove previous routes when met the provided route
-      navigator.pushNamedAndRemoveUntil("/application", (route) => false);
-
-      // navKey.currentState
-      //     ?.pushNamedAndRemoveUntil("/application", (route) => false);
-
-      // navigator.pushNamed("/application");
+        // navigator.pushNamed("/application");
+      } else {
+        toastInfo("[ERR]Login error");
+      }
     } catch (e) {
       toastInfo(e.toString());
     }
 
-    await Future.delayed(const Duration(seconds: 2), () async {});
+    // await Future.delayed(const Duration(seconds: 2), () async {});
     ref.read(apploaderProvider.notifier).setLoaderValue(false);
   }
 }
