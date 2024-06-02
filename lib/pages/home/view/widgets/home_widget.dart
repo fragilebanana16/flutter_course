@@ -11,29 +11,37 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class GridItem extends StatelessWidget {
-  const GridItem({Key? key}) : super(key: key);
+  final WidgetRef ref;
+  const GridItem({Key? key, required this.ref}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: GridView.builder(
-          physics: ScrollPhysics(),
-          shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, crossAxisSpacing: 40, mainAxisSpacing: 40),
-          itemCount: 6,
-          itemBuilder: (_, int inedx) {
-            return Container(
-              width: 325.w,
-              height: 160.h,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  image: DecorationImage(
-                      image: AssetImage(ImageRes.homeBanner1),
-                      fit: BoxFit.fill)),
-            );
-          }),
-    );
+    final videoList = ref.watch(homeVideoListProvider);
+    return videoList.when(
+        data: ((data) => GridView.builder(
+            physics: const ScrollPhysics(),
+            shrinkWrap: true,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20,
+              childAspectRatio: 16 / 10,
+            ),
+            itemCount: data?.length,
+            itemBuilder: (_, int index) {
+              return Container(
+                width: 325.w,
+                height: 180.h,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    image: DecorationImage(
+                        image: NetworkImage(
+                            "${AppConstants.SERVER_API_URL}${data?[index].thumbNail}"),
+                        fit: BoxFit.fill)),
+              );
+            })),
+        error: (error, stackTrace) => Text(error.toString()),
+        loading: () => const Text("loading"));
   }
 }
 

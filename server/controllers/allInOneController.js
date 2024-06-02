@@ -1,6 +1,40 @@
-
 const catchAsync = require("../util/catchAsync");
 const db = require('../db/pgDb');
+
+exports.getVideoList = catchAsync(async (req, res, next) => {
+  console.log('getVideoList')
+  try {
+    const videos = [
+      {
+        id: '1',
+        name: "人生副本1",
+        videoLen: "360",
+        thumbNail: "userId/images/sunset.jpg",
+      },
+      {
+        id: '2',
+        name: "人生副本2",
+        videoLen: "480",
+        thumbNail: "userId/images/fuji.jpg",
+      },
+      {
+        id: '3',
+        name: "人生副本3",
+        videoLen: "480",
+        thumbNail: "userId/images/hill.jpg",
+      }];
+    
+    return res.status(200).json({
+      code: 200,
+      msg: "Success",
+      data: videos
+    });
+   
+  } catch (error) {
+    return res.status(500).json({ error: error.message })
+  }
+});
+
 exports.test = catchAsync(async (req, res, next) => {
   console.log('test')
   try {

@@ -9,4 +9,5 @@ const authController = require("../controllers/allInOneController");
 router.post("/test", authController.test);
 router.post("/login", authController.logIn);
 router.post('/register', authController.register);
+router.post('/getVideoList', authController.getVideoList);
 module.exports = router;

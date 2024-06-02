@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course/common/api/video_api.dart';
 import 'package:flutter_course/common/models/user.dart';
+import 'package:flutter_course/common/models/video_entity.dart';
 import 'package:flutter_course/global.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'home_controller.g.dart';
@@ -17,7 +19,25 @@ class HomeScreenBannerDots extends _$HomeScreenBannerDots {
 
 @riverpod
 class HomeUserProfile extends _$HomeUserProfile {
+  @override
   FutureOr<UserProfile> build() {
     return Global.storageService.getUserProfile();
+  }
+}
+
+@riverpod
+class HomeVideoList extends _$HomeVideoList {
+  Future<List<VideoItem>?> _fetchVideoList() async {
+    var res = await VideoAPI.videoList();
+    if (res.code == 200) {
+      return res.data;
+    }
+
+    return null;
+  }
+
+  @override
+  FutureOr<List<VideoItem>?> build() {
+    return _fetchVideoList(); // A type representing values that are either Future<T> or T.
   }
 }

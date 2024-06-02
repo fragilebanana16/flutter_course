@@ -47,11 +47,14 @@ class _HomeState extends ConsumerState<Home> {
                 ),
                 searchBar(),
                 SizedBox(
-                  height: 20.h,
+                  height: 14.h,
                 ),
                 HomeBanner(ref: ref, controller: _controller),
                 const HomeMenuBar(),
-                const GridItem(),
+                SizedBox(
+                  height: 14.h,
+                ),
+                GridItem(ref: ref),
               ],
             ),
           )),
