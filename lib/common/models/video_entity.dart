@@ -31,6 +31,19 @@ class VideoListRspEntity {
                   json["data"].map((x) => VideoItem.fromJson(x))));
 }
 
+class VideoDetailRspEntity {
+  int? code;
+  String? msg;
+  VideoItem? data;
+  VideoDetailRspEntity({this.code, this.msg, this.data});
+
+  factory VideoDetailRspEntity.fromJson(Map<String, dynamic> json) =>
+      VideoDetailRspEntity(
+          code: json["code"],
+          msg: json["msg"],
+          data: json["data"] == null ? null : VideoItem.fromJson(json["data"]));
+}
+
 class VideoItem {
   String? userToken;
   String? name;

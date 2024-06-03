@@ -6,6 +6,7 @@ import 'package:flutter_course/pages/application/application.dart';
 import 'package:flutter_course/pages/home/view/home.dart';
 import 'package:flutter_course/pages/signin/sign_in.dart';
 import 'package:flutter_course/pages/register/register.dart';
+import 'package:flutter_course/pages/video_detail/view/video_detial.dart';
 import 'package:flutter_course/pages/welcome/welcome.dart';
 
 class AppPages {
@@ -15,7 +16,8 @@ class AppPages {
       RouteEntity(path: AppRoutesNames.SIGN_IN, page: const SignIn()),
       RouteEntity(path: AppRoutesNames.REGISTER, page: const Register()),
       RouteEntity(path: AppRoutesNames.APPLICATION, page: const Application()),
-      RouteEntity(path: AppRoutesNames.Home, page: const Home()),
+      RouteEntity(path: AppRoutesNames.HOME, page: const Home()),
+      RouteEntity(path: AppRoutesNames.VIDEO_DETAIL, page: const VideoDetail()),
     ];
   }
 

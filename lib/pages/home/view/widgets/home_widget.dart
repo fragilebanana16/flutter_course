@@ -36,15 +36,8 @@ class GridItem extends StatelessWidget {
                       "${AppConstants.SERVER_API_URL}${data?[index].thumbNail}",
                   videoItem: data![index],
                   func: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (BuildContext context) {
-                      return Scaffold(
-                        appBar: AppBar(),
-                        body: Center(
-                          child: Text(data[index].id.toString()),
-                        ),
-                      );
-                    }));
+                    Navigator.of(context).pushNamed("/videoDetail",
+                        arguments: {"id": data[index].id!});
                   });
             })),
         error: (error, stackTrace) => Text(error.toString()),

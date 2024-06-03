@@ -10,4 +10,5 @@ router.post("/test", authController.test);
 router.post("/login", authController.logIn);
 router.post('/register', authController.register);
 router.post('/getVideoList', authController.getVideoList);
+router.post('/videoDetail', authController.videoDetail);
 module.exports = router;
