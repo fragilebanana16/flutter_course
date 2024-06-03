@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course/common/models/video_entity.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
+import 'package:flutter_course/common/widgets/text_widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../utils/constants.dart';
@@ -57,20 +59,47 @@ class AppBoxDecoration extends StatelessWidget {
   final double width;
   final double height;
   final String imagePath;
-  const AppBoxDecoration({
-    Key? key,
-    required this.width,
-    required this.height,
-    required this.imagePath,
-  }) : super(key: key);
+  final VideoItem? videoItem;
+  final Function()? func;
+  const AppBoxDecoration(
+      {Key? key,
+      required this.width,
+      required this.height,
+      required this.imagePath,
+      this.videoItem,
+      this.func})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
-            image: DecorationImage(image: NetworkImage(imagePath)),
-            borderRadius: BorderRadius.circular(20.w)));
+    return GestureDetector(
+        onTap: func,
+        child: Container(
+          width: width,
+          height: height,
+          decoration: BoxDecoration(
+              image: DecorationImage(image: NetworkImage(imagePath)),
+              borderRadius: BorderRadius.circular(20.w)),
+          child: videoItem == null
+              ? Container()
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(left: 14.w, bottom: 10.h),
+                      child: FadeText(
+                        text: videoItem!.name!,
+                      ),
+                    ),
+                    Container(
+                        margin: EdgeInsets.only(left: 14.w, bottom: 10.h),
+                        child: FadeText(
+                          text: videoItem!.description!,
+                          color: AppColors.primaryFourElementText,
+                        )),
+                  ],
+                ),
+        ));
   }
 }

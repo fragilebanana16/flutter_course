@@ -2,6 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+class FadeText extends StatelessWidget {
+  final String text;
+  final Color color;
+  final double fontSize;
+  const FadeText(
+      {Key? key,
+      this.text = "",
+      this.color = AppColors.primaryElementText,
+      this.fontSize = 10})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(text,
+        textAlign: TextAlign.left,
+        softWrap: false,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(color: color, fontSize: fontSize.sp));
+  }
+}
+
 class Text10Normal extends StatelessWidget {
   final String text;
   final Color color;

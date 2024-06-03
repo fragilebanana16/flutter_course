@@ -10,18 +10,21 @@ exports.getVideoList = catchAsync(async (req, res, next) => {
         name: "人生副本1",
         videoLen: "360",
         thumbNail: "userId/images/sunset.jpg",
+        description: "You only live once "
       },
       {
         id: '2',
         name: "人生副本2",
         videoLen: "480",
         thumbNail: "userId/images/fuji.jpg",
+        description: "Too long too much too long1234567"
       },
       {
         id: '3',
         name: "人生副本3",
         videoLen: "480",
         thumbNail: "userId/images/hill.jpg",
+        description: "just nothing"
       }];
     
     return res.status(200).json({

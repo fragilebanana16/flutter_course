@@ -17,7 +17,7 @@ class HomeScreenBannerDots extends _$HomeScreenBannerDots {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class HomeUserProfile extends _$HomeUserProfile {
   @override
   FutureOr<UserProfile> build() {
@@ -25,9 +25,9 @@ class HomeUserProfile extends _$HomeUserProfile {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class HomeVideoList extends _$HomeVideoList {
-  Future<List<VideoItem>?> _fetchVideoList() async {
+  Future<List<VideoItem>?> fetchVideoList() async {
     var res = await VideoAPI.videoList();
     if (res.code == 200) {
       return res.data;
@@ -38,6 +38,6 @@ class HomeVideoList extends _$HomeVideoList {
 
   @override
   FutureOr<List<VideoItem>?> build() {
-    return _fetchVideoList(); // A type representing values that are either Future<T> or T.
+    return fetchVideoList(); // A type representing values that are either Future<T> or T.
   }
 }

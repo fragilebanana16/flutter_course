@@ -25,20 +25,27 @@ class GridItem extends StatelessWidget {
               crossAxisCount: 2,
               crossAxisSpacing: 20,
               mainAxisSpacing: 20,
-              childAspectRatio: 16 / 10,
+              childAspectRatio: 16 / 9,
             ),
             itemCount: data?.length,
             itemBuilder: (_, int index) {
-              return Container(
-                width: 325.w,
-                height: 180.h,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    image: DecorationImage(
-                        image: NetworkImage(
-                            "${AppConstants.SERVER_API_URL}${data?[index].thumbNail}"),
-                        fit: BoxFit.fill)),
-              );
+              return AppBoxDecoration(
+                  width: 40.w,
+                  height: 40.h,
+                  imagePath:
+                      "${AppConstants.SERVER_API_URL}${data?[index].thumbNail}",
+                  videoItem: data![index],
+                  func: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (BuildContext context) {
+                      return Scaffold(
+                        appBar: AppBar(),
+                        body: Center(
+                          child: Text(data[index].id.toString()),
+                        ),
+                      );
+                    }));
+                  });
             })),
         error: (error, stackTrace) => Text(error.toString()),
         loading: () => const Text("loading"));
@@ -199,12 +206,16 @@ AppBar homeAppBar(WidgetRef ref) {
         appIcon(icon: Icons.menu, size: 20.w),
         profile.when(
             data: (data) => GestureDetector(
-                  child: AppBoxDecoration(
-                      width: 40.w,
-                      height: 40.w,
-                      imagePath:
-                          "${AppConstants.SERVER_API_URL}${data.avatar!}"),
-                ),
+                    child: Container(
+                  width: 40.w,
+                  height: 40.w,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      image: DecorationImage(
+                          image: NetworkImage(
+                              "${AppConstants.SERVER_API_URL}${data.avatar!}"),
+                          fit: BoxFit.fill)),
+                )),
             error: (error, stack) => appIcon(icon: Icons.error, size: 20.w),
             loading: () => Container())
       ]),
