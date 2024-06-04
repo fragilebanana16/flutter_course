@@ -14,7 +14,7 @@ BoxDecoration appBoxShadow(
     BoxBorder? border}) {
   return BoxDecoration(
       color: color,
-      borderRadius: BorderRadius.circular(radius),
+      borderRadius: BorderRadius.circular(radius.w),
       border: border,
       boxShadow: [
         BoxShadow(
@@ -78,7 +78,8 @@ class AppBoxDecoration extends StatelessWidget {
           width: width,
           height: height,
           decoration: BoxDecoration(
-              image: DecorationImage(image: NetworkImage(imagePath)),
+              image: DecorationImage(
+                  image: NetworkImage(imagePath), fit: BoxFit.fill),
               borderRadius: BorderRadius.circular(20.w)),
           child: videoItem == null
               ? Container()
