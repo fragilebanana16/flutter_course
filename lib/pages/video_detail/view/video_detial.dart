@@ -5,8 +5,9 @@ import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/common/utils/constants.dart';
 import 'package:flutter_course/common/widgets/app_bar.dart';
 import 'package:flutter_course/common/widgets/app_shadow.dart';
+import 'package:flutter_course/common/widgets/image_widget.dart';
 import 'package:flutter_course/common/widgets/text_widgets.dart';
-import 'package:flutter_course/pages/video_detail/controller/video_detail_controller.dart';
+import 'package:flutter_course/pages/video_detail/controller/video_controller.dart';
 import 'package:flutter_course/pages/video_detail/view/Widgets/video_detail_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,46 +41,58 @@ class _VideoDetailState extends ConsumerState<VideoDetail> {
     print('the id is ${id}');
     int? parsedInt = int.tryParse(id);
     if (parsedInt != null) {
-      var state = ref.watch(videoDetailControllerProvider(index: parsedInt));
+      var state = ref.watch(videoControllerProvider(index: parsedInt));
+      var videoList = ref.watch(videoListControllerProvider(index: parsedInt));
       return Scaffold(
         backgroundColor: Colors.white,
         appBar: buildAppBar(title: "Watch"),
-        body: state.when(
-            data: (data) => data == null
-                ? const SizedBox()
-                : Column(
-                    children: [
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      VideoDetailThumbnail(
-                        videoItem: data,
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 10.h),
-                        width: 325.w,
-                        child: Row(
+        body: Padding(
+          padding: EdgeInsets.only(left: 25.w, right: 25.w),
+          child: SingleChildScrollView(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              state.when(
+                  data: (data) => data == null
+                      ? const SizedBox()
+                      : Column(
                           children: [
-                            GestureDetector(
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 15.w, vertical: 5.h),
-                                decoration: appBoxShadow(radius: 7),
-                                child: Text10Normal(
-                                  text: "Author Page",
-                                  color: AppColors.primaryElementText,
-                                ),
-                              ),
+                            SizedBox(
+                              height: 5.h,
+                            ),
+                            VideoDetailThumbnail(
+                              videoItem: data,
+                            ),
+                            VideoDetailBrief(
+                              videoItem: data,
+                            ),
+                            VideoMoreDetail(
+                              videoItem: data,
+                            ),
+                          ],
+                        ),
+                  error: (error, stackTrace) => Text(error.toString()),
+                  loading: () => const Center(
+                        child: CircularProgressIndicator(),
+                      )),
+              // series
+              videoList.when(
+                  data: (data) => data == null
+                      ? const SizedBox()
+                      : Column(
+                          children: [
+                            VideoSeries(
+                              videoList: data,
                             )
                           ],
                         ),
-                      )
-                    ],
-                  ),
-            error: (error, stackTrace) => Text(error.toString()),
-            loading: () => const Center(
-                  child: CircularProgressIndicator(),
-                )),
+                  error: (error, stackTrace) => Text(error.toString()),
+                  loading: () => const Center(
+                        child: CircularProgressIndicator(),
+                      ))
+            ],
+          )),
+        ),
       );
     } else {
       print('Failed to parse the string as an integer!');

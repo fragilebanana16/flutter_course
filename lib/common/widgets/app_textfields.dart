@@ -28,7 +28,7 @@ Widget appTextField(
             children: [
               Container(
                 margin: EdgeInsets.only(left: 14.w),
-                child: appIcon(icon: icon),
+                child: AppIcon(icon: icon),
               ),
               appTextOnlyField(
                   controller: controller,

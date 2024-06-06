@@ -32,6 +32,7 @@ class GridItem extends StatelessWidget {
               return AppBoxDecoration(
                   width: 40.w,
                   height: 40.h,
+                  hasMask: false,
                   imagePath:
                       "${AppConstants.SERVER_API_URL}${data?[index].thumbNail}",
                   videoItem: data![index],
@@ -113,7 +114,7 @@ userName(WidgetRef ref) {
                 text: data.userName ?? 'Default User',
                 fontWeight: FontWeight.bold),
           ),
-      error: (error, stack) => appIcon(icon: Icons.error, size: 20.w),
+      error: (error, stack) => AppIcon(icon: Icons.error, size: 20.w),
       loading: () => Container());
 }
 
@@ -196,7 +197,7 @@ AppBar homeAppBar(WidgetRef ref) {
       color: Colors.red,
       margin: EdgeInsets.only(left: 7.w, right: 7.w),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        appIcon(icon: Icons.menu, size: 20.w),
+        AppIcon(icon: Icons.menu, size: 20.w),
         profile.when(
             data: (data) => GestureDetector(
                     child: Container(
@@ -209,7 +210,7 @@ AppBar homeAppBar(WidgetRef ref) {
                               "${AppConstants.SERVER_API_URL}${data.avatar!}"),
                           fit: BoxFit.fill)),
                 )),
-            error: (error, stack) => appIcon(icon: Icons.error, size: 20.w),
+            error: (error, stack) => AppIcon(icon: Icons.error, size: 20.w),
             loading: () => Container())
       ]),
     ),

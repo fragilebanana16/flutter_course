@@ -95,7 +95,7 @@ class Register extends ConsumerWidget {
                           height: 20.h,
                         ),
                         Center(
-                          child: appButton(
+                          child: AppButton(
                               buttonName: "Register",
                               isLogin: true,
                               context: context,

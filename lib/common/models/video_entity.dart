@@ -49,7 +49,7 @@ class VideoItem {
   String? name;
   String? description;
   String? thumbNail;
-  String? video;
+  String? videoUrl;
   String? videoLen;
   String? id;
   int? score;
@@ -58,7 +58,7 @@ class VideoItem {
       {this.userToken,
       this.name,
       this.description,
-      this.video,
+      this.videoUrl,
       this.videoLen,
       this.thumbNail,
       this.id,
@@ -68,7 +68,7 @@ class VideoItem {
         name: json["name"],
         description: json["description"],
         thumbNail: json["thumbNail"],
-        video: json["video"],
+        videoUrl: json["video"],
         videoLen: json["videoLen"],
         id: json["id"],
         score: json["score"],

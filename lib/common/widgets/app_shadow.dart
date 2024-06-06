@@ -59,6 +59,7 @@ class AppBoxDecoration extends StatelessWidget {
   final double width;
   final double height;
   final String imagePath;
+  final bool hasMask;
   final VideoItem? videoItem;
   final Function()? func;
   const AppBoxDecoration(
@@ -66,6 +67,7 @@ class AppBoxDecoration extends StatelessWidget {
       required this.width,
       required this.height,
       required this.imagePath,
+      required this.hasMask,
       this.videoItem,
       this.func})
       : super(key: key);
@@ -80,25 +82,43 @@ class AppBoxDecoration extends StatelessWidget {
           decoration: BoxDecoration(
               image: DecorationImage(
                   image: NetworkImage(imagePath), fit: BoxFit.fill),
-              borderRadius: BorderRadius.circular(20.w)),
+              borderRadius: BorderRadius.circular(10.w)),
           child: videoItem == null
               ? Container()
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              : Stack(
                   children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 14.w, bottom: 10.h),
-                      child: FadeText(
-                        text: videoItem!.name!,
+                    Positioned(
+                      bottom: 0, // 将蒙版放在底部
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.5), // 半透明的黑色蒙版
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(10.w),
+                              bottomRight: Radius.circular(10.w),
+                            )),
+                        height: 44.h,
                       ),
                     ),
-                    Container(
-                        margin: EdgeInsets.only(left: 14.w, bottom: 10.h),
-                        child: FadeText(
-                          text: videoItem!.description!,
-                          color: AppColors.primaryFourElementText,
-                        )),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(left: 14.w, bottom: 3.h),
+                          child: FadeText(
+                            text: videoItem!.name!,
+                          ),
+                        ),
+                        Container(
+                            margin: EdgeInsets.only(left: 14.w, bottom: 3.h),
+                            child: FadeText(
+                              text: videoItem!.description!,
+                              color: AppColors.primaryFourElementText,
+                            )),
+                      ],
+                    ),
                   ],
                 ),
         ));

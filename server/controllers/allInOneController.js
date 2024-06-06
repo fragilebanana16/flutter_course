@@ -1,31 +1,43 @@
 const catchAsync = require("../util/catchAsync");
 const db = require('../db/pgDb');
+
+const videos = [
+  {
+    id: '1',
+    name: "人生副本1",
+    videoLen: "360",
+    thumbNail: "userId/images/sunset.jpg",
+    description: "You only live once ",
+    series: ['1','2','3']
+  },
+  {
+    id: '2',
+    name: "人生副本2",
+    videoLen: "480",
+    thumbNail: "userId/images/fuji.jpg",
+    description: "Too long too much too long1234567",
+    series: ['1','2','3']
+  },
+  {
+    id: '3',
+    name: "人生副本3",
+    videoLen: "480",
+    thumbNail: "userId/images/hill.jpg",
+    description: "just nothing",
+    series: ['1','2','3']
+  },
+  {
+    id: '4',
+    name: "其它",
+    videoLen: "480",
+    thumbNail: "userId/images/hill.jpg",
+    description: "just nothing"
+  }];
+
 exports.videoDetail = catchAsync(async (req, res, next) => {
   console.log('videoDetail:' + req.query.Id)
   var id = req.query.Id;
   try {
-    const videos = [
-      {
-        id: '1',
-        name: "人生副本1",
-        videoLen: "360",
-        thumbNail: "userId/images/sunset.jpg",
-        description: "You only live once "
-      },
-      {
-        id: '2',
-        name: "人生副本2",
-        videoLen: "480",
-        thumbNail: "userId/images/fuji.jpg",
-        description: "Too long too much too long1234567"
-      },
-      {
-        id: '3',
-        name: "人生副本3",
-        videoLen: "480",
-        thumbNail: "userId/images/hill.jpg",
-        description: "just nothing"
-      }];
     const videoDetail = videos[id-1];
     return res.status(200).json({
       code: 200,
@@ -38,32 +50,23 @@ exports.videoDetail = catchAsync(async (req, res, next) => {
   }
 });
 
+exports.videoSeriesList = catchAsync(async (req, res, next) => {
+  console.log('videoSeriesList:' + req.query.Id)
+  try {
+    var filteredVideos = videos.filter(video => video.series?.some(seriesItem => seriesItem == req.query.Id))
+    return res.status(200).json({
+      code: 200,
+      msg: "Success",
+      data: filteredVideos
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message })
+  }
+});
+
 exports.getVideoList = catchAsync(async (req, res, next) => {
   console.log('getVideoList')
   try {
-    const videos = [
-      {
-        id: '1',
-        name: "人生副本1",
-        videoLen: "360",
-        thumbNail: "userId/images/sunset.jpg",
-        description: "You only live once "
-      },
-      {
-        id: '2',
-        name: "人生副本2",
-        videoLen: "480",
-        thumbNail: "userId/images/fuji.jpg",
-        description: "Too long too much too long1234567"
-      },
-      {
-        id: '3',
-        name: "人生副本3",
-        videoLen: "480",
-        thumbNail: "userId/images/hill.jpg",
-        description: "just nothing"
-      }];
-    
     return res.status(200).json({
       code: 200,
       msg: "Success",

@@ -30,7 +30,7 @@ Widget _bottomContainer(
   return SizedBox(
     width: 15.w,
     height: 15.h,
-    child: appIcon(icon: icon, size: 24, color: color),
+    child: AppIcon(icon: icon, size: 24, color: color),
   );
 }
 
@@ -38,13 +38,10 @@ Widget appScreens({int index = 0}) {
   List<Widget> screens = [
     const Home(),
     Center(
-      child: appIcon(icon: Icons.dangerous, size: 200),
+      child: AppIcon(icon: Icons.wallet, size: 200),
     ),
     Center(
-      child: appIcon(icon: Icons.wallet, size: 200),
-    ),
-    Center(
-      child: appIcon(icon: Icons.g_mobiledata, size: 200),
+      child: AppIcon(icon: Icons.g_mobiledata, size: 200),
     ),
   ];
 
