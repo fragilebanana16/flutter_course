@@ -6,6 +6,7 @@ const videos = [
     id: '1',
     name: "人生副本1",
     videoLen: "360",
+    videoUrl:"userId/videos/butterfly.mp4",
     thumbNail: "userId/images/sunset.jpg",
     description: "You only live once ",
     series: ['1','2','3']
@@ -14,6 +15,7 @@ const videos = [
     id: '2',
     name: "人生副本2",
     videoLen: "480",
+    videoUrl:"userId/videos/butterfly.mp4",
     thumbNail: "userId/images/fuji.jpg",
     description: "Too long too much too long1234567",
     series: ['1','2','3']
@@ -22,6 +24,7 @@ const videos = [
     id: '3',
     name: "人生副本3",
     videoLen: "480",
+    videoUrl:"userId/videos/butterfly.mp4",
     thumbNail: "userId/images/hill.jpg",
     description: "just nothing",
     series: ['1','2','3']
@@ -30,6 +33,7 @@ const videos = [
     id: '4',
     name: "其它",
     videoLen: "480",
+    videoUrl:"userId/videos/butterfly.mp4",
     thumbNail: "userId/images/hill.jpg",
     description: "just nothing"
   }];

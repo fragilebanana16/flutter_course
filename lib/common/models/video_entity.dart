@@ -45,16 +45,16 @@ class VideoDetailRspEntity {
 }
 
 class VideoItem {
-  String? userToken;
-  String? name;
-  String? description;
-  String? thumbNail;
-  String? videoUrl;
-  String? videoLen;
-  String? id;
-  int? score;
+  final String? userToken;
+  final String? name;
+  final String? description;
+  final String? thumbNail;
+  final String? videoUrl;
+  final String? videoLen;
+  final String? id;
+  final int? score;
 
-  VideoItem(
+  const VideoItem(
       {this.userToken,
       this.name,
       this.description,
@@ -63,14 +63,35 @@ class VideoItem {
       this.thumbNail,
       this.id,
       this.score});
+
   factory VideoItem.fromJson(Map<String, dynamic> json) => VideoItem(
         userToken: json["userToken"],
         name: json["name"],
         description: json["description"],
         thumbNail: json["thumbNail"],
-        videoUrl: json["video"],
+        videoUrl: json["videoUrl"],
         videoLen: json["videoLen"],
         id: json["id"],
         score: json["score"],
       );
+}
+
+class VideoPlayInfo {
+  final Future<void>? initializeVideoPlayer;
+  final bool isPlaying;
+  final VideoItem? videoItem;
+
+  VideoPlayInfo(
+      {this.initializeVideoPlayer,
+      this.isPlaying = false,
+      this.videoItem = const VideoItem()});
+
+  VideoPlayInfo copyWith(
+      {Future<void>? initializeVideoPlayer, bool? isPlaying, String? url}) {
+    return VideoPlayInfo(
+        initializeVideoPlayer:
+            initializeVideoPlayer ?? this.initializeVideoPlayer,
+        isPlaying: isPlaying ?? this.isPlaying,
+        videoItem: videoItem ?? this.videoItem);
+  }
 }

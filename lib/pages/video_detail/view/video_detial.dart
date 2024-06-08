@@ -11,6 +11,7 @@ import 'package:flutter_course/pages/video_detail/controller/video_controller.da
 import 'package:flutter_course/pages/video_detail/view/Widgets/video_detail_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:video_player/video_player.dart';
 
 class VideoDetail extends ConsumerStatefulWidget {
   const VideoDetail({super.key});
@@ -37,12 +38,19 @@ class _VideoDetailState extends ConsumerState<VideoDetail> {
   }
 
   @override
+  void dispose() {
+    videoPlayerController?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     print('the id is ${id}');
     int? parsedInt = int.tryParse(id);
     if (parsedInt != null) {
       var state = ref.watch(videoControllerProvider(index: parsedInt));
       var videoList = ref.watch(videoListControllerProvider(index: parsedInt));
+      var videoPlayInfo = ref.watch(videoPlayInfoControllerProvider);
       return Scaffold(
         backgroundColor: Colors.white,
         appBar: buildAppBar(title: "Watch"),
@@ -60,6 +68,43 @@ class _VideoDetailState extends ConsumerState<VideoDetail> {
                             SizedBox(
                               height: 5.h,
                             ),
+                            // video here
+                            videoPlayInfo.when(
+                                data: (data) => Container(
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: NetworkImage(
+                                                  "${AppConstants.SERVER_API_URL}${data.videoItem?.thumbNail}"))),
+                                      width: 325.w,
+                                      height: 200.h,
+                                      child: FutureBuilder(
+                                        future: data.initializeVideoPlayer,
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.done) {
+                                            return videoPlayerController == null
+                                                ? Container()
+                                                : Stack(
+                                                    children: [
+                                                      VideoPlayer(
+                                                          videoPlayerController!),
+                                                    ],
+                                                  );
+                                          } else {
+                                            return const Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            );
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                error: (error, stackTrace) =>
+                                    Text(error.toString()),
+                                loading: () => SizedBox(
+                                        child: const Center(
+                                      child: CircularProgressIndicator(),
+                                    ))),
                             VideoDetailThumbnail(
                               videoItem: data,
                             ),
@@ -72,8 +117,11 @@ class _VideoDetailState extends ConsumerState<VideoDetail> {
                           ],
                         ),
                   error: (error, stackTrace) => Text(error.toString()),
-                  loading: () => const Center(
-                        child: CircularProgressIndicator(),
+                  loading: () => SizedBox(
+                        height: 500.h,
+                        child: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
                       )),
               // series
               videoList.when(
@@ -82,13 +130,18 @@ class _VideoDetailState extends ConsumerState<VideoDetail> {
                       : Column(
                           children: [
                             VideoSeries(
-                              videoList: data,
+                              videoList: data
+                                  .where((element) => element.id != id)
+                                  .toList(),
                             )
                           ],
                         ),
                   error: (error, stackTrace) => Text(error.toString()),
-                  loading: () => const Center(
-                        child: CircularProgressIndicator(),
+                  loading: () => SizedBox(
+                        height: 500.h,
+                        child: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
                       ))
             ],
           )),

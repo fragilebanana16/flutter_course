@@ -166,6 +166,7 @@ class VideoSeries extends StatelessWidget {
             itemCount: videoList.length,
             itemBuilder: (_, index) {
               return Container(
+                  margin: EdgeInsets.only(top: 10.h),
                   padding: EdgeInsets.symmetric(horizontal: 10.w),
                   width: 325.w,
                   height: 80.h,
@@ -175,7 +176,10 @@ class VideoSeries extends StatelessWidget {
                       blurRadius: 3,
                       color: Colors.white),
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).pushNamed("/videoDetail",
+                          arguments: {"id": videoList[index].id!});
+                    },
                     child: Row(
                       children: [
                         AppBoxDecoration(
@@ -189,11 +193,13 @@ class VideoSeries extends StatelessWidget {
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text11Normal(
-                                text: '123', color: AppColors.primaryText),
+                                text: videoList[index].name!,
+                                color: AppColors.primaryText),
                             Text10Normal(
-                                text: '456',
+                                text: videoList[index].description!,
                                 color: AppColors.primaryThirdElementText),
                           ],
                         ),

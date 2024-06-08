@@ -6,7 +6,7 @@ part of 'video_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$videoControllerHash() => r'344066775197133d817e96afeee087f85a6249b2';
+String _$videoControllerHash() => r'6b67d385a3428e667db7924a0ad715674dc8a324';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -193,5 +193,23 @@ class VideoListControllerProvider
     return _SystemHash.finish(hash);
   }
 }
+
+String _$videoPlayInfoControllerHash() =>
+    r'b0e17228539f31a529b195226580d37ae88dc04a';
+
+/// See also [VideoPlayInfoController].
+@ProviderFor(VideoPlayInfoController)
+final videoPlayInfoControllerProvider = AutoDisposeAsyncNotifierProvider<
+    VideoPlayInfoController, VideoPlayInfo>.internal(
+  VideoPlayInfoController.new,
+  name: r'videoPlayInfoControllerProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$videoPlayInfoControllerHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$VideoPlayInfoController = AutoDisposeAsyncNotifier<VideoPlayInfo>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
