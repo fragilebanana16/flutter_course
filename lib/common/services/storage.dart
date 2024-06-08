@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/widgets.dart';
 import 'package:flutter_course/common/models/user.dart';
 import 'package:flutter_course/common/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class StorageService {
   late final SharedPreferences _pref;
   Future<StorageService> init() async {
+    WidgetsFlutterBinding.ensureInitialized();
     _pref = await SharedPreferences.getInstance();
     return this;
   }

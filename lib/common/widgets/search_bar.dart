@@ -20,16 +20,16 @@ Widget searchBar() {
         child: Row(
           children: [
             Container(
-                margin: EdgeInsets.only(left: 17.w),
+                margin: EdgeInsets.only(left: 13.w),
                 child: const AppIcon(
                     icon: Icons.search,
                     size: 24,
                     color: AppColors.primaryText)),
             Container(
-              width: 240,
-              height: 40,
+              width: 240.w,
+              height: 40.h,
               child: appTextOnlyField(
-                  hintText: "Search...", width: 240, height: 40),
+                  hintText: "Search...", width: 240.w, height: 40.h),
             )
           ],
         ),

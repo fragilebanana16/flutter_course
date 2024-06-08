@@ -1,3 +1,5 @@
+import 'package:chewie/chewie.dart';
+
 class VideoReqEntity {
   int? Id;
 
@@ -77,7 +79,7 @@ class VideoItem {
 }
 
 class VideoPlayInfo {
-  final Future<void>? initializeVideoPlayer;
+  final ChewieController? initializeVideoPlayer;
   final bool isPlaying;
   final VideoItem? videoItem;
 
@@ -87,7 +89,7 @@ class VideoPlayInfo {
       this.videoItem = const VideoItem()});
 
   VideoPlayInfo copyWith(
-      {Future<void>? initializeVideoPlayer, bool? isPlaying, String? url}) {
+      {ChewieController? initializeVideoPlayer, bool? isPlaying, String? url}) {
     return VideoPlayInfo(
         initializeVideoPlayer:
             initializeVideoPlayer ?? this.initializeVideoPlayer,

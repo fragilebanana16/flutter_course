@@ -1,3 +1,4 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter_course/common/models/video_entity.dart';
 import 'package:flutter_course/common/utils/constants.dart';
 import 'package:flutter_course/global.dart';
@@ -6,7 +7,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:video_player/video_player.dart';
 part 'video_controller.g.dart';
 
-VideoPlayerController? videoPlayerController;
+late VideoPlayerController videoPlayerController;
+late ChewieController _chewieController;
+
 @riverpod
 Future<VideoItem?> videoController(VideoControllerRef ref,
     {required int index}) async {
@@ -20,12 +23,17 @@ Future<VideoItem?> videoController(VideoControllerRef ref,
     var url = "${AppConstants.SERVER_API_URL}${rsp.data?.videoUrl}";
 
     videoPlayerController = VideoPlayerController.network(url);
-    var initializeVideoPlayerFuture = videoPlayerController?.initialize();
+    _chewieController = ChewieController(
+      videoPlayerController: videoPlayerController,
+      aspectRatio: 16 / 9,
+    );
+
+    // var initializeVideoPlayerFuture = videoPlayerController?.initialize();
     VideoPlayInfo videoInstance = VideoPlayInfo(
         isPlaying: false,
-        initializeVideoPlayer: initializeVideoPlayerFuture,
+        initializeVideoPlayer: _chewieController,
         videoItem: rsp.data);
-    videoPlayerController?.play();
+    // videoPlayerController?.play();
 
     ref
         .read(videoPlayInfoControllerProvider.notifier)

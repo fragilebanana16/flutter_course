@@ -46,13 +46,13 @@ Widget appTextField(
 Widget appTextOnlyField(
     {TextEditingController? controller,
     String hintText = "Type in info",
-    double width = 280,
+    double width = 240,
     double height = 50,
     bool obscureText = false,
     void Function(String value)? func}) {
   return Container(
-      width: width.w,
-      height: height.h,
+      width: width,
+      height: height,
       child: TextField(
         controller: controller,
         cursorColor: Colors.grey,

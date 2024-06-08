@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/common/utils/constants.dart';
@@ -68,46 +66,15 @@ class _VideoDetailState extends ConsumerState<VideoDetail> {
                             SizedBox(
                               height: 5.h,
                             ),
-                            // video here
-                            videoPlayInfo.when(
-                                data: (data) => Container(
-                                      decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                              image: NetworkImage(
-                                                  "${AppConstants.SERVER_API_URL}${data.videoItem?.thumbNail}"))),
-                                      width: 325.w,
-                                      height: 200.h,
-                                      child: FutureBuilder(
-                                        future: data.initializeVideoPlayer,
-                                        builder: (context, snapshot) {
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.done) {
-                                            return videoPlayerController == null
-                                                ? Container()
-                                                : Stack(
-                                                    children: [
-                                                      VideoPlayer(
-                                                          videoPlayerController!),
-                                                    ],
-                                                  );
-                                          } else {
-                                            return const Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            );
-                                          }
-                                        },
-                                      ),
-                                    ),
-                                error: (error, stackTrace) =>
-                                    Text(error.toString()),
-                                loading: () => SizedBox(
-                                        child: const Center(
-                                      child: CircularProgressIndicator(),
-                                    ))),
-                            VideoDetailThumbnail(
-                              videoItem: data,
+                            // Chewie video here
+                            VideoPlayerView(
+                              url:
+                                  "${AppConstants.SERVER_API_URL}${data.videoUrl}",
+                              dataSourceType: DataSourceType.network,
                             ),
+                            // VideoDetailThumbnail(
+                            //   videoItem: data,
+                            // ),
                             VideoDetailBrief(
                               videoItem: data,
                             ),
