@@ -8,54 +8,82 @@ var Room = require('./server/models/room');
  * Encapsulates all code for emitting and listening to socket events
  *
  */
-
+var clients = {};
 const rooms = { }
 var ioEvents = function(io) {
     io.on('connection', (socket) => {
-        console.log('a user connected');
-        socket.on('disconnect', () => {
-          console.log('user disconnected');
-        });
+		console.log("connetetd");
+		console.log(socket.id, "has joined");
+		socket.on("/test", (msg) => {
+		  console.log(msg.id);
+		  let user_id = msg.id;
+		  socket.user_id = user_id;
+		  console.log(socket.user_id, "has joined");
+		  clients[user_id] = socket;
+		});
+		socket.on("message", (e) => {
+		  let targetId = e.targetId;
+		  console.log(clients);
+		  // console.log(targetId);
+		  // console.log(e.message);
+	  
+		  if (clients[targetId]) {
+			console.log(e.message);
+			console.log(e.targetId);
+	  
+			clients[targetId].emit("message", e);
+		  }
+		});
 
-        // socket.on('chat message', (msg) => {
-        //     console.log('message: ' + msg);
-        //   });
 
-          socket.on('chat message', (roomName, message) => {
-            console.log('roomName' + roomName + ',message: ' + message);
-            const matchingUsers = rooms[roomName].users.filter(user => user.sid === socket.id);
-            if (matchingUsers && matchingUsers.length == 1) {
-                console.log("to room broadcast")
-                console.log(matchingUsers[0].uid + " says " + message)
-            socket.to(roomName).emit('chat-message-incoming', { message: message, sendUserName: matchingUsers[0].uid})
-            }
-          })
-        //   socket.on('new-user', (room, name) => {
-        //     socket.join(room)
-        //     rooms[room].users[socket.id] = name
+
+
+
+
+        // console.log('a user connected');
+        // socket.on('disconnect', () => {
+        //   console.log('user disconnected');
+        // });
+
+        // // socket.on('chat message', (msg) => {
+        // //     console.log('message: ' + msg);
+        // //   });
+
+        //   socket.on('chat message', (roomName, message) => {
+        //     console.log('roomName' + roomName + ',message: ' + message);
+        //     const matchingUsers = rooms[roomName].users.filter(user => user.sid === socket.id);
+        //     if (matchingUsers && matchingUsers.length == 1) {
+        //         console.log("to room broadcast")
+        //         console.log(matchingUsers[0].uid + " says " + message)
+        //     socket.to(roomName).emit('chat-message-incoming', { message: message, sendUserName: matchingUsers[0].uid})
+        //     }
         //   })
+        // //   socket.on('new-user', (room, name) => {
+        // //     socket.join(room)
+        // //     rooms[room].users[socket.id] = name
+        // //   })
 
-          socket.on('create or join room', (roomName, username) => {
-            if (rooms[roomName] != null) {
-                console.log('room exists...');
-              }
+        //   socket.on('create or join room', (roomName, username) => {
+        //     if (rooms[roomName] != null) {
+        //         console.log('room exists...');
+        //       }
 
-              if (!rooms[roomName]) {
-                rooms[roomName] = { users: [] };
-            }
+        //       if (!rooms[roomName]) {
+        //         rooms[roomName] = { users: [] };
+        //     }
               
-              if (!rooms[roomName].users.some(user => user.sid === socket.id)) {
+        //       if (!rooms[roomName].users.some(user => user.sid === socket.id)) {
 
-                socket.join(roomName)
-                let newUser = { sid: socket.id, uid: username }; 
-                rooms[roomName].users.push(newUser);
+        //         socket.join(roomName)
+        //         let newUser = { sid: socket.id, uid: username }; 
+        //         rooms[roomName].users.push(newUser);
 
-              socket.to(roomName).emit('user-connected', username)
-              console.log('room ' + roomName + ' has ' + JSON.stringify(rooms));
+        //       socket.to(roomName).emit('user-connected', username)
+        //       console.log('room ' + roomName + ' has ' + JSON.stringify(rooms));
 
-            }
+        //     }
          
-          })
+        //   })
       });
 
 	// Rooms namespace

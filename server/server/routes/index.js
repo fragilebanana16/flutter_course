@@ -2,6 +2,8 @@ const todosController = require('../controllers').todos;
 const todoItemsController = require('../controllers').todoItems;
 const roomsController = require('../controllers').rooms;
 const userController = require('../controllers').user;
+const authController = require('../controllers').auth;
+const videoController = require('../controllers').video;
 const path = require('path');
 
 module.exports = (app) => {
@@ -36,4 +38,14 @@ module.exports = (app) => {
   app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../../index.html'));
   });
+
+  //login
+  app.post("/login", authController.logIn);
+  app.post('/register', authController.register);
+
+  //video
+  app.post('/getVideoList', videoController.getVideoList);
+  app.post('/videoDetail', videoController.videoDetail);
+  app.post('/videoSeriesList', videoController.videoSeriesList);
+  
 };

@@ -3,7 +3,7 @@ import 'package:flutter_course/common/services/http_util.dart';
 
 class VideoAPI {
   static Future<VideoListRspEntity> videoList() async {
-    var rsp = await HttpUtil().post('allInOne/getVideoList');
+    var rsp = await HttpUtil().post('/getVideoList');
     return VideoListRspEntity.fromJson(rsp.data);
   }
 }
