@@ -10,10 +10,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class IndividualPage extends StatefulWidget {
-  IndividualPage({Key? key, required this.chatModel, required this.sourchat})
+  IndividualPage({Key? key, required this.chatModel, required this.sourcechat})
       : super(key: key);
   final ChatModel chatModel;
-  final ChatModel sourchat;
+  final ChatModel sourcechat;
 
   @override
   _IndividualPageState createState() => _IndividualPageState();
@@ -327,7 +327,7 @@ class _IndividualPageState extends State<IndividualPage> {
                                             curve: Curves.easeOut);
                                         sendMessage(
                                             _controller.text,
-                                            widget.sourchat.id,
+                                            widget.sourcechat.id,
                                             widget.chatModel.id);
                                         _controller.clear();
                                         setState(() {

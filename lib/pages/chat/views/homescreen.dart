@@ -3,10 +3,10 @@ import 'package:flutter_course/common/models/chat.dart';
 import 'package:flutter_course/pages/chat/views/chatPage.dart';
 
 class Homescreen extends StatefulWidget {
-  Homescreen({Key? key, required this.chatmodels, required this.sourchat})
+  Homescreen({Key? key, required this.chatmodels, required this.sourcechat})
       : super(key: key);
   final List<ChatModel> chatmodels;
-  final ChatModel sourchat;
+  final ChatModel sourcechat;
 
   @override
   _HomescreenState createState() => _HomescreenState();
@@ -84,7 +84,7 @@ class _HomescreenState extends State<Homescreen>
           // CameraPage(),
           ChatPage(
             chatmodels: widget.chatmodels,
-            sourchat: widget.sourchat,
+            sourcechat: widget.sourcechat,
           ),
           Text("STATUS"),
           Text("Calls"),
