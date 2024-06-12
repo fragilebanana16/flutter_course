@@ -21,6 +21,16 @@ var ioEvents = function(io) {
 		  console.log(socket.user_id, "has joined");
 		  clients[user_id] = socket;
 		});
+
+		socket.on("signin", (userid) => {
+			console.log(userid, "has joined");
+			// let user_id = msg.id;
+			// socket.user_id = user_id;
+			// console.log(socket.user_id, "has joined");
+			clients[userid] = socket;
+		  });
+
+
 		socket.on("message", (e) => {
 		  let targetId = e.targetId;
 		  console.log(clients);

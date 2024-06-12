@@ -1,5 +1,7 @@
 // import 'package:camera/camera.dart';
 // import 'package:chatapp/CustomUI/CameraUI.dart';
+import 'dart:developer';
+
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/models/chat.dart';
@@ -49,19 +51,19 @@ class _IndividualPageState extends State<IndividualPage> {
       "autoConnect": false,
     });
     socket.connect();
-    // socket.emit("signin", widget.sourchat.id);
+    socket.emit("signin", widget.sourcechat.id);
     socket.onConnect((data) {
       print("Connected");
-      // socket.on("message", (msg) {
-      //   print(msg);
-      //   setMessage("destination", msg["message"]);
-      //   _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-      //       duration: Duration(milliseconds: 300), curve: Curves.easeOut);
-      // });
+      socket.on("message", (msg) {
+        print(msg);
+        setMessage("destination", msg["message"]);
+        _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+            duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+      });
     });
     print(socket.connected);
 
-    socket.emit("/test", 'hello world');
+    // socket.emit("/test", 'hello world');
   }
 
   void sendMessage(String message, int sourceId, int targetId) {
