@@ -6,10 +6,15 @@ import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/models/chat.dart';
 import 'package:flutter_course/common/models/message.dart';
+import 'package:flutter_course/common/utils/constants.dart';
+import 'package:flutter_course/pages/chat/views/Widgets/ownImageCard.dart';
 import 'package:flutter_course/pages/chat/views/Widgets/ownMessgaeCard.dart';
 import 'package:flutter_course/pages/chat/views/Widgets/replyCard.dart';
+import 'package:flutter_course/pages/chat/views/Widgets/replyImageCard.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:http/http.dart' as http;
 
 class IndividualPage extends StatefulWidget {
   IndividualPage({Key? key, required this.chatModel, required this.sourcechat})
@@ -29,6 +34,8 @@ class _IndividualPageState extends State<IndividualPage> {
   TextEditingController _controller = TextEditingController();
   ScrollController _scrollController = ScrollController();
   late IO.Socket socket;
+  ImagePicker _imagePicker = ImagePicker();
+  XFile? xFile;
   @override
   void initState() {
     super.initState();
@@ -194,31 +201,33 @@ class _IndividualPageState extends State<IndividualPage> {
               child: Column(
                 children: [
                   Expanded(
-                    // height: MediaQuery.of(context).size.height - 150,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      controller: _scrollController,
-                      itemCount: messages.length + 1,
-                      itemBuilder: (context, index) {
-                        if (index == messages.length) {
-                          return Container(
-                            height: 70,
-                          );
-                        }
-                        if (messages[index].type == "source") {
-                          return OwnMessageCard(
-                            message: messages[index].message,
-                            time: messages[index].time,
-                          );
-                        } else {
-                          return ReplyCard(
-                            message: messages[index].message,
-                            time: messages[index].time,
-                          );
-                        }
-                      },
-                    ),
-                  ),
+                      // // height: MediaQuery.of(context).size.height - 150,
+                      // child: ListView.builder(
+                      //   shrinkWrap: true,
+                      //   controller: _scrollController,
+                      //   itemCount: messages.length + 1,
+                      //   itemBuilder: (context, index) {
+                      //     if (index == messages.length) {
+                      //       return Container(
+                      //         height: 70,
+                      //       );
+                      //     }
+                      //     if (messages[index].type == "source") {
+                      //       return OwnMessageCard(
+                      //         message: messages[index].message,
+                      //         time: messages[index].time,
+                      //       );
+                      //     } else {
+                      //       return ReplyCard(
+                      //         message: messages[index].message,
+                      //         time: messages[index].time,
+                      //       );
+                      //     }
+                      //   },
+                      // ),
+                      child: ListView(
+                    children: [OwnImageCard(), ReplyImageCard()],
+                  )),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
@@ -380,16 +389,40 @@ class _IndividualPageState extends State<IndividualPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  iconCreation(
-                      Icons.insert_drive_file, Colors.indigo, "Document"),
+                  iconCreation(Icons.insert_drive_file, Colors.indigo,
+                      "Document", () {}),
                   SizedBox(
                     width: 40,
                   ),
-                  iconCreation(Icons.camera_alt, Colors.pink, "Camera"),
+                  iconCreation(Icons.camera_alt, Colors.pink, "Camera", () {}),
                   SizedBox(
                     width: 40,
                   ),
-                  iconCreation(Icons.insert_photo, Colors.purple, "Gallery"),
+                  iconCreation(Icons.insert_photo, Colors.purple, "Gallery",
+                      () async {
+                    xFile = await _imagePicker.pickImage(
+                        source: ImageSource.gallery);
+                    if (xFile == null) {
+                      return;
+                    }
+
+                    var req = http.MultipartRequest(
+                        "POST",
+                        Uri.parse(
+                            "${AppConstants.SERVER_API_URL}file/uploadImage"));
+                    try {
+                      req.files.add(await http.MultipartFile.fromPath(
+                          "img", xFile!.path));
+                    } catch (e) {
+                      print(e.toString());
+                    }
+
+                    req.headers.addAll({
+                      "Content-type": "multipart/form-data",
+                    });
+                    http.StreamedResponse rsp = await req.send();
+                    print(rsp.statusCode);
+                  }),
                 ],
               ),
               SizedBox(
@@ -398,15 +431,16 @@ class _IndividualPageState extends State<IndividualPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  iconCreation(Icons.headset, Colors.orange, "Audio"),
+                  iconCreation(Icons.headset, Colors.orange, "Audio", () {}),
                   SizedBox(
                     width: 40,
                   ),
-                  iconCreation(Icons.location_pin, Colors.teal, "Location"),
+                  iconCreation(
+                      Icons.location_pin, Colors.teal, "Location", () {}),
                   SizedBox(
                     width: 40,
                   ),
-                  iconCreation(Icons.person, Colors.blue, "Contact"),
+                  iconCreation(Icons.person, Colors.blue, "Contact", () {}),
                 ],
               ),
             ],
@@ -416,9 +450,10 @@ class _IndividualPageState extends State<IndividualPage> {
     );
   }
 
-  Widget iconCreation(IconData icons, Color color, String text) {
+  Widget iconCreation(
+      IconData icons, Color color, String text, Function()? onTap) {
     return InkWell(
-      onTap: () {},
+      onTap: onTap,
       child: Column(
         children: [
           CircleAvatar(

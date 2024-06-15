@@ -45,3 +45,5 @@ app.*.map.json
 
 # node_modules
 server/node_modules
+# user uploads
+server/public/upload
