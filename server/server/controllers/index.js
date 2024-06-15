@@ -4,6 +4,7 @@ const rooms = require('./rooms');
 const user = require('./user');
 const auth = require('./auth');
 const video = require('./video');
+const file = require('./file');
 
 module.exports = {
   todos,
@@ -11,5 +12,6 @@ module.exports = {
   rooms,
   user,
   auth,
-  video
+  video,
+  file
 };
