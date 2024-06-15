@@ -4,8 +4,8 @@ import 'package:flutter_course/common/services/http_util.dart';
 class VideoRepo {
   static Future<VideoDetailRspEntity> GetVideoDetail(
       {VideoReqEntity? param}) async {
-    var rsp =
-        await HttpUtil().post("/videoDetail", queryParameters: param?.toJson());
+    var rsp = await HttpUtil()
+        .post("/video/videoDetail", queryParameters: param?.toJson());
     print(rsp);
 
     return VideoDetailRspEntity.fromJson(
