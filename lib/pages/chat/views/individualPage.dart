@@ -35,7 +35,6 @@ class _IndividualPageState extends State<IndividualPage> {
   ScrollController _scrollController = ScrollController();
   late IO.Socket socket;
   ImagePicker _imagePicker = ImagePicker();
-  XFile? xFile;
   @override
   void initState() {
     super.initState();
@@ -400,19 +399,27 @@ class _IndividualPageState extends State<IndividualPage> {
                   ),
                   iconCreation(Icons.insert_photo, Colors.purple, "Gallery",
                       () async {
-                    xFile = await _imagePicker.pickImage(
-                        source: ImageSource.gallery);
-                    if (xFile == null) {
-                      return;
+                    List<XFile>? imageFileList = [];
+                    List<XFile>? selectedImages =
+                        await _imagePicker.pickMultiImage();
+                    if (selectedImages.isNotEmpty) {
+                      imageFileList.addAll(selectedImages);
                     }
+                    // XFile? xFile = await _imagePicker.pickImage(
+                    //     source: ImageSource.gallery);
+                    // if (xFile == null) {
+                    //   return;
+                    // }
 
                     var req = http.MultipartRequest(
                         "POST",
                         Uri.parse(
                             "${AppConstants.SERVER_API_URL}file/uploadImage"));
                     try {
-                      req.files.add(await http.MultipartFile.fromPath(
-                          "img", xFile!.path));
+                      for (final xFile in imageFileList) {
+                        req.files.add(await http.MultipartFile.fromPath(
+                            "img", xFile!.path));
+                      }
                     } catch (e) {
                       print(e.toString());
                     }
@@ -421,7 +428,6 @@ class _IndividualPageState extends State<IndividualPage> {
                       "Content-type": "multipart/form-data",
                     });
                     http.StreamedResponse rsp = await req.send();
-                    print(rsp.statusCode);
                   }),
                 ],
               ),
