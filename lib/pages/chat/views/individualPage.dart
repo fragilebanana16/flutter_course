@@ -134,6 +134,7 @@ class _IndividualPageState extends State<IndividualPage> {
               titleSpacing: 0,
               leading: InkWell(
                 onTap: () {
+                  socket.emit("signout", widget.sourcechat.id);
                   Navigator.pop(context);
                 },
                 child: Row(
@@ -361,6 +362,8 @@ class _IndividualPageState extends State<IndividualPage> {
                 ],
               ),
               onWillPop: () {
+                socket.emit("signout", widget.sourcechat.id);
+
                 if (show) {
                   setState(() {
                     show = false;
@@ -469,6 +472,7 @@ class _IndividualPageState extends State<IndividualPage> {
   void sendImageFromGallery() async {
     List<XFile>? imageFileList = [];
     List<XFile>? selectedImages = await _imagePicker.pickMultiImage();
+    navKey.currentState?.pop(); // dont use navigator in async, use global key
     if (selectedImages.isNotEmpty) {
       imageFileList.addAll(selectedImages);
     }
@@ -511,8 +515,6 @@ class _IndividualPageState extends State<IndividualPage> {
               imgWidth: img['width'],
               imgHeight: img['height']));
     }
-
-    navKey.currentState?.pop(); // dont use navigator in async, use global key
   }
 
   Widget listItemBuilder(BuildContext context, int index) {

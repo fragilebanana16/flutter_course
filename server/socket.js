@@ -24,12 +24,23 @@ var ioEvents = function(io) {
 
 		socket.on("signin", (userid) => {
 			console.log(userid, "has joined");
+
 			// let user_id = msg.id;
 			// socket.user_id = user_id;
 			// console.log(socket.user_id, "has joined");
 			clients[userid] = socket;
+            for (let key in clients) {
+				console.log("client:" + key);
+			  }
 		  });
 
+		  socket.on("signout", (userid) => {
+			console.log(userid, "has exited");
+			delete clients[socket.user_id];
+            for (let key in clients) {
+				console.log("client:" + key);
+			  }
+		  });
 
 		socket.on("message", (e) => {
 		  let targetId = e.targetId;
@@ -45,8 +56,12 @@ var ioEvents = function(io) {
 		  }
 		});
 
-
-
+		socket.on('disconnect', () => {
+            console.log(`${socket.id} has disconnected`);
+            // 从clients对象中移除用户信息
+            delete clients[socket.user_id];
+            console.log(clients);
+        });
 
 
 
