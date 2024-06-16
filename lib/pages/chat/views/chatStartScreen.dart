@@ -14,7 +14,7 @@ class _ChatStartScreenState extends State<ChatStartScreen> {
   late ChatModel sourceChat;
   List<ChatModel> chatmodels = [
     ChatModel(
-      name: "Dev Stack",
+      name: "Mobile",
       isGroup: false,
       currentMessage: "Hi Everyone",
       time: "4:00",
@@ -22,7 +22,7 @@ class _ChatStartScreenState extends State<ChatStartScreen> {
       id: 1,
     ),
     ChatModel(
-      name: "Kishor",
+      name: "PC",
       isGroup: false,
       currentMessage: "Hi Kishor",
       time: "13:00",
@@ -30,7 +30,7 @@ class _ChatStartScreenState extends State<ChatStartScreen> {
       id: 2,
     ),
     ChatModel(
-      name: "Collins",
+      name: "Yolo",
       isGroup: false,
       currentMessage: "Hi Dev Stack",
       time: "8:00",
@@ -38,7 +38,7 @@ class _ChatStartScreenState extends State<ChatStartScreen> {
       id: 3,
     ),
     ChatModel(
-      name: "Balram Rathore",
+      name: "Dickens",
       isGroup: false,
       currentMessage: "Hi Dev Stack",
       time: "2:00",

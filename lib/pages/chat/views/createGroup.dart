@@ -58,6 +58,7 @@ class _CreateGroupState extends State<CreateGroup> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
+            heroTag: "createGroupTag",
             backgroundColor: Color(0xFF128C7E),
             onPressed: () {},
             child: Icon(Icons.arrow_forward)),

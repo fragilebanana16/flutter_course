@@ -20,6 +20,7 @@ class _StatusPageState extends State<StatusPage> {
           Container(
             height: 48,
             child: FloatingActionButton(
+              heroTag: "statusPageTag",
               backgroundColor: Colors.blueGrey[100],
               elevation: 8,
               onPressed: () {},
@@ -33,6 +34,7 @@ class _StatusPageState extends State<StatusPage> {
             height: 13,
           ),
           FloatingActionButton(
+            heroTag: "statusPageTag2",
             backgroundColor: Colors.greenAccent[700],
             elevation: 5,
             onPressed: () {},
@@ -77,7 +79,7 @@ class _StatusPageState extends State<StatusPage> {
               name: " Saket Sinha",
               seen: true,
               statusNum: 3,
-              imageName: "aassets/images/homeBanner_music.png",
+              imageName: "assets/images/homeBanner_music.png",
             ),
             OthersStatus(
               name: "Bhanudev Som",

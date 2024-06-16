@@ -12,7 +12,7 @@ class OwnStatus extends StatelessWidget {
             radius: 27,
             backgroundColor: Colors.red,
             backgroundImage: AssetImage(
-              "assets/balram.jpg",
+              "assets/images/reading.png",
             ),
           ),
           Positioned(

@@ -1,5 +1,6 @@
 // import 'package:camera/camera.dart';
 // import 'package:chatapp/CustomUI/CameraUI.dart';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course/common/models/chat.dart';
 import 'package:flutter_course/common/models/message.dart';
 import 'package:flutter_course/common/utils/constants.dart';
+import 'package:flutter_course/main.dart';
 import 'package:flutter_course/pages/chat/views/Widgets/ownImageCard.dart';
 import 'package:flutter_course/pages/chat/views/Widgets/ownMessgaeCard.dart';
 import 'package:flutter_course/pages/chat/views/Widgets/replyCard.dart';
@@ -39,7 +41,6 @@ class _IndividualPageState extends State<IndividualPage> {
   void initState() {
     super.initState();
     // connect();
-
     focusNode.addListener(() {
       if (focusNode.hasFocus) {
         setState(() {
@@ -62,9 +63,9 @@ class _IndividualPageState extends State<IndividualPage> {
       print("Connected");
       socket.on("message", (msg) {
         print(msg);
-        setMessage("destination", msg["message"]);
-        _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-            duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+        setMessage("destination", msg["message"], msg["imgPath"],
+            msg["imgWidth"], msg["imgHeight"]);
+        scrollBottomDelayed(1);
       });
     });
     print(socket.connected);
@@ -72,17 +73,41 @@ class _IndividualPageState extends State<IndividualPage> {
     // socket.emit("/test", 'hello world');
   }
 
-  void sendMessage(String message, int sourceId, int targetId) {
-    setMessage("source", message);
-    socket.emit("message",
-        {"message": message, "sourceId": sourceId, "targetId": targetId});
+  void sendMessage(
+      String message, int sourceId, int targetId, ImageDetail imageDetail) {
+    setMessage("source", message, imageDetail.imgPath, imageDetail.imgWidth,
+        imageDetail.imgHeight);
+    socket.emit("message", {
+      "message": message,
+      "sourceId": sourceId,
+      "targetId": targetId,
+      "imgPath": imageDetail.imgPath,
+      "imgWidth": imageDetail.imgWidth,
+      "imgHeight": imageDetail.imgHeight,
+    });
+
+    scrollBottomDelayed(1);
   }
 
-  void setMessage(String type, String message) {
+  void scrollBottomDelayed(int seconds) {
+    Future.delayed(Duration(seconds: seconds)).then((_) {
+      // 延迟滚动操作，确保页面布局和元素高度计算完成后再执行
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
+  void setMessage(String type, String message, String imgPath, int imgWidth,
+      int imgHeight) {
     MessageModel messageModel = MessageModel(
         type: type,
         message: message,
-        time: DateTime.now().toString().substring(10, 16));
+        time: DateTime.now().toString().substring(10, 16),
+        image: ImageDetail(
+            imgPath: imgPath, imgWidth: imgWidth, imgHeight: imgHeight));
     print(messages);
 
     setState(() {
@@ -200,33 +225,16 @@ class _IndividualPageState extends State<IndividualPage> {
               child: Column(
                 children: [
                   Expanded(
-                      // // height: MediaQuery.of(context).size.height - 150,
-                      // child: ListView.builder(
-                      //   shrinkWrap: true,
-                      //   controller: _scrollController,
-                      //   itemCount: messages.length + 1,
-                      //   itemBuilder: (context, index) {
-                      //     if (index == messages.length) {
-                      //       return Container(
-                      //         height: 70,
-                      //       );
-                      //     }
-                      //     if (messages[index].type == "source") {
-                      //       return OwnMessageCard(
-                      //         message: messages[index].message,
-                      //         time: messages[index].time,
-                      //       );
-                      //     } else {
-                      //       return ReplyCard(
-                      //         message: messages[index].message,
-                      //         time: messages[index].time,
-                      //       );
-                      //     }
-                      //   },
-                      // ),
-                      child: ListView(
-                    children: [OwnImageCard(), ReplyImageCard()],
-                  )),
+                    // height: MediaQuery.of(context).size.height - 150,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      controller: _scrollController,
+                      itemCount: messages.length + 1,
+                      itemBuilder: listItemBuilder,
+                    ),
+                    //   child: ListView(
+                    // children: [OwnImageCard(), ReplyImageCard()],
+                  ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
@@ -329,16 +337,11 @@ class _IndividualPageState extends State<IndividualPage> {
                                     ),
                                     onPressed: () {
                                       if (sendButton) {
-                                        _scrollController.animateTo(
-                                            _scrollController
-                                                .position.maxScrollExtent,
-                                            duration:
-                                                Duration(milliseconds: 300),
-                                            curve: Curves.easeOut);
                                         sendMessage(
                                             _controller.text,
                                             widget.sourcechat.id,
-                                            widget.chatModel.id);
+                                            widget.chatModel.id,
+                                            const ImageDetail());
                                         _controller.clear();
                                         setState(() {
                                           sendButton = false;
@@ -397,38 +400,9 @@ class _IndividualPageState extends State<IndividualPage> {
                   SizedBox(
                     width: 40,
                   ),
+                  // 发送图片
                   iconCreation(Icons.insert_photo, Colors.purple, "Gallery",
-                      () async {
-                    List<XFile>? imageFileList = [];
-                    List<XFile>? selectedImages =
-                        await _imagePicker.pickMultiImage();
-                    if (selectedImages.isNotEmpty) {
-                      imageFileList.addAll(selectedImages);
-                    }
-                    // XFile? xFile = await _imagePicker.pickImage(
-                    //     source: ImageSource.gallery);
-                    // if (xFile == null) {
-                    //   return;
-                    // }
-
-                    var req = http.MultipartRequest(
-                        "POST",
-                        Uri.parse(
-                            "${AppConstants.SERVER_API_URL}file/uploadImage"));
-                    try {
-                      for (final xFile in imageFileList) {
-                        req.files.add(await http.MultipartFile.fromPath(
-                            "img", xFile!.path));
-                      }
-                    } catch (e) {
-                      print(e.toString());
-                    }
-
-                    req.headers.addAll({
-                      "Content-type": "multipart/form-data",
-                    });
-                    http.StreamedResponse rsp = await req.send();
-                  }),
+                      sendImageFromGallery),
                 ],
               ),
               SizedBox(
@@ -489,5 +463,86 @@ class _IndividualPageState extends State<IndividualPage> {
 
   Widget emojiSelect() {
     return EmojiPicker();
+  }
+
+  // 下方弹框从图库中选择图片发送
+  void sendImageFromGallery() async {
+    List<XFile>? imageFileList = [];
+    List<XFile>? selectedImages = await _imagePicker.pickMultiImage();
+    if (selectedImages.isNotEmpty) {
+      imageFileList.addAll(selectedImages);
+    }
+
+    // single file
+    // XFile? xFile = await _imagePicker.pickImage(
+    //     source: ImageSource.gallery);
+    // if (xFile == null) {
+    //   return;
+    // }
+
+    var req = http.MultipartRequest(
+        "POST", Uri.parse("${AppConstants.SERVER_API_URL}file/uploadImage"));
+    try {
+      for (final xFile in imageFileList) {
+        req.files.add(await http.MultipartFile.fromPath("img", xFile.path));
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+
+    req.headers.addAll({
+      "Content-type": "multipart/form-data",
+    });
+
+    http.StreamedResponse rsp = await req.send();
+    var httpRsp = await http.Response.fromStream(rsp);
+    var data = json.decode(httpRsp.body);
+    for (final img in data['img']) {
+      print(img['filename']);
+      String originalPath = img['path'].replaceAll("\\", "/");
+      RegExp exp = new RegExp(r'public/'); // remove first public
+      String modifiedPath = originalPath.replaceFirst(exp, '');
+      sendMessage(
+          _controller.text,
+          widget.sourcechat.id,
+          widget.chatModel.id,
+          ImageDetail(
+              imgPath: modifiedPath,
+              imgWidth: img['width'],
+              imgHeight: img['height']));
+    }
+
+    navKey.currentState?.pop(); // dont use navigator in async, use global key
+  }
+
+  Widget listItemBuilder(BuildContext context, int index) {
+    if (index == messages.length) {
+      return Container(
+        height: 10,
+      );
+    }
+    if (messages[index].type == "source") {
+      if (messages[index].isImageNotEmpty()) {
+        return OwnImageCard(
+          image: messages[index].image,
+        );
+      } else {
+        return OwnMessageCard(
+          message: messages[index].message,
+          time: messages[index].time,
+        );
+      }
+    } else {
+      if (messages[index].isImageNotEmpty()) {
+        return ReplyImageCard(
+          image: messages[index].image,
+        );
+      } else {
+        return ReplyCard(
+          message: messages[index].message,
+          time: messages[index].time,
+        );
+      }
+    }
   }
 }

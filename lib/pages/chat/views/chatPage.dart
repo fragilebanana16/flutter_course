@@ -18,6 +18,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        heroTag: "chatPageTag",
         onPressed: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (builder) => SelectContact()));
