@@ -50,6 +50,8 @@ dependencies:
   socket_io_client: ^3.0.0-beta.2
   emoji_picker_flutter: ^1.6.4
   image_picker: 1.0.1
+  get: 4.6.5
+  flutter_rating_bar: 4.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -8,6 +8,7 @@ import 'package:flutter_course/pages/register/register.dart';
 import 'package:flutter_course/pages/welcome/welcome.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 Future<void> main() async {
   await Global.init();
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
       designSize: const Size(375, 812),
       // minTextAdapt: true,
       // splitScreenMode: true,
-      builder: (context, child) => MaterialApp(
+      builder: (context, child) => GetMaterialApp(
         navigatorKey: navKey,
         // debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',

@@ -5,6 +5,8 @@ import 'package:flutter_course/common/widgets/image_widget.dart';
 import 'package:flutter_course/pages/chat/views/chatStartScreen.dart';
 import 'package:flutter_course/pages/chat/views/homescreen.dart';
 import 'package:flutter_course/pages/home/view/home.dart';
+import 'package:flutter_course/pages/music/views/musicAppTab.dart';
+import 'package:flutter_course/pages/music/views/musicStartView.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 var bottomTabs = <BottomNavigationBarItem>[
@@ -40,9 +42,10 @@ Widget _bottomContainer(
 Widget appScreens({int index = 0}) {
   List<Widget> screens = [
     const Home(),
-    Center(
-      child: AppIcon(icon: Icons.wallet, size: 200),
-    ),
+    const MusicStartView(),
+    // Center(
+    //   child: AppIcon(icon: Icons.wallet, size: 200),
+    // ),
     ChatStartScreen()
   ];
 

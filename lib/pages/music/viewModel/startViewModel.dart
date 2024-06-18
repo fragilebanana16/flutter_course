@@ -1,0 +1,20 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_course/pages/music/views/musicAppTab.dart';
+import 'package:get/get.dart';
+
+class StartViewModel extends GetxController {
+  var scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void loadView() async {
+    await Future.delayed(const Duration(seconds: 1));
+    Get.to(() => const MusicApp());
+  }
+
+  void openDrawer() {
+    scaffoldKey.currentState?.openDrawer();
+  }
+
+  void closeDrawer() {
+    scaffoldKey.currentState?.closeDrawer();
+  }
+}

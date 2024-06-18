@@ -62,7 +62,7 @@ class _ChatStartScreenState extends State<ChatStartScreen> {
           itemBuilder: (contex, index) => InkWell(
                 onTap: () {
                   sourceChat = chatmodels.removeAt(index);
-                  Navigator.pushReplacement(
+                  Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (builder) => Homescreen(
