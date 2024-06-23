@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/common/widgets/app_bar.dart';
 import 'package:flutter_course/common/widgets/image_widget.dart';
 import 'package:flutter_course/common/widgets/search_bar.dart';
@@ -17,6 +19,24 @@ class Home extends ConsumerStatefulWidget {
 class _HomeState extends ConsumerState<Home> {
   late PageController _controller;
 
+  @override
+  void initState() {
+    super.initState();
+    SystemUiOverlayStyle overlayStyle = SystemUiOverlayStyle.light; // 默认样式
+
+    // 使用copyWith修改样式
+    overlayStyle = overlayStyle.copyWith(
+      statusBarColor: TColor.bg, // 修改状态栏颜色
+      systemNavigationBarColor: TColor.bg, // 修改系统导航栏颜色
+    );
+
+    // 应用新的样式
+    SystemChrome.setSystemUIOverlayStyle(overlayStyle);
+
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+  }
+
   // int controller whenever provider changes
   @override
   void didChangeDependencies() {
@@ -28,7 +48,7 @@ class _HomeState extends ConsumerState<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: TColor.bg,
         appBar: homeAppBar(ref),
         body: RefreshIndicator(
             child: Padding(

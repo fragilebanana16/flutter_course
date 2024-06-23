@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/common/widgets/app_bar.dart';
 import 'package:flutter_course/common/widgets/app_shadow.dart';
 import 'package:flutter_course/pages/application/notifier/application_nav_notifier.dart';
@@ -13,27 +14,38 @@ class Application extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     int curIndex = ref.watch(applicationNavIndexProvider);
     return Container(
-      color: Colors.white,
-      child: SafeArea(
-          child: Scaffold(
-        body: appScreens(index: curIndex),
-        bottomNavigationBar: Container(
-          width: 375.w,
-          height: 58.h,
-          decoration: appBoxShadowWithRadius(),
-          child: BottomNavigationBar(
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            currentIndex: curIndex,
-            onTap: (value) {
-              ref.read(applicationNavIndexProvider.notifier).changeIndex(value);
-            },
-            elevation: 0,
-            items: bottomTabs,
-            type: BottomNavigationBarType.fixed,
-          ),
-        ),
-      )),
-    );
+        child: SafeArea(
+      child: Scaffold(
+          body: appScreens(index: curIndex),
+          bottomNavigationBar: Container(
+            width: 375.w,
+            height: 68.h,
+            decoration: appBoxShadowWithRadius(),
+            child: Container(
+              decoration: BoxDecoration(color: TColor.bg, boxShadow: const [
+                BoxShadow(
+                  color: Colors.black38,
+                  blurRadius: 5,
+                  offset: Offset(0, -3),
+                )
+              ]),
+              child: BottomNavigationBar(
+                backgroundColor: TColor.bg,
+                currentIndex: curIndex,
+                onTap: (value) {
+                  ref
+                      .read(applicationNavIndexProvider.notifier)
+                      .changeIndex(value);
+                },
+                elevation: 0,
+                items: bottomTabs,
+                unselectedItemColor: TColor.lightGray,
+                selectedFontSize: 10,
+                unselectedFontSize: 10,
+                type: BottomNavigationBarType.fixed,
+              ),
+            ),
+          )),
+    ));
   }
 }

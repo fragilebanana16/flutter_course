@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/pages/music/viewModel/startViewModel.dart';
 import 'package:get/get.dart';
 
@@ -15,7 +16,7 @@ class _SplashViewState extends State<MusicStartView> {
 
   @override
   void initState() {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
     super.initState();
     splashVM.loadView();
   }
@@ -24,6 +25,7 @@ class _SplashViewState extends State<MusicStartView> {
   Widget build(BuildContext context) {
     var media = MediaQuery.sizeOf(context);
     return Scaffold(
+      backgroundColor: TColor.bg,
       body: Center(
         child: Image.asset(
           "assets/images/app_logo.png",

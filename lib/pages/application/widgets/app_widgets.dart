@@ -11,30 +11,46 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 var bottomTabs = <BottomNavigationBarItem>[
   BottomNavigationBarItem(
-      icon: _bottomContainer(icon: Icons.home),
-      activeIcon:
-          _bottomContainer(icon: Icons.home, color: AppColors.primaryElement),
+      icon: Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: _bottomContainer(icon: Icons.home, color: TColor.lightGray),
+      ),
+      activeIcon: Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child:
+            _bottomContainer(icon: Icons.home, color: AppColors.primaryElement),
+      ),
       backgroundColor: AppColors.primaryBackground,
       label: "Home"),
   BottomNavigationBarItem(
-      icon: _bottomContainer(icon: Icons.search),
-      activeIcon:
-          _bottomContainer(icon: Icons.search, color: AppColors.primaryElement),
+      icon: Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child:
+            _bottomContainer(icon: Icons.music_note, color: TColor.lightGray),
+      ),
+      activeIcon: Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: _bottomContainer(
+              icon: Icons.music_note, color: AppColors.primaryElement)),
       backgroundColor: AppColors.primaryBackground,
       label: "Search"),
   BottomNavigationBarItem(
-      icon: _bottomContainer(icon: Icons.access_alarm),
-      activeIcon: _bottomContainer(
-          icon: Icons.access_alarm, color: AppColors.primaryElement),
+      icon: Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: _bottomContainer(icon: Icons.chat, color: TColor.lightGray)),
+      activeIcon: Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: _bottomContainer(
+              icon: Icons.chat, color: AppColors.primaryElement)),
       backgroundColor: AppColors.primaryBackground,
-      label: "Other")
+      label: "Chat")
 ];
 
 Widget _bottomContainer(
     {IconData icon = Icons.home, Color color = AppColors.primaryText}) {
   return SizedBox(
-    width: 15.w,
-    height: 15.h,
+    width: 20.w,
+    height: 20.h,
     child: AppIcon(icon: icon, size: 24, color: color),
   );
 }
