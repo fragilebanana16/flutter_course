@@ -3,6 +3,8 @@ import 'package:flutter_course/common/routes/routes.dart';
 import 'package:flutter_course/common/utils/app_styles.dart';
 import 'package:flutter_course/global.dart';
 import 'package:flutter_course/pages/application/application.dart';
+import 'package:flutter_course/pages/music/audio_helpers/page_manager.dart';
+import 'package:flutter_course/pages/music/audio_helpers/service_locator.dart';
 import 'package:flutter_course/pages/signin/sign_in.dart';
 import 'package:flutter_course/pages/register/register.dart';
 import 'package:flutter_course/pages/welcome/welcome.dart';
@@ -12,6 +14,9 @@ import 'package:get/get.dart';
 
 Future<void> main() async {
   await Global.init();
+  await setupServiceLocator();
+  WidgetsFlutterBinding.ensureInitialized();
+  getIt<PageManager>().init(); // how to dispose ?
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -24,8 +29,26 @@ var routesMap = {
 
 final GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getIt<PageManager>().init();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    getIt<PageManager>().dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,70 +73,3 @@ class MyApp extends StatelessWidget {
 final appCount = StateProvider<int>((ref) {
   return 1;
 });
-
-class MyHomePage extends ConsumerWidget {
-  const MyHomePage({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final count = ref.watch(appCount);
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Riverpod app"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$count',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton:
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        FloatingActionButton(
-          heroTag: "add",
-          onPressed: () => {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => const SecondPage()))
-          },
-          tooltip: 'Increment',
-          child: const Icon(Icons.arrow_back),
-        ),
-        FloatingActionButton(
-          heroTag: "goback",
-          onPressed: () => {ref.read(appCount.notifier).state++},
-          tooltip: 'Increment',
-          child: const Icon(Icons.add),
-        ),
-      ]),
-    );
-  }
-}
-
-class SecondPage extends ConsumerWidget {
-  const SecondPage({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    int count = ref.watch(appCount);
-
-    return Scaffold(
-        appBar: AppBar(),
-        body: Center(
-          child: Text(
-            "$count",
-            style: TextStyle(fontSize: 30),
-          ),
-        ));
-  }
-}

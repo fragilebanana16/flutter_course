@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/pages/music/viewModel/startViewModel.dart';
 import 'package:flutter_course/pages/music/views/Widgets/iconTextRow.dart';
+import 'package:flutter_course/pages/music/views/Widgets/miniPlayerView.dart';
 import 'package:flutter_course/pages/music/views/musicHomeView.dart';
 import 'package:flutter_course/pages/music/views/settingsView.dart';
 import 'package:flutter_course/pages/music/views/songsView.dart';
@@ -146,12 +147,18 @@ class _MainTabViewState extends State<MusicApp>
               ),
             ],
           )),
-      body: TabBarView(
-        controller: controller,
+      body: Stack(
+        alignment: Alignment.bottomCenter,
         children: [
-          MusicHomeView(),
-          SongsView(),
-          SettingsView(),
+          TabBarView(
+            controller: controller,
+            children: const [
+              MusicHomeView(),
+              SongsView(),
+              SettingsView(),
+            ],
+          ),
+          MiniPlayerView()
         ],
       ),
       bottomNavigationBar: Container(

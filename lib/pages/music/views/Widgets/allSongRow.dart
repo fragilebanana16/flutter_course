@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
 
@@ -24,12 +25,31 @@ class AllSongRow extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(25),
-                  child: Image.asset(
-                    sObj["image"],
-                    width: 50,
-                    height: 50,
-                    fit: BoxFit.cover,
-                  ),
+                  child: false
+                      ? CachedNetworkImage(
+                          imageUrl: sObj["image"].toString(),
+                          fit: BoxFit.cover,
+                          errorWidget: (context, url, error) {
+                            return Image.asset(
+                              "assets/images/ar_2.png",
+                              fit: BoxFit.cover,
+                            );
+                          },
+                          placeholder: (context, url) {
+                            return Image.asset(
+                              "assets/images.cover.jpg",
+                              fit: BoxFit.cover,
+                            );
+                          },
+                          width: 50,
+                          height: 50,
+                        )
+                      : Image.asset(
+                          sObj["image"],
+                          width: 50,
+                          height: 50,
+                          fit: BoxFit.cover,
+                        ),
                 ),
                 Container(
                   width: 50,
