@@ -42,6 +42,7 @@ class _AllSongsViewState extends State<AllSongsView> {
                                 'url': sObj["url"].toString(),
                                 'title': sObj["title"].toString(),
                                 'artist': sObj["artist"].toString(),
+                                'id': sObj["id"].toString(),
                               })
                           .toList(),
                       index);
