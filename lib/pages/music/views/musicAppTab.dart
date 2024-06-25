@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
+import 'package:flutter_course/pages/application/application.dart';
 import 'package:flutter_course/pages/music/viewModel/startViewModel.dart';
 import 'package:flutter_course/pages/music/views/Widgets/iconTextRow.dart';
 import 'package:flutter_course/pages/music/views/Widgets/miniPlayerView.dart';
@@ -48,6 +49,7 @@ class _MainTabViewState extends State<MusicApp>
     var media = MediaQuery.sizeOf(context);
 
     var splashVM = Get.find<StartViewModel>();
+    var navigator = Navigator.of(context);
 
     return Scaffold(
       key: splashVM.scaffoldKey,
@@ -117,8 +119,11 @@ class _MainTabViewState extends State<MusicApp>
               ),
               IconTextRow(
                 title: "Ringtone Cutter",
-                icon: "assets/images/m_ring_cut.png",
-                onTap: () {},
+                icon: "assets/images/exit.png",
+                onTap: () {
+                  Get.back();
+                  Get.back(); // haha zai xiang xiang
+                },
               ),
               IconTextRow(
                 title: "Sleep Timer",
