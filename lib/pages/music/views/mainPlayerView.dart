@@ -165,7 +165,7 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const SizedBox(
-                            height: 20,
+                            height: 5,
                           ),
                           Stack(
                             alignment: Alignment.center,
@@ -288,7 +288,7 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                             ],
                           ),
                           const SizedBox(
-                            height: 10,
+                            height: 5,
                           ),
                           ValueListenableBuilder(
                               valueListenable: pageManager.progressNotifier,
@@ -325,7 +325,7 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                                 );
                               }),
                           const SizedBox(
-                            height: 25,
+                            height: 10,
                           ),
                           Text(
                             mediaItem.title,
@@ -336,7 +336,7 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                                 fontWeight: FontWeight.w600),
                           ),
                           const SizedBox(
-                            height: 10,
+                            height: 5,
                           ),
                           Text(
                             "${mediaItem.artist} - ${mediaItem.album} ",
@@ -345,11 +345,11 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                                 color: TColor.secondaryText, fontSize: 12),
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 10,
                           ),
                           Image.asset(
                             "assets/images/eq_display.png",
-                            height: 60,
+                            height: 40,
                             fit: BoxFit.fitHeight,
                           ),
                           const Padding(
@@ -384,16 +384,51 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                               const SizedBox(
                                 width: 15,
                               ),
-                              SizedBox(
-                                width: 60,
-                                height: 60,
-                                child: IconButton(
-                                  onPressed: () {},
-                                  icon: Image.asset(
-                                    "assets/images/play.png",
-                                  ),
-                                ),
-                              ),
+                              ValueListenableBuilder(
+                                  valueListenable:
+                                      pageManager.playButtonNotifier,
+                                  builder: (context, value, child) {
+                                    return SizedBox(
+                                      width: 75,
+                                      height: 75,
+                                      child: Stack(
+                                        children: [
+                                          if (value == ButtonState.loading)
+                                            SizedBox(
+                                              width: 75,
+                                              height: 75,
+                                              child: CircularProgressIndicator(
+                                                valueColor:
+                                                    AlwaysStoppedAnimation<
+                                                            Color>(
+                                                        TColor.primaryText),
+                                              ),
+                                            ),
+                                          SizedBox(
+                                              width: 60,
+                                              height: 60,
+                                              child: value ==
+                                                      ButtonState.playing
+                                                  ? InkWell(
+                                                      onTap: pageManager.pause,
+                                                      child: Image.asset(
+                                                        "assets/images/pause.png",
+                                                        width: 60,
+                                                        height: 60,
+                                                      ),
+                                                    )
+                                                  : InkWell(
+                                                      onTap: pageManager.play,
+                                                      child: Image.asset(
+                                                        "assets/images/play.png",
+                                                        width: 60,
+                                                        height: 60,
+                                                      ),
+                                                    )),
+                                        ],
+                                      ),
+                                    );
+                                  }),
                               const SizedBox(
                                 width: 15,
                               ),
@@ -425,7 +460,13 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                                   title: "Playlist",
                                   icon: "assets/images/playlist.png",
                                   onPressed: () {
-                                    Get.to(() => const PlayPlayListView());
+                                    Navigator.push(
+                                        context,
+                                        PageRouteBuilder(
+                                          opaque: false,
+                                          pageBuilder: (_, __, ___) =>
+                                              const PlayPlayListView(),
+                                        ));
                                   }),
                               PlayerBottomButton(
                                   title: "Shuffle",
