@@ -359,7 +359,7 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                                               ? null
                                               : pageManager.previous,
                                           icon: Icon(
-                                            Icons.fast_rewind,
+                                            Icons.skip_previous,
                                             color: (isFirst)
                                                 ? TColor.primaryText35
                                                 : const Color(0xFF7B92CA),
@@ -399,7 +399,7 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                                                 ? null
                                                 : pageManager.next,
                                             icon: Icon(
-                                              Icons.fast_forward,
+                                              Icons.skip_next,
                                               color: (isLast)
                                                   ? TColor.primaryText35
                                                   : const Color(0xFF7B92CA),

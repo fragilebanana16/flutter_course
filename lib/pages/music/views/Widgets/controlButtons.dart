@@ -37,8 +37,8 @@ class ControlButtons extends StatelessWidget {
                 });
           case 'Play/Pause':
             return SizedBox(
-              width: miniPlayer ? 40 : 70,
-              height: miniPlayer ? 40 : 70,
+              width: miniPlayer ? 50 : 70,
+              height: miniPlayer ? 50 : 70,
               child: ValueListenableBuilder<ButtonState>(
                 valueListenable: pageManager.playButtonNotifier,
                 builder: (context, value, _) {
@@ -61,15 +61,16 @@ class ControlButtons extends StatelessWidget {
                                 ? IconButton(
                                     onPressed: pageManager.pause,
                                     icon: Icon(
-                                      Icons.pause_rounded,
-                                      color: TColor.primaryText,
+                                      Icons.pause_circle_filled_rounded,
+                                      color: TColor.primaryText35,
+                                      size: miniPlayer ? 40 : 50,
                                     ))
                                 : IconButton(
                                     onPressed: pageManager.play,
-                                    icon: Image.asset(
-                                      "assets/images/play.png",
-                                      width: 20,
-                                      height: 20,
+                                    icon: Icon(
+                                      Icons.play_circle,
+                                      color: TColor.primaryText35,
+                                      size: miniPlayer ? 40 : 50,
                                     ),
                                   ))
                       else
@@ -78,16 +79,16 @@ class ControlButtons extends StatelessWidget {
                                 ? IconButton(
                                     onPressed: pageManager.pause,
                                     icon: Icon(
-                                      Icons.pause_rounded,
-                                      color: TColor.primaryText,
-                                      size: 50,
+                                      Icons.pause_circle_filled_rounded,
+                                      color: TColor.primaryText35,
+                                      size: miniPlayer ? 40 : 50,
                                     ))
                                 : IconButton(
                                     onPressed: pageManager.play,
-                                    icon: Image.asset(
-                                      "assets/images/play.png",
-                                      width: 50,
-                                      height: 50,
+                                    icon: Icon(
+                                      Icons.play_circle,
+                                      color: TColor.primaryText35,
+                                      size: miniPlayer ? 40 : 50,
                                     ),
                                   ))
                     ],
@@ -100,13 +101,12 @@ class ControlButtons extends StatelessWidget {
                 valueListenable: pageManager.isLastSongNotifier,
                 builder: (context, isLast, _) {
                   return IconButton(
-                    onPressed: isLast ? null : pageManager.next,
-                    icon: Image.asset(
-                      "assets/images/next_song.png",
-                      width: miniPlayer ? 20 : 50,
-                      height: miniPlayer ? 20 : 50,
-                    ),
-                  );
+                      onPressed: isLast ? null : pageManager.next,
+                      icon: Icon(
+                        Icons.skip_next,
+                        color: TColor.primaryText35,
+                        size: miniPlayer ? 40 : 50,
+                      ));
                 });
           default:
             return Container();

@@ -18,20 +18,54 @@ class _SplashViewState extends State<MusicStartView> {
   void initState() {
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
     super.initState();
-    splashVM.loadView();
+    // splashVM.loadView();
   }
 
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.sizeOf(context);
     return Scaffold(
-      backgroundColor: TColor.bg,
-      body: Center(
-        child: Image.asset(
-          "assets/images/app_logo.png",
-          width: media.width * 0.30,
-        ),
-      ),
-    );
+        backgroundColor: TColor.bg,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 200,
+                height: 50,
+                child: ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.signal_wifi_connected_no_internet_4,
+                    size: 40,
+                  ),
+                  label: const Text(
+                    "Offline",
+                    textScaleFactor: 2,
+                  ),
+                  onPressed: () {},
+                ),
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+              SizedBox(
+                  width: 200,
+                  height: 50,
+                  child: ElevatedButton.icon(
+                    icon: const Icon(
+                      Icons.wifi_tethering,
+                      size: 40,
+                    ),
+                    label: const Text(
+                      "Online",
+                      textScaleFactor: 2,
+                    ),
+                    onPressed: () {
+                      splashVM.loadView();
+                    },
+                  )),
+            ],
+          ),
+        ));
   }
 }

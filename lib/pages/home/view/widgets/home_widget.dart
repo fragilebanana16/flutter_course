@@ -189,12 +189,10 @@ Widget bannerContainer({required String imagePath}) {
 AppBar homeAppBar(WidgetRef ref) {
   var profile = ref.watch(homeUserProfileProvider);
   return AppBar(
-    backgroundColor: TColor.darkGray,
     leading: Container(), // arrow back
     leadingWidth: 0,
 
     title: Container(
-      color: TColor.darkGray,
       margin: EdgeInsets.only(left: 7.w, right: 7.w),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         AppIcon(icon: Icons.menu, size: 20.w),

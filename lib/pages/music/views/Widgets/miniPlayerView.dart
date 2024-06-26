@@ -64,13 +64,15 @@ class _MiniPlaerViewState extends State<MiniPlayerView> {
                       margin: const EdgeInsets.symmetric(
                           horizontal: 2.0, vertical: 1.0),
                       elevation: 0,
-                      color: Colors.white10,
+                      color: TColor.bg,
                       child: SizedBox(
-                        height: 77.0,
+                        height: 70.0,
                         child: ClipRect(
                           child: BackdropFilter(
-                            filter:
-                                ui.ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
+                            filter: ui.ImageFilter.blur(
+                              sigmaX: 40,
+                              sigmaY: 40,
+                            ),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -129,93 +131,88 @@ class _MiniPlaerViewState extends State<MiniPlayerView> {
                                                         }),
                                                   ));
                                     }),
-                                ListTile(
-                                  dense: false,
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        PageRouteBuilder(
-                                          opaque: false,
-                                          pageBuilder: (_, __, ___) =>
-                                              const MainPlayerView(),
-                                        ));
-                                  },
-                                  title: Text(
-                                    mediaItem.title,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  subtitle: Text(
-                                    mediaItem.artist ?? '',
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  leading: Hero(
-                                      tag: 'currentArtWokr',
-                                      child: Card(
-                                        elevation: 0,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                        ),
-                                        clipBehavior: Clip.antiAlias,
-                                        child: SizedBox.square(
-                                          dimension: 40.0,
-                                          child: Stack(
-                                            alignment: Alignment.center,
-                                            children: [
-                                              ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(25),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl: mediaItem.artUri
-                                                        .toString(),
-                                                    fit: BoxFit.cover,
-                                                    errorWidget:
-                                                        (context, url, error) {
-                                                      return Image.asset(
-                                                        "assets/images/ar_2.png",
-                                                        fit: BoxFit.cover,
-                                                      );
-                                                    },
-                                                    placeholder:
-                                                        (context, url) {
-                                                      return Image.asset(
-                                                        "assets/images/ar_2.png",
-                                                        fit: BoxFit.cover,
-                                                      );
-                                                    },
-                                                    width: 40,
-                                                    height: 40,
-                                                  )),
-                                              Container(
-                                                width: 50,
-                                                height: 50,
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color:
-                                                          TColor.primaryText28),
-                                                  borderRadius:
-                                                      BorderRadius.circular(25),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 15,
-                                                height: 15,
-                                                decoration: BoxDecoration(
-                                                  color: TColor.bg,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          7.5),
-                                                ),
-                                              ),
-                                            ],
+                                Container(
+                                  child: ListTile(
+                                    dense: true,
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                            opaque: false,
+                                            pageBuilder: (_, __, ___) =>
+                                                const MainPlayerView(),
+                                          ));
+                                    },
+                                    title: Text(
+                                      mediaItem.title,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    subtitle: Text(
+                                      mediaItem.artist ?? '',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    leading: Hero(
+                                        tag: 'currentArtWokr',
+                                        child: Card(
+                                          elevation: 0,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
                                           ),
-                                        ),
-                                      )),
-                                  trailing: const ControlButtons(
-                                    miniPlayer: true,
-                                    buttons: ['Play/Pause', 'Next'],
+                                          clipBehavior: Clip.antiAlias,
+                                          child: SizedBox.square(
+                                            dimension: 40.0,
+                                            child: Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            25),
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: mediaItem.artUri
+                                                          .toString(),
+                                                      fit: BoxFit.cover,
+                                                      errorWidget: (context,
+                                                          url, error) {
+                                                        return Image.asset(
+                                                          "assets/images/ar_2.png",
+                                                          fit: BoxFit.cover,
+                                                        );
+                                                      },
+                                                      placeholder:
+                                                          (context, url) {
+                                                        return Image.asset(
+                                                          "assets/images/ar_2.png",
+                                                          fit: BoxFit.cover,
+                                                        );
+                                                      },
+                                                      width: 40,
+                                                      height: 40,
+                                                    )),
+                                                //  album outline
+                                                Container(
+                                                  width: 50,
+                                                  height: 50,
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: TColor
+                                                            .primaryText28),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            25),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )),
+                                    trailing: const ControlButtons(
+                                      miniPlayer: true,
+                                      buttons: ['Play/Pause', 'Next'],
+                                    ),
                                   ),
                                 )
                               ],

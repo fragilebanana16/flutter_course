@@ -7,6 +7,6 @@ class AppTheme {
       appBarTheme: const AppBarTheme(
           elevation: 0,
           centerTitle: true,
-          backgroundColor: Colors.white,
+          backgroundColor: Color(0xff181B2C),
           iconTheme: IconThemeData(color: AppColors.primaryText)));
 }

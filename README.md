@@ -22,3 +22,7 @@ https://www.youtube.com/watch?v=_VShCq9b53Y&list=PL3nPgdhXQtHcOCxrusIBlOH8UbwCIP
 3.运行 flutter install
 
 使用app-armeabi-v7a-release.apk
+
+[TODO]
+1、服务端启动后主页不更新页面
+2、离线版音乐播放器

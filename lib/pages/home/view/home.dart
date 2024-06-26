@@ -48,7 +48,6 @@ class _HomeState extends ConsumerState<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: TColor.bg,
         appBar: homeAppBar(ref),
         body: RefreshIndicator(
             child: Padding(
