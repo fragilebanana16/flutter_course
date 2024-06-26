@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:audio_service/audio_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/pages/music/audio_helpers/page_manager.dart';
 import 'package:flutter_course/pages/music/audio_helpers/service_locator.dart';
@@ -34,36 +35,19 @@ class _MainPlayerViewState extends State<MainPlayerView> {
       },
       child: Scaffold(
           appBar: AppBar(
-            backgroundColor: TColor.bg,
+            automaticallyImplyLeading: false,
+            backgroundColor: ChillifyColor.primaryBackground,
             elevation: 0,
-            leading: IconButton(
-              onPressed: () {
-                Get.back();
-              },
-              icon: Image.asset(
-                "assets/images/back.png",
-                width: 25,
-                height: 25,
-                fit: BoxFit.contain,
-              ),
-            ),
-            title: Text(
-              "Now Playing",
-              style: TextStyle(
-                  color: TColor.primaryText80,
-                  fontSize: 17,
-                  fontWeight: FontWeight.w600),
-            ),
             actions: [
               PopupMenuButton<int>(
-                  color: const Color(0xff383B49),
+                  color: ChillifyColor.primaryBackground,
                   offset: const Offset(-10, 15),
                   elevation: 1,
                   icon: Image.asset(
                     "assets/images/more_btn.png",
                     width: 20,
                     height: 20,
-                    color: Colors.white,
+                    color: ChillifyColor.primary,
                   ),
                   padding: EdgeInsets.zero,
                   onSelected: (selectIndex) {
@@ -159,335 +143,385 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 0),
                   child: Container(
-                    color: TColor.bg,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Stack(
-                            alignment: Alignment.center,
+                    color: ChillifyColor.primaryBackground,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Hero(
+                                tag: "currentArtWork",
+                                child: ValueListenableBuilder<MediaItem?>(
+                                  valueListenable:
+                                      pageManager.currentSongNotifier,
+                                  builder: (context, value, child) {
+                                    return ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                            media.width * 0.7),
+                                        child: CachedNetworkImage(
+                                          imageUrl: mediaItem.artUri.toString(),
+                                          fit: BoxFit.cover,
+                                          errorWidget: (context, url, error) {
+                                            return Image.asset(
+                                              "assets/images/ar_2.png",
+                                              fit: BoxFit.cover,
+                                            );
+                                          },
+                                          placeholder: (context, url) {
+                                            return Image.asset(
+                                              "assets/images/ar_2.png",
+                                              fit: BoxFit.cover,
+                                            );
+                                          },
+                                          width: media.width * 0.6,
+                                          height: media.width * 0.6,
+                                        ));
+                                  },
+                                )),
+                            ValueListenableBuilder(
+                                valueListenable: pageManager.progressNotifier,
+                                builder: (context, valueStat, child) {
+                                  double? dragValue;
+                                  bool dragging = false;
+                                  final value = min(
+                                      valueStat.current.inMilliseconds
+                                          .toDouble(),
+                                      valueStat.total.inMilliseconds
+                                          .toDouble());
+
+                                  return SizedBox(
+                                    width: media.width * 0.6,
+                                    height: media.width * 0.6,
+                                    child: SleekCircularSlider(
+                                      appearance: CircularSliderAppearance(
+                                          customWidths: CustomSliderWidths(
+                                              trackWidth: 4,
+                                              progressBarWidth: 6,
+                                              shadowWidth: 8),
+                                          customColors: CustomSliderColors(
+                                              dotColor: ChillifyColor.second,
+                                              trackColor:
+                                                  const Color(0xffffffff)
+                                                      .withOpacity(0.3),
+                                              progressBarColors: [
+                                                ChillifyColor.second,
+                                                ChillifyColor.third
+                                              ],
+                                              shadowColor:
+                                                  ChillifyColor.special,
+                                              shadowMaxOpacity: 0.05),
+                                          infoProperties: InfoProperties(
+                                            topLabelStyle: const TextStyle(
+                                                color: Colors.transparent,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400),
+                                            topLabelText: 'Elapsed',
+                                            bottomLabelStyle: const TextStyle(
+                                                color: Colors.transparent,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400),
+                                            bottomLabelText: 'time',
+                                            mainLabelStyle: const TextStyle(
+                                                color: Colors.transparent,
+                                                fontSize: 50.0,
+                                                fontWeight: FontWeight.w600),
+                                            // modifier: (double value) {
+                                            //   final time = printDuration(Duration(seconds: value.toInt()));
+                                            //   return '$time';
+                                            // }
+                                          ),
+                                          startAngle: 270,
+                                          angleRange: 360,
+                                          size: 350.0),
+                                      min: 0,
+                                      max: max(
+                                          valueStat.current.inMilliseconds
+                                              .toDouble(),
+                                          valueStat.total.inMilliseconds
+                                              .toDouble()),
+                                      initialValue: value,
+                                      onChange: (double value) {
+                                        if (!dragging) {
+                                          dragging = true;
+                                        }
+
+                                        setState(() {
+                                          dragValue = value;
+                                        });
+
+                                        pageManager.seek(Duration(
+                                            milliseconds: value.round()));
+                                      },
+                                      onChangeStart: (double startValue) {
+                                        // callback providing a starting value (when a pan gesture starts)
+                                      },
+                                      onChangeEnd: (double endValue) {
+                                        pageManager.seek(Duration(
+                                            milliseconds: endValue.round()));
+                                      },
+                                    ),
+                                  );
+                                })
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        ValueListenableBuilder(
+                            valueListenable: pageManager.progressNotifier,
+                            builder: (context, valueStat, child) {
+                              return Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$')
+                                            .firstMatch('${valueStat.current}')
+                                            ?.group(1) ??
+                                        '${valueStat.current}',
+                                    style: const TextStyle(
+                                        color: Color(0xFFADB9CD), fontSize: 12),
+                                  ),
+                                  const Text(
+                                    "|",
+                                    style: TextStyle(
+                                        color: Color(0xFFADB9CD), fontSize: 12),
+                                  ),
+                                  Text(
+                                    RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$')
+                                            .firstMatch('${valueStat.total}')
+                                            ?.group(1) ??
+                                        '${valueStat.total}',
+                                    style: const TextStyle(
+                                        color: Color(0xFFADB9CD), fontSize: 12),
+                                  ),
+                                ],
+                              );
+                            }),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          mediaItem.title,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              color: Color(0xFF4D6B9C),
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "${mediaItem.artist} - ${mediaItem.album} ",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              color: Color(0xFFADB9CD), fontSize: 12),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                          width: media.width * 0.6,
+                          height: 75,
+                          // color: Colors.blue,
+                          child: Stack(
                             children: [
-                              Hero(
-                                  tag: "currentArtWork",
-                                  child: ValueListenableBuilder<MediaItem?>(
-                                    valueListenable:
-                                        pageManager.currentSongNotifier,
-                                    builder: (context, value, child) {
-                                      return ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                              media.width * 0.7),
-                                          child: CachedNetworkImage(
-                                            imageUrl:
-                                                mediaItem.artUri.toString(),
-                                            fit: BoxFit.cover,
-                                            errorWidget: (context, url, error) {
-                                              return Image.asset(
-                                                "assets/images/ar_2.png",
-                                                fit: BoxFit.cover,
-                                              );
-                                            },
-                                            placeholder: (context, url) {
-                                              return Image.asset(
-                                                "assets/images/ar_2.png",
-                                                fit: BoxFit.cover,
-                                              );
-                                            },
-                                            width: media.width * 0.6,
-                                            height: media.width * 0.6,
-                                          ));
-                                    },
-                                  )),
-                              ValueListenableBuilder(
-                                  valueListenable: pageManager.progressNotifier,
-                                  builder: (context, valueStat, child) {
-                                    double? dragValue;
-                                    bool dragging = false;
-                                    final value = min(
-                                        valueStat.current.inMilliseconds
-                                            .toDouble(),
-                                        valueStat.total.inMilliseconds
-                                            .toDouble());
-
-                                    return SizedBox(
-                                      width: media.width * 0.6,
-                                      height: media.width * 0.6,
-                                      child: SleekCircularSlider(
-                                        appearance: CircularSliderAppearance(
-                                            customWidths: CustomSliderWidths(
-                                                trackWidth: 4,
-                                                progressBarWidth: 6,
-                                                shadowWidth: 8),
-                                            customColors: CustomSliderColors(
-                                                dotColor:
-                                                    const Color(0xffFFB1B2),
-                                                trackColor:
-                                                    const Color(0xffffffff)
-                                                        .withOpacity(0.3),
-                                                progressBarColors: [
-                                                  const Color(0xffFB9967),
-                                                  const Color(0xffE9585A)
-                                                ],
-                                                shadowColor:
-                                                    const Color(0xffFFB1B2),
-                                                shadowMaxOpacity: 0.05),
-                                            infoProperties: InfoProperties(
-                                              topLabelStyle: const TextStyle(
-                                                  color: Colors.transparent,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400),
-                                              topLabelText: 'Elapsed',
-                                              bottomLabelStyle: const TextStyle(
-                                                  color: Colors.transparent,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400),
-                                              bottomLabelText: 'time',
-                                              mainLabelStyle: const TextStyle(
-                                                  color: Colors.transparent,
-                                                  fontSize: 50.0,
-                                                  fontWeight: FontWeight.w600),
-                                              // modifier: (double value) {
-                                              //   final time = printDuration(Duration(seconds: value.toInt()));
-                                              //   return '$time';
-                                              // }
-                                            ),
-                                            startAngle: 270,
-                                            angleRange: 360,
-                                            size: 350.0),
-                                        min: 0,
-                                        max: max(
-                                            valueStat.current.inMilliseconds
-                                                .toDouble(),
-                                            valueStat.total.inMilliseconds
-                                                .toDouble()),
-                                        initialValue: value,
-                                        onChange: (double value) {
-                                          if (!dragging) {
-                                            dragging = true;
-                                          }
-
-                                          setState(() {
-                                            dragValue = value;
-                                          });
-
-                                          pageManager.seek(Duration(
-                                              milliseconds: value.round()));
-                                        },
-                                        onChangeStart: (double startValue) {
-                                          // callback providing a starting value (when a pan gesture starts)
-                                        },
-                                        onChangeEnd: (double endValue) {
-                                          pageManager.seek(Duration(
-                                              milliseconds: endValue.round()));
-                                        },
-                                      ),
-                                    );
-                                  })
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          ValueListenableBuilder(
-                              valueListenable: pageManager.progressNotifier,
-                              builder: (context, valueStat, child) {
-                                return Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$')
-                                              .firstMatch(
-                                                  '${valueStat.current}')
-                                              ?.group(1) ??
-                                          '${valueStat.current}',
-                                      style: TextStyle(
-                                          color: TColor.secondaryText,
-                                          fontSize: 12),
-                                    ),
-                                    Text(
-                                      "|",
-                                      style: TextStyle(
-                                          color: TColor.secondaryText,
-                                          fontSize: 12),
-                                    ),
-                                    Text(
-                                      RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$')
-                                              .firstMatch('${valueStat.total}')
-                                              ?.group(1) ??
-                                          '${valueStat.total}',
-                                      style: TextStyle(
-                                          color: TColor.secondaryText,
-                                          fontSize: 12),
-                                    ),
-                                  ],
-                                );
-                              }),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            mediaItem.title,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: TColor.primaryText.withOpacity(0.9),
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            "${mediaItem.artist} - ${mediaItem.album} ",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: TColor.secondaryText, fontSize: 12),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Image.asset(
-                            "assets/images/eq_display.png",
-                            height: 40,
-                            fit: BoxFit.fitHeight,
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.all(20),
-                            child: Divider(
-                              color: Colors.white12,
-                              height: 1,
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                              // previous song
                               ValueListenableBuilder(
                                   valueListenable:
                                       pageManager.isFirstSongNotifier,
                                   builder: (context, isFirst, child) {
-                                    return SizedBox(
-                                        width: 45,
-                                        height: 45,
+                                    return Positioned(
+                                      left: 1,
+                                      top: 5,
+                                      child: Container(
+                                        width: 100,
+                                        height: 60,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          color: const Color(0xFFDCE4F4),
+                                          boxShadow: <BoxShadow>[
+                                            BoxShadow(
+                                              color: Colors.black
+                                                  .withOpacity(0.15),
+                                              blurRadius: 20,
+                                              offset: Offset(2, 1.5),
+                                            ),
+                                          ],
+                                        ),
                                         child: IconButton(
                                           onPressed: (isFirst)
                                               ? null
                                               : pageManager.previous,
-                                          icon: Image.asset(
-                                            "assets/images/previous_song.png",
+                                          icon: Icon(
+                                            Icons.fast_rewind,
                                             color: (isFirst)
                                                 ? TColor.primaryText35
-                                                : TColor.primaryText,
+                                                : const Color(0xFF7B92CA),
+                                            size: 40,
                                           ),
-                                        ));
-                                  }),
-                              const SizedBox(
-                                width: 15,
-                              ),
-                              ValueListenableBuilder(
-                                  valueListenable:
-                                      pageManager.playButtonNotifier,
-                                  builder: (context, value, child) {
-                                    return SizedBox(
-                                      width: 75,
-                                      height: 75,
-                                      child: Stack(
-                                        children: [
-                                          if (value == ButtonState.loading)
-                                            SizedBox(
-                                              width: 75,
-                                              height: 75,
-                                              child: CircularProgressIndicator(
-                                                valueColor:
-                                                    AlwaysStoppedAnimation<
-                                                            Color>(
-                                                        TColor.primaryText),
-                                              ),
-                                            ),
-                                          SizedBox(
-                                              width: 60,
-                                              height: 60,
-                                              child: value ==
-                                                      ButtonState.playing
-                                                  ? InkWell(
-                                                      onTap: pageManager.pause,
-                                                      child: Image.asset(
-                                                        "assets/images/pause.png",
-                                                        width: 60,
-                                                        height: 60,
-                                                      ),
-                                                    )
-                                                  : InkWell(
-                                                      onTap: pageManager.play,
-                                                      child: Image.asset(
-                                                        "assets/images/play.png",
-                                                        width: 60,
-                                                        height: 60,
-                                                      ),
-                                                    )),
-                                        ],
+                                        ),
                                       ),
                                     );
                                   }),
-                              const SizedBox(
-                                width: 15,
-                              ),
+
+                              // next song
                               ValueListenableBuilder(
                                   valueListenable:
                                       pageManager.isLastSongNotifier,
                                   builder: (context, isLast, child) {
-                                    return SizedBox(
-                                        width: 45,
-                                        height: 45,
-                                        child: IconButton(
-                                          onPressed: (isLast)
-                                              ? null
-                                              : pageManager.next,
-                                          icon: Image.asset(
-                                            "assets/images/next_song.png",
-                                            color: (isLast)
-                                                ? TColor.primaryText35
-                                                : TColor.primaryText,
+                                    return Positioned(
+                                      right: 1,
+                                      top: 5,
+                                      child: Container(
+                                          width: 100,
+                                          height: 60,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                            color: const Color(0xFFDCE4F4),
+                                            boxShadow: <BoxShadow>[
+                                              BoxShadow(
+                                                color: Colors.black
+                                                    .withOpacity(0.15),
+                                                blurRadius: 20,
+                                                offset: const Offset(2, 1.5),
+                                              ),
+                                            ],
                                           ),
-                                        ));
+                                          child: IconButton(
+                                            onPressed: (isLast)
+                                                ? null
+                                                : pageManager.next,
+                                            icon: Icon(
+                                              Icons.fast_forward,
+                                              color: (isLast)
+                                                  ? TColor.primaryText35
+                                                  : const Color(0xFF7B92CA),
+                                              size: 40,
+                                            ),
+                                          )),
+                                    );
+                                  }),
+                              // play/pause
+                              ValueListenableBuilder(
+                                  valueListenable:
+                                      pageManager.playButtonNotifier,
+                                  builder: (context, value, child) {
+                                    return Positioned(
+                                      left: (media.width * 0.6) / 2 - 75 / 2,
+                                      child: SizedBox(
+                                        width: 75,
+                                        height: 75,
+                                        child: Stack(
+                                          children: [
+                                            if (value == ButtonState.loading)
+                                              SizedBox(
+                                                width: 75,
+                                                height: 75,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  valueColor:
+                                                      AlwaysStoppedAnimation<
+                                                              Color>(
+                                                          TColor.primaryText),
+                                                ),
+                                              ),
+                                            Container(
+                                                width: 100,
+                                                height: 100,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.white,
+                                                  boxShadow: <BoxShadow>[
+                                                    BoxShadow(
+                                                      color: Colors.black
+                                                          .withOpacity(0.15),
+                                                      blurRadius: 30,
+                                                      offset:
+                                                          const Offset(2, 1.5),
+                                                    ),
+                                                  ],
+                                                ),
+                                                child: Center(
+                                                  child: AnimatedCrossFade(
+                                                    duration: const Duration(
+                                                        milliseconds: 200),
+                                                    crossFadeState: value ==
+                                                            ButtonState.playing
+                                                        ? CrossFadeState
+                                                            .showFirst
+                                                        : CrossFadeState
+                                                            .showSecond,
+                                                    firstChild: InkWell(
+                                                        onTap:
+                                                            pageManager.pause,
+                                                        child: const Icon(
+                                                          Icons.pause,
+                                                          size: 50,
+                                                          color:
+                                                              Color(0xFF7B92CA),
+                                                        )),
+                                                    secondChild: InkWell(
+                                                        onTap: pageManager.play,
+                                                        child: const Icon(
+                                                          Icons.play_arrow,
+                                                          size: 50,
+                                                          color:
+                                                              Color(0xFF7B92CA),
+                                                        )),
+                                                  ),
+                                                )),
+                                          ],
+                                        ),
+                                      ),
+                                    );
                                   }),
                             ],
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              PlayerBottomButton(
-                                  title: "Playlist",
-                                  icon: "assets/images/playlist.png",
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        PageRouteBuilder(
-                                          opaque: false,
-                                          pageBuilder: (_, __, ___) =>
-                                              const PlayPlayListView(),
-                                        ));
-                                  }),
-                              PlayerBottomButton(
-                                  title: "Shuffle",
-                                  icon: "assets/images/shuffle.png",
-                                  onPressed: () {}),
-                              PlayerBottomButton(
-                                  title: "Repeat",
-                                  icon: "assets/images/repeat.png",
-                                  onPressed: () {}),
-                              PlayerBottomButton(
-                                  title: "EQ",
-                                  icon: "assets/images/eq.png",
-                                  onPressed: () {}),
-                              PlayerBottomButton(
-                                  title: "Favourites",
-                                  icon: "assets/images/fav.png",
-                                  onPressed: () {}),
-                            ],
-                          ),
-                        ],
-                      ),
+                        ),
+                        SizedBox(
+                          height: 80,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            PlayerBottomButton(
+                                title: "Playlist",
+                                icon: "assets/images/playlist.png",
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      PageRouteBuilder(
+                                        opaque: false,
+                                        pageBuilder: (_, __, ___) =>
+                                            const PlayPlayListView(),
+                                      ));
+                                }),
+                            PlayerBottomButton(
+                                title: "Shuffle",
+                                icon: "assets/images/shuffle.png",
+                                onPressed: () {}),
+                            PlayerBottomButton(
+                                title: "Repeat",
+                                icon: "assets/images/repeat.png",
+                                onPressed: () {}),
+                            PlayerBottomButton(
+                                title: "EQ",
+                                icon: "assets/images/eq.png",
+                                onPressed: () {}),
+                            PlayerBottomButton(
+                                title: "Favourites",
+                                icon: "assets/images/fav.png",
+                                onPressed: () {}),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 );

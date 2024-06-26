@@ -33,6 +33,15 @@ class AppColors {
   static const Color primaryElementBg = Color.fromARGB(255, 238, 121, 99);
 }
 
+class ChillifyColor {
+  static const Color primaryBackground = Color.fromARGB(255, 231, 235, 241);
+
+  static const Color primary = Color(0xFF4D6B9C);
+  static const Color second = Color(0xFFCEE3EE);
+  static const Color third = Color.fromARGB(255, 90, 172, 240);
+  static const Color special = Color(0xffFFB1B2);
+}
+
 // music page colors
 class TColor {
   static Color get primary => const Color(0xffC35BD1);

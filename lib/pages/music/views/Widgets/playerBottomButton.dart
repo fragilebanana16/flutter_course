@@ -27,7 +27,7 @@ class PlayerBottomButton extends StatelessWidget {
                 icon,
                 width: 30,
                 height: 30,
-                color: TColor.primaryText80,
+                color: ChillifyColor.primary,
               ),
             ),
           ),

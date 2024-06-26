@@ -22,19 +22,19 @@ class _HomeState extends ConsumerState<Home> {
   @override
   void initState() {
     super.initState();
-    SystemUiOverlayStyle overlayStyle = SystemUiOverlayStyle.light; // 默认样式
+    // SystemUiOverlayStyle overlayStyle = SystemUiOverlayStyle.light; // 默认样式
 
-    // 使用copyWith修改样式
-    overlayStyle = overlayStyle.copyWith(
-      statusBarColor: TColor.bg, // 修改状态栏颜色
-      systemNavigationBarColor: TColor.bg, // 修改系统导航栏颜色
-    );
+    // // 使用copyWith修改样式
+    // overlayStyle = overlayStyle.copyWith(
+    //   statusBarColor: ChillifyColor.primaryBackground, // 修改状态栏颜色
+    //   systemNavigationBarColor: ChillifyColor.primaryBackground, // 修改系统导航栏颜色
+    // );
 
-    // 应用新的样式
-    SystemChrome.setSystemUIOverlayStyle(overlayStyle);
+    // // 应用新的样式
+    // SystemChrome.setSystemUIOverlayStyle(overlayStyle);
 
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+    //     overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
   }
 
   // int controller whenever provider changes

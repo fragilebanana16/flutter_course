@@ -6,7 +6,7 @@ class StartViewModel extends GetxController {
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
   void loadView() async {
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(milliseconds: 200));
     Get.to(() => const MusicApp());
   }
 
