@@ -10,7 +10,7 @@ class MediaItemConverter {
       album: song['album'].toString(),
       artist: song['artist'].toString(),
       duration: Duration(
-         seconds: int.parse(
+        seconds: int.parse(
           (song['duration'] == null ||
                   song['duration'] == 'null' ||
                   song['duration'] == '')
@@ -39,10 +39,11 @@ String getImageUrl(String? imageUrl, {String quality = 'high'}) {
   if (imageUrl == null) return '';
   switch (quality) {
     case 'high':
-      return imageUrl.trim()
-      .replaceAll("http:", "https:")
-      .replaceAll("50x50", "500x500")
-      .replaceAll("150x150", "500x500");
+      return imageUrl
+          .trim()
+          .replaceAll("http:", "https:")
+          .replaceAll("50x50", "500x500")
+          .replaceAll("150x150", "500x500");
     case 'medium':
       return imageUrl
           .trim()

@@ -35,14 +35,14 @@ class _AllSongsViewState extends State<AllSongsView> {
                   // Get.to(() => const MainPlayerView());
                   playerPlayProcessDebounce(
                       allVM.allList
-                          .map((sObj) => {
-                                'image': sObj["image"].toString(),
-                                'name': sObj["name"].toString(),
-                                'artists': sObj["artists"].toString(),
-                                'url': sObj["url"].toString(),
-                                'title': sObj["title"].toString(),
-                                'artist': sObj["artist"].toString(),
-                                'id': sObj["id"].toString(),
+                          .map((item) => {
+                                'image': item["image"].toString(),
+                                'name': item["name"].toString(),
+                                'artists': item["artists"].toString(),
+                                'url': item["url"].toString(),
+                                'title': item["title"].toString(),
+                                'artist': item["artist"].toString(),
+                                'id': item["id"].toString(),
                               })
                           .toList(),
                       index);

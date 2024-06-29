@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/pages/music/viewModel/startViewModel.dart';
 import 'package:flutter_course/pages/music/views/albumsView.dart';
+import 'package:flutter_course/pages/music/views/allLocalSongsView.dart';
 import 'package:flutter_course/pages/music/views/allSongsView.dart';
 import 'package:flutter_course/pages/music/views/artistsView.dart';
 import 'package:flutter_course/pages/music/views/genresView.dart';
@@ -24,7 +25,7 @@ class _SongsViewState extends State<SongsView>
   void initState() {
     // TODO: implement initState
     super.initState();
-    controller = TabController(length: 5, vsync: this);
+    controller = TabController(length: 6, vsync: this);
     controller?.addListener(() {
       selectTab = controller?.index ?? 0;
       setState(() {});
@@ -96,6 +97,9 @@ class _SongsViewState extends State<SongsView>
                       text: "All Songs",
                     ),
                     Tab(
+                      text: "Local Songs",
+                    ),
+                    Tab(
                       text: "Playlists",
                     ),
                     Tab(
@@ -115,6 +119,7 @@ class _SongsViewState extends State<SongsView>
                 controller: controller,
                 children: const [
                   AllSongsView(),
+                  AllLocalSongsView(),
                   PlaylistsView(),
                   AlbumsView(),
                   ArtistsView(),

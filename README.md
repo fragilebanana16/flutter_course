@@ -26,3 +26,4 @@ https://www.youtube.com/watch?v=_VShCq9b53Y&list=PL3nPgdhXQtHcOCxrusIBlOH8UbwCIP
 [TODO]
 1、服务端启动后主页不更新页面
 2、离线版音乐播放器
+3、filepicker读本地音频路径播放，增加本地页签，自动加入队列
