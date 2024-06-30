@@ -59,6 +59,10 @@ dependencies:
   cached_network_image: 3.2.3
   on_audio_query: ^2.9.0
   permission_handler: ^11.0.1
+  carousel_slider: 4.0.0
+  filesize: 2.0.1
+  percent_indicator: 3.0.1
+  url_launcher: 6.0.10
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -87,8 +91,14 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/
+    - assets/images/raster/
+    - assets/images/vector/
     - assets/icons/
-
+  # File Manage
+  fonts:
+    - family:  CustomIcons
+      fonts:
+      - asset: assets/icons/fonts/CustomIcons.ttf
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course/common/routes/app_routes_names.dart';
 import 'package:flutter_course/global.dart';
 import 'package:flutter_course/pages/application/application.dart';
+import 'package:flutter_course/pages/fileManage/dashboard/index/views/screens/dashboard_screen.dart';
 import 'package:flutter_course/pages/home/view/home.dart';
 import 'package:flutter_course/pages/signin/sign_in.dart';
 import 'package:flutter_course/pages/register/register.dart';
@@ -18,6 +19,8 @@ class AppPages {
       RouteEntity(path: AppRoutesNames.APPLICATION, page: const Application()),
       RouteEntity(path: AppRoutesNames.HOME, page: const Home()),
       RouteEntity(path: AppRoutesNames.VIDEO_DETAIL, page: const VideoDetail()),
+      RouteEntity(
+          path: AppRoutesNames.FILE_DASHBOARD, page: const DashboardScreen()),
     ];
   }
 

@@ -4,6 +4,7 @@ import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/common/widgets/image_widget.dart';
 import 'package:flutter_course/pages/chat/views/chatStartScreen.dart';
 import 'package:flutter_course/pages/chat/views/homescreen.dart';
+import 'package:flutter_course/pages/fileManage/file_splash_view.dart';
 import 'package:flutter_course/pages/home/view/home.dart';
 import 'package:flutter_course/pages/music/views/musicAppTab.dart';
 import 'package:flutter_course/pages/music/views/musicStartView.dart';
@@ -33,7 +34,7 @@ var bottomTabs = <BottomNavigationBarItem>[
           child: _bottomContainer(
               icon: Icons.music_note, color: AppColors.primaryElement)),
       backgroundColor: AppColors.primaryBackground,
-      label: "Search"),
+      label: "Music"),
   BottomNavigationBarItem(
       icon: Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
@@ -43,7 +44,18 @@ var bottomTabs = <BottomNavigationBarItem>[
           child: _bottomContainer(
               icon: Icons.chat, color: AppColors.primaryElement)),
       backgroundColor: AppColors.primaryBackground,
-      label: "Chat")
+      label: "Chat"),
+  BottomNavigationBarItem(
+      icon: Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child:
+              _bottomContainer(icon: Icons.file_copy, color: TColor.lightGray)),
+      activeIcon: Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: _bottomContainer(
+              icon: Icons.chat, color: AppColors.primaryElement)),
+      backgroundColor: AppColors.primaryBackground,
+      label: "File")
 ];
 
 Widget _bottomContainer(
@@ -62,7 +74,8 @@ Widget appScreens({int index = 0}) {
     // Center(
     //   child: AppIcon(icon: Icons.wallet, size: 200),
     // ),
-    ChatStartScreen()
+    ChatStartScreen(),
+    FileSplashScreen()
   ];
 
   return screens[index];

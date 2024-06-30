@@ -169,6 +169,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
+  carousel_slider:
+    dependency: "direct main"
+    description:
+      name: carousel_slider
+      sha256: "5a1c1dd80ce7cbd69752fb283635b67b934528c87a031ac91646c0a9ba767705"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.0"
   characters:
     dependency: transitive
     description:
@@ -385,6 +393,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.9.3+1"
+  filesize:
+    dependency: "direct main"
+    description:
+      name: filesize
+      sha256: f53df1f27ff60e466eefcd9df239e02d4722d5e2debee92a87dfd99ac66de2af
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   fixnum:
     dependency: transitive
     description:
@@ -872,6 +888,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.1"
+  percent_indicator:
+    dependency: "direct main"
+    description:
+      name: percent_indicator
+      sha256: bb8ae7bee5487373222773320669dd4cf2172ba70a42e2a2f591a70fede3d77c
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   permission_handler:
     dependency: "direct main"
     description:
@@ -1221,6 +1245,54 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.2"
+  url_launcher:
+    dependency: "direct main"
+    description:
+      name: url_launcher
+      sha256: "39bc8e8eac3c79303c08daf0f0a433993ea02c3e5c42b032d1bb2851848bbe7b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.10"
+  url_launcher_linux:
+    dependency: transitive
+    description:
+      name: url_launcher_linux
+      sha256: ae3c5ce30a1ba0a69c3f8803b23450703cf915575ad591857df98d9c15c11018
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.3"
+  url_launcher_macos:
+    dependency: transitive
+    description:
+      name: url_launcher_macos
+      sha256: "8fd9ae3ab5e0f96cea7dd66c4ea65e39e3477067f4997c1ec8225d553e8bb8ea"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.3"
+  url_launcher_platform_interface:
+    dependency: transitive
+    description:
+      name: url_launcher_platform_interface
+      sha256: "552f8a1e663569be95a8190206a38187b531910283c3e982193e4f2733f01029"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.2"
+  url_launcher_web:
+    dependency: transitive
+    description:
+      name: url_launcher_web
+      sha256: "7fd2f55fe86cea2897b963e864dc01a7eb0719ecc65fcef4c1cc3d686d718bb2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
+  url_launcher_windows:
+    dependency: transitive
+    description:
+      name: url_launcher_windows
+      sha256: "4e24aac2a2960fb9a70a07992e1ba69cb99fbcee48fdf17abe280ce867bfcea2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   uuid:
     dependency: transitive
     description:
