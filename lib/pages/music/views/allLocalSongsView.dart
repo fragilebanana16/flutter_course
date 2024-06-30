@@ -31,20 +31,21 @@ class _AllSongsViewState extends State<AllLocalSongsView> {
     Permission.storage.request();
   }
 
-  List<Map<String, String?>> CreateListVM(
+  List<Map<String, Object?>> CreateListVM(
       AsyncSnapshot<List<SongModel>> item, int index) {
     var sObj = item.data![index];
-    return [
-      {
-        'image': "assets/images/s1.png",
-        'name': sObj.displayNameWOExt,
-        'artists': sObj.artist,
-        'url': sObj.uri,
-        'title': sObj.displayNameWOExt,
-        'artist': sObj.artist,
-        'id': '1',
-      }
-    ];
+
+    return item.data!
+        .map((elem) => {
+              'image': "assets/images/s1.png",
+              'name': elem.displayNameWOExt,
+              'artists': elem.artist,
+              'url': elem.uri,
+              'title': elem.displayNameWOExt,
+              'artist': elem.artist,
+              'id': elem.id,
+            })
+        .toList();
   }
 
   @override

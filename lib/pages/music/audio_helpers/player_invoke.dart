@@ -48,7 +48,7 @@ class PlayerInvoke {
     final List<MediaItem> queue = [];
     final Map playItem = arr[index] as Map;
     final Map? nextItem =
-        index == arr.length - 1 ? null : arr[index + 1] as Map;
+        index == arr.length - 1 ? null : arr[index + 1] as Map?;
 
     queue.addAll(
       arr.map(
