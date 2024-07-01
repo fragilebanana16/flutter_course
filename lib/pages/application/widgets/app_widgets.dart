@@ -8,6 +8,7 @@ import 'package:flutter_course/pages/fileManage/file_splash_view.dart';
 import 'package:flutter_course/pages/home/view/home.dart';
 import 'package:flutter_course/pages/music/views/musicAppTab.dart';
 import 'package:flutter_course/pages/music/views/musicStartView.dart';
+import 'package:flutter_course/pages/toolBox/views/toolboxHomeView.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 var bottomTabs = <BottomNavigationBarItem>[
@@ -55,7 +56,18 @@ var bottomTabs = <BottomNavigationBarItem>[
           child: _bottomContainer(
               icon: Icons.chat, color: AppColors.primaryElement)),
       backgroundColor: AppColors.primaryBackground,
-      label: "File")
+      label: "File"),
+  BottomNavigationBarItem(
+      icon: Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: _bottomContainer(
+              icon: Icons.home_repair_service, color: TColor.lightGray)),
+      activeIcon: Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: _bottomContainer(
+              icon: Icons.chat, color: AppColors.primaryElement)),
+      backgroundColor: AppColors.primaryBackground,
+      label: "Toolbox")
 ];
 
 Widget _bottomContainer(
@@ -75,7 +87,8 @@ Widget appScreens({int index = 0}) {
     //   child: AppIcon(icon: Icons.wallet, size: 200),
     // ),
     ChatStartScreen(),
-    FileSplashScreen()
+    FileSplashScreen(),
+    ToolBoxHomeView()
   ];
 
   return screens[index];

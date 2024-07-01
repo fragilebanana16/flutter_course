@@ -38,7 +38,7 @@ class Application extends ConsumerWidget {
                       .changeIndex(value);
                 },
                 elevation: 0,
-                items: bottomTabs,
+                items: bottomTabs, // main home bottom tab
                 unselectedItemColor: TColor.lightGray,
                 selectedFontSize: 10,
                 unselectedFontSize: 10,
