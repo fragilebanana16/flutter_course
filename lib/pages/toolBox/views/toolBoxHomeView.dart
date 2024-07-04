@@ -3,21 +3,24 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/common/widgets/search_bar.dart';
+import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
-final List<String> names = [
-  "Guitar Tuner",
-  "Todo List",
-  "RGB Convertor",
-  "Guitar Chords",
-  "Recorded Music Chords",
-  "3D stuff",
-  "Medical Kit",
-  "Fix Stuff",
-  "Charts",
-  "Favorite",
-  "My Tech Stack"
-];
+final Map<String, VoidCallback?> pages = {
+  "Contact Backup": () => Get.to(() => ContactBackup()),
+  "Guitar Tuner": () => {},
+  "Todo List": () => {},
+  "RGB Convertor": () => {},
+  "Guitar Chords": () => {},
+  "Recorded Music Chords": () => {},
+  "3D stuff": () => {},
+  "Medical Kit": () => {},
+  "Fix Stuff": () => {},
+  "Charts": () => {},
+  "Favorite": () => {},
+  "My Tech Stack": () => {},
+};
 
 class ToolBoxHomeView extends StatelessWidget {
   const ToolBoxHomeView({Key? key}) : super(key: key);
@@ -83,14 +86,14 @@ class ToolBoxHomeView extends StatelessWidget {
                   ],
                 ),
                 child: ListView.separated(
-                  itemCount: names.length,
+                  itemCount: pages.length,
                   padding: EdgeInsets.zero,
                   physics: const BouncingScrollPhysics(
                       parent: AlwaysScrollableScrollPhysics()),
-                  itemBuilder: (c, i) {
+                  itemBuilder: (c, index) {
                     return _ListItem(
-                      name: names[i],
-                    );
+                        name: pages.keys.elementAt(index),
+                        callback: pages[pages.keys.elementAt(index)]);
                   },
                   separatorBuilder: (c, i) {
                     return SizedBox(height: 24.h);
@@ -107,85 +110,89 @@ class ToolBoxHomeView extends StatelessWidget {
 
 class _ListItem extends StatelessWidget {
   final String name;
-  const _ListItem({required this.name});
+  final VoidCallback? callback;
+
+  const _ListItem({required this.name, required this.callback});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 340.w,
-      height: 60.h,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8.r),
-            child: Container(
-                width: 60.h,
-                height: 60.h,
-                color: Color.fromRGBO(
-                  Random().nextInt(256),
-                  Random().nextInt(256),
-                  Random().nextInt(256),
-                  1,
-                )),
-          ),
-          SizedBox(width: 14.w),
-          Expanded(
-            child: SizedBox(
-              height: 60.h,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+    return InkWell(
+        onTap: callback,
+        child: SizedBox(
+          width: 340.w,
+          height: 60.h,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8.r),
+                child: Container(
+                    width: 60.h,
+                    height: 60.h,
+                    color: Color.fromRGBO(
+                      Random().nextInt(256),
+                      Random().nextInt(256),
+                      Random().nextInt(256),
+                      1,
+                    )),
+              ),
+              SizedBox(width: 14.w),
+              Expanded(
+                child: SizedBox(
+                  height: 60.h,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Expanded(
-                        child: Text(
-                          name,
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            color: Colors.black,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.w600,
-                            height: 1,
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              name,
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                color: Colors.black,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w600,
+                                height: 1,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
+                          SizedBox(width: 8),
+                          Text(
+                            "14:23",
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: const Color(0xffA8A8A8),
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.w400,
+                              height: 1,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                      3.verticalSpace,
+                      Flexible(
+                        child: Text(
+                          "Lorem Ipsum",
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      SizedBox(width: 8),
-                      Text(
-                        "14:23",
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          color: const Color(0xffA8A8A8),
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w400,
-                          height: 1,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
                     ],
                   ),
-                  3.verticalSpace,
-                  Flexible(
-                    child: Text(
-                      "Lorem Ipsum",
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-    );
+                ),
+              )
+            ],
+          ),
+        ));
   }
 }
 
@@ -210,7 +217,7 @@ class _RecentlyUsed extends StatelessWidget {
             physics: const BouncingScrollPhysics(
                 parent: AlwaysScrollableScrollPhysics()),
             scrollDirection: Axis.horizontal,
-            itemCount: names.length,
+            itemCount: pages.length,
             itemBuilder: (c, i) {
               return SizedBox(
                 width: 59.r,

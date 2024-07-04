@@ -13,6 +13,9 @@ xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
+    <!-- for contacts_service -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />  
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
 
     <application
         android:label="flutter_course"

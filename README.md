@@ -30,3 +30,6 @@ https://www.youtube.com/watch?v=_VShCq9b53Y&list=PL3nPgdhXQtHcOCxrusIBlOH8UbwCIP
 
 [BUG]
 1、chat页面多次选择角色后退出再次点击需多次不确定次数点击才能进入
+
+[NOTES]
+contacts_service: ^0.6.3问题flutter doctor --android-licenses
