@@ -29,5 +29,14 @@ class AllSongsViewModel extends GetxController {
       "title": "Win",
       "artist": "ARMA2"
     },
+    {
+      "id": "3",
+      "image": "assets/images/s3.png",
+      "name": "yueguang",
+      "artists": "Daughtry",
+      "url": "http://192.168.0.107:8000/music/4.mp3",
+      "title": "Win",
+      "artist": "ARMA2"
+    },
   ].obs;
 }

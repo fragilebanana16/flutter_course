@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/common/widgets/search_bar.dart';
 import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup.dart';
+import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup/views/contact_main_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 final Map<String, VoidCallback?> pages = {
   "Contact Backup": () => Get.to(() => ContactBackup()),
+  "Contact Backup 2.0": () => Get.to(() => ContactImExportView()),
   "Guitar Tuner": () => {},
   "Todo List": () => {},
   "RGB Convertor": () => {},
