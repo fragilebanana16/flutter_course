@@ -3,14 +3,18 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/common/widgets/search_bar.dart';
-import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup.dart';
-import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup/views/contact_main_page.dart';
+import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup_feature/views/contact_main_page.dart';
+import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup_feature_ui_test/contact_backup_step.dart';
+import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup_list/contact_backup.dart';
+import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_crud/contact_crud_main.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 final Map<String, VoidCallback?> pages = {
   "Contact Backup": () => Get.to(() => ContactBackup()),
   "Contact Backup 2.0": () => Get.to(() => ContactImExportView()),
+  "Contact Backup UI test": () => Get.to(() => ContactBackupStep()),
+  "Contact Crud": () => Get.to(() => ContactCrudMain()),
   "Guitar Tuner": () => {},
   "Todo List": () => {},
   "RGB Convertor": () => {},

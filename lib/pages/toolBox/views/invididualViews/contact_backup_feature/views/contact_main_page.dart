@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart'
     show PlatformFile, FilePicker, FileType;
 import 'package:contacts_service/contacts_service.dart' show ContactsService;
-import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup/services/export_helper.dart';
-import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup/util/contact_constants.dart';
-import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup/views/Import_from_excel.dart';
+import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup_feature/services/export_helper.dart';
+import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup_feature/util/contact_constants.dart';
+import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup_feature/views/Import_from_excel.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class ContactImExportView extends StatefulWidget {

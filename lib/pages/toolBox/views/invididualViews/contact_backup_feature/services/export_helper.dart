@@ -8,8 +8,8 @@ import 'package:external_path/external_path.dart' show ExternalPath;
 //FOR EXCEL
 import 'package:excel/excel.dart'
     show CellIndex, CellValue, Data, Excel, TextCellValue;
-import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup/services/contact_export_helper.dart';
-import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup/services/pdf_helper.dart';
+import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup_feature/services/contact_export_helper.dart';
+import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup_feature/services/pdf_helper.dart';
 
 //FOR PDF
 import 'package:pdf/pdf.dart' show PdfColors;
