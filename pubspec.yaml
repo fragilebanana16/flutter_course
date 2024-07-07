@@ -73,6 +73,7 @@ dependencies:
   excel: 4.0.2
   blurry_modal_progress_hud: 1.0.3
   external_path: ^1.0.3
+  flutter_blue_plus: ^1.32.8
 dev_dependencies:
   flutter_test:
     sdk: flutter

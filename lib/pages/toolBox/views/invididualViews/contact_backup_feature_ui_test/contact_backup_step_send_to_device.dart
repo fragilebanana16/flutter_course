@@ -1,23 +1,20 @@
-import 'dart:io';
-
-import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_course/common/utils/tip_prompt.dart';
 import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup_feature/views/contact_main_page.dart';
 import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup_feature_ui_test/blue_tooth/scan_screen.dart';
+import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup_feature_ui_test/contact_backup_step_bluetooth_scan.dart';
 import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup_feature_ui_test/contact_backup_step_choose_format.dart';
 import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup_feature_ui_test/contact_step_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class ContactBackupStep extends StatefulWidget {
-  const ContactBackupStep({super.key});
+class ContactBackupStepSendDevice extends StatefulWidget {
+  const ContactBackupStepSendDevice({super.key});
 
   @override
-  State<ContactBackupStep> createState() => _ContactBackupStepState();
+  State<ContactBackupStepSendDevice> createState() => _ContactBackupStepState();
 }
 
-class _ContactBackupStepState extends State<ContactBackupStep> {
+class _ContactBackupStepState extends State<ContactBackupStepSendDevice> {
   String choosen = '1';
   @override
   Widget build(BuildContext context) {
@@ -32,7 +29,7 @@ class _ContactBackupStepState extends State<ContactBackupStep> {
           color: const Color(0xff24A148),
           backgroundColor: const Color(0xffD0D0D0),
           minHeight: 7,
-          value: 0.3,
+          value: 1.0,
           borderRadius: BorderRadius.circular(20.r),
         ),
       ),
@@ -46,7 +43,7 @@ class _ContactBackupStepState extends State<ContactBackupStep> {
           // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '联系人导入导出',
+              '发送至',
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 28.sp,
@@ -55,7 +52,7 @@ class _ContactBackupStepState extends State<ContactBackupStep> {
             ),
             14.verticalSpace,
             Text(
-              '导出支持csv, excel, pdf,导入支持excel',
+              '蓝牙设备,服务端',
               style: TextStyle(
                 fontSize: 14.sp,
                 color: Color(0xffA8A8A8),
@@ -66,8 +63,8 @@ class _ContactBackupStepState extends State<ContactBackupStep> {
               key: const Key('option_1'),
               isChosen: choosen == '1',
               value: '1',
-              title: '导出',
-              subTitle: '导出联系人',
+              title: '蓝牙',
+              subTitle: '通过蓝牙传输联系人',
               icon: Icons.send_to_mobile,
               onChoosen: (String value) {
                 setState(() {
@@ -80,8 +77,8 @@ class _ContactBackupStepState extends State<ContactBackupStep> {
               key: const Key('option_2'),
               isChosen: choosen == '2',
               value: '2',
-              title: '导入',
-              subTitle: '操作会覆盖已有联系人',
+              title: '服务端',
+              subTitle: '上传至服务器保存',
               icon: Icons.install_mobile,
               onChoosen: (String value) {
                 setState(() {
@@ -93,9 +90,9 @@ class _ContactBackupStepState extends State<ContactBackupStep> {
             StepCard(
               key: const Key('option_3'),
               isChosen: choosen == '3',
-              value: '2',
-              title: '发送',
-              subTitle: '发送给其他设备',
+              value: '3',
+              title: '仅保存',
+              subTitle: '查看本地文件',
               icon: Icons.install_mobile,
               onChoosen: (String value) {
                 setState(() {
@@ -107,21 +104,13 @@ class _ContactBackupStepState extends State<ContactBackupStep> {
         ),
       ),
       bottomSheet: InkWell(
-        onTap: () async {
-          // [todo] if file exists, prompt to override, or backup it
-
+        onTap: () => {
           switch (choosen) {
-            // import
-            case '1':
-              Get.to(() => const ContactBackupStepChooseFormat());
-            //export
-            case '2':
-              Get.to(() => ContactImExportView());
-            //send device
-            case '3':
-              Get.to(() => ScanScreen());
-            case String():
-              null;
+            // Bluetooth
+            '1' => Get.to(() => const ScanScreen()),
+            // file upload
+            // '2' => Get.to(() => ContactImExportView()),
+            String() => null,
           }
         },
         child: Container(
@@ -139,7 +128,7 @@ class _ContactBackupStepState extends State<ContactBackupStep> {
             ),
             alignment: Alignment.center,
             child: Text(
-              '继续',
+              '确认',
               style: TextStyle(
                 fontSize: 16.sp,
                 color: Colors.white,
