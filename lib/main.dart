@@ -64,7 +64,6 @@ class _MyAppState extends State<MyApp> {
         initialRoute: "/",
         // routes: routesMap,
         onGenerateRoute: AppPages.generateRouteSettings,
-
         // home: child, // can not use with initialRoute
       ),
     );
