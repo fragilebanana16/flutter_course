@@ -7,10 +7,12 @@ import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backu
 import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup_feature_ui_test/contact_backup_step.dart';
 import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup_list/contact_backup.dart';
 import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_crud/contact_crud_main.dart';
+import 'package:flutter_course/pages/toolBox/views/invididualViews/file_share/file_share_main.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 final Map<String, VoidCallback?> pages = {
+  "File Share": () => {Get.to(() => const FileShareMain())},
   "Contact Backup": () => Get.to(() => const ContactBackup()),
   "Contact Backup 2.0": () => Get.to(() => const ContactImExportView()),
   "Contact Backup UI test": () => Get.to(() => const ContactBackupStep()),

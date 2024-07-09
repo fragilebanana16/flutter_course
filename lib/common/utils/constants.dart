@@ -4,6 +4,7 @@ class AppConstants {
   static const String LOGGED_IN = "logged_in";
   static const String USER_PROFILE = "profile";
   static const String USER_TOKEN = "user_token";
+  static const String INIT_FILE_APP = "isInitedFileApp";
 }
 
 class ImageRes {
