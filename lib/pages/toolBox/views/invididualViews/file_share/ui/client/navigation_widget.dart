@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course/pages/toolBox/views/invididualViews/file_share/config/constants.dart';
 import 'package:flutter_course/pages/toolBox/views/invididualViews/file_share/config/styles.dart';
 import 'package:flutter_course/pages/toolBox/views/invididualViews/file_share/entity/connection_status.dart';
+import 'package:go_router/go_router.dart';
 
 class NavigationWidgets extends StatefulWidget {
   final ConnectionStatus connectionStatus;
@@ -51,6 +52,6 @@ class _NavigationWidgetsState extends State<NavigationWidgets> {
 
   void _onClickSend() {
     if (widget.connectionStatus != ConnectionStatus.connected) return;
-    Navigator.of(context).pushNamed(mSendPath);
+    context.pushNamed(mSendPath);
   }
 }

@@ -41,6 +41,7 @@ class ApiService {
       newList.add(await http.MultipartFile.fromPath('files', file.path));
     }
     request.files.addAll(newList);
+
     try {
       final response = await request.send();
       final resStr = await response.stream.bytesToString();

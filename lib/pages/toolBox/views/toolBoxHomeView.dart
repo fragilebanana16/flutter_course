@@ -8,17 +8,18 @@ import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backu
 import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_backup_list/contact_backup.dart';
 import 'package:flutter_course/pages/toolBox/views/invididualViews/contact_crud/contact_crud_main.dart';
 import 'package:flutter_course/pages/toolBox/views/invididualViews/file_share/file_share_main.dart';
+import 'package:flutter_course/pages/toolBox/views/invididualViews/todo_list/todo_list_main.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 final Map<String, VoidCallback?> pages = {
+  "Todo List": () => {Get.to(() => const TodoListMain())},
   "File Share": () => {Get.to(() => const FileShareMain())},
   "Contact Backup": () => Get.to(() => const ContactBackup()),
   "Contact Backup 2.0": () => Get.to(() => const ContactImExportView()),
   "Contact Backup UI test": () => Get.to(() => const ContactBackupStep()),
   "Contact Crud": () => Get.to(() => ContactCrudMain()),
   "Guitar Tuner": () => {},
-  "Todo List": () => {},
   "RGB Convertor": () => {},
   "HSV Picker": () => {Get.to(() => const ColorPickerView())},
   "Guitar Chords": () => {},
