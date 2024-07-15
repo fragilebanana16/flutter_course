@@ -1,9 +1,47 @@
+import 'package:dartz/dartz_unsafe.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
+import 'package:flutter_course/pages/toolBox/views/invididualViews/todo_list/model/todoItem.dart';
+import 'package:flutter_course/pages/toolBox/views/invididualViews/todo_list/repo/todoListRepo.dart';
 import 'package:flutter_course/pages/toolBox/views/invididualViews/todo_list/todo_home.dart';
 
 class TodoModal {
   List<String> subTasks = <String>['Call the restaurant ', 'Ask for the date '];
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  onAddTaskTap(TextEditingController titleEditingController) async {
+    // TodoListRepo.whereIsMyDb();
+    print(titleEditingController.value.text);
+    final title = titleController.value.text;
+    // final description = descriptionController.value.text;
+    if (title.isEmpty) {
+      return;
+    }
+
+    List<TodoItem>? todoList = await TodoListRepo.getAllNotes();
+    if (todoList != null) {
+      for (var i = 0; i < todoList!.length; i++) {
+        print(todoList[i].title);
+      }
+    }
+    print('after');
+    final TodoItem model = TodoItem(
+      title: title,
+      description: 'dddd',
+    );
+    await TodoListRepo.addNote(model);
+    todoList = await TodoListRepo.getAllNotes();
+    if (todoList != null) {
+      for (var i = 0; i < todoList!.length; i++) {
+        print(todoList[i].title);
+      }
+    }
+    // Navigator.pushReplacement(
+    //   context,
+    //   MaterialPageRoute(
+    //       builder: (context) => TodoHome()),
+    // );
+  }
 
   mainBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -82,7 +120,7 @@ class TodoModal {
                           Container(
                             width: MediaQuery.of(context).size.width / 1.2,
                             child: TextFormField(
-                              initialValue: 'Book a table for dinner ',
+                              controller: titleController,
                               autofocus: true,
                               style: const TextStyle(
                                   fontSize: 22, fontStyle: FontStyle.normal),
@@ -298,13 +336,16 @@ class TodoModal {
                           const SizedBox(height: 25),
                           ElevatedButton(
                             onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => TodoHome()),
-                              );
-                              // Navigator.pop(context);
+                              onAddTaskTap(titleController);
                             },
+                            //() {
+                            // Navigator.pushReplacement(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //       builder: (context) => TodoHome()),
+                            // );
+                            // Navigator.pop(context);
+                            //},
                             // textColor: Colors.white,
                             // padding: const EdgeInsets.all(0.0),
                             // shape: RoundedRectangleBorder(

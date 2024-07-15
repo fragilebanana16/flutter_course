@@ -19,70 +19,70 @@ class TodoHome extends StatefulWidget {
 List<TodoItem> generateFakeData() {
   List<TodoItem> todos = [];
   todos.add(TodoItem(
-    dueDate: DateTime.now().add(const Duration(days: 7)),
     title: "Flutter完整功能呈现",
     description: "掌握布局、路由、状态等",
-    expectedCompletionDate: DateTime.now(),
-    completionDate: DateTime.now().add(const Duration(days: 12)),
-    priority: 1,
-    editCount: 2,
-    completed: true,
+    // dueDate: DateTime.now().add(const Duration(days: 7)),
+    // expectedCompletionDate: DateTime.now(),
+    // completionDate: DateTime.now().add(const Duration(days: 12)),
+    // priority: 1,
+    // editCount: 2,
+    // completed: true,
   ));
 
   todos.add(TodoItem(
-    dueDate: DateTime.now().add(const Duration(days: 7)),
     title: "多少看本书",
     description: '多久没看',
-    expectedCompletionDate: DateTime.now(),
-    completionDate: DateTime.now().add(const Duration(days: 12)),
-    priority: 1,
-    editCount: 2,
-    completed: false,
+    // dueDate: DateTime.now().add(const Duration(days: 7)),
+    // expectedCompletionDate: DateTime.now(),
+    // completionDate: DateTime.now().add(const Duration(days: 12)),
+    // priority: 1,
+    // editCount: 2,
+    // completed: false,
   ));
 
   todos.add(TodoItem(
-    dueDate: DateTime.now().add(const Duration(days: 7)),
     title: "Uniapp找到方向",
     description: '多为电商、问诊等商业用途应用，很难激发兴趣',
-    expectedCompletionDate: DateTime.now(),
-    completionDate: DateTime.now().add(const Duration(days: 12)),
-    priority: 0,
-    completed: false,
-    editCount: 2,
+    // dueDate: DateTime.now().add(const Duration(days: 7)),
+    // expectedCompletionDate: DateTime.now(),
+    // completionDate: DateTime.now().add(const Duration(days: 12)),
+    // priority: 0,
+    // completed: false,
+    // editCount: 2,
   ));
 
   todos.add(TodoItem(
-    dueDate: DateTime.now().add(const Duration(days: 7)),
     title: "到底有谁知道",
     description: '是几点钟方向',
-    expectedCompletionDate: DateTime.now().add(const Duration(days: -1)),
-    completionDate: DateTime.now().add(const Duration(days: 12)),
-    priority: 2,
-    completed: false,
-    editCount: 2,
+    // dueDate: DateTime.now().add(const Duration(days: 7)),
+    // expectedCompletionDate: DateTime.now().add(const Duration(days: -1)),
+    // completionDate: DateTime.now().add(const Duration(days: 12)),
+    // priority: 2,
+    // completed: false,
+    // editCount: 2,
   ));
 
   todos.add(TodoItem(
-    dueDate: DateTime.now().add(const Duration(days: 7)),
     title: "密码管理工具",
     description: '默认***，验证后可打开',
-    expectedCompletionDate: DateTime.now().add(const Duration(days: -2)),
-    completionDate: DateTime.now().add(const Duration(days: 12)),
-    priority: 2,
-    completed: false,
-    editCount: 3,
+    // dueDate: DateTime.now().add(const Duration(days: 7)),
+    // expectedCompletionDate: DateTime.now().add(const Duration(days: -2)),
+    // completionDate: DateTime.now().add(const Duration(days: 12)),
+    // priority: 2,
+    // completed: false,
+    // editCount: 3,
   ));
 
 // long long ago
   todos.add(TodoItem(
-    dueDate: DateTime.now().add(const Duration(days: 7)),
     title: "Job seek u mf",
     description: 'do it now',
-    expectedCompletionDate: DateTime.now().add(const Duration(days: -20)),
-    completionDate: DateTime.now().add(const Duration(days: 12)),
-    priority: 2,
-    completed: false,
-    editCount: 3,
+    // dueDate: DateTime.now().add(const Duration(days: 7)),
+    // expectedCompletionDate: DateTime.now().add(const Duration(days: -20)),
+    // completionDate: DateTime.now().add(const Duration(days: 12)),
+    // priority: 2,
+    // completed: false,
+    // editCount: 3,
   ));
   return todos;
 }
@@ -172,7 +172,8 @@ class _HomeState extends State<TodoHome> {
                         gradient: LinearGradient(
                           stops: const [0.015, 0.015],
                           colors: [
-                            switch (todoItem.priority) {
+                            switch (1) {
+                              // todoItem.priority
                               0 => TodoListCustomColors.GreenIcon,
                               1 => TodoListCustomColors.YellowIcon,
                               2 => TodoListCustomColors.PurpleIcon,
@@ -196,12 +197,12 @@ class _HomeState extends State<TodoHome> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          todoItem.completed
+                          true // todoItem.completed
                               ? Image.asset('assets/images/checked.png')
                               : Image.asset('assets/images/checked-empty.png'),
                           Text(
-                            DateFormat('yyyy-MM-dd')
-                                .format(todoItem.expectedCompletionDate),
+                            DateFormat('yyyy-MM-dd').format(DateTime
+                                .now()), // todoItem.expectedCompletionDate
                             style: const TextStyle(
                                 color: TodoListCustomColors.TextGrey),
                           ),
