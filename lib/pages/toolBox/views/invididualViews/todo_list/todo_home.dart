@@ -21,68 +21,62 @@ List<TodoItem> generateFakeData() {
   todos.add(TodoItem(
     title: "Flutter完整功能呈现",
     description: "掌握布局、路由、状态等",
-    // dueDate: DateTime.now().add(const Duration(days: 7)),
-    // expectedCompletionDate: DateTime.now(),
-    // completionDate: DateTime.now().add(const Duration(days: 12)),
-    // priority: 1,
-    // editCount: 2,
-    // completed: true,
+    expectedCompletionDate: DateTime.now(),
+    completionDate: DateTime.now().add(const Duration(days: 12)),
+    priority: 1,
+    completed: true,
+    createdDate: DateTime.now().add(const Duration(days: 3)),
   ));
 
   todos.add(TodoItem(
     title: "多少看本书",
     description: '多久没看',
-    // dueDate: DateTime.now().add(const Duration(days: 7)),
-    // expectedCompletionDate: DateTime.now(),
-    // completionDate: DateTime.now().add(const Duration(days: 12)),
-    // priority: 1,
-    // editCount: 2,
-    // completed: false,
+    expectedCompletionDate: DateTime.now(),
+    completionDate: DateTime.now().add(const Duration(days: 12)),
+    priority: 1,
+    completed: false,
+    createdDate: DateTime.now().add(const Duration(days: 4)),
   ));
 
   todos.add(TodoItem(
     title: "Uniapp找到方向",
     description: '多为电商、问诊等商业用途应用，很难激发兴趣',
-    // dueDate: DateTime.now().add(const Duration(days: 7)),
-    // expectedCompletionDate: DateTime.now(),
-    // completionDate: DateTime.now().add(const Duration(days: 12)),
-    // priority: 0,
-    // completed: false,
-    // editCount: 2,
+    expectedCompletionDate: DateTime.now(),
+    completionDate: DateTime.now().add(const Duration(days: 12)),
+    priority: 0,
+    completed: false,
+    createdDate: DateTime.now().add(const Duration(days: 5)),
   ));
 
   todos.add(TodoItem(
     title: "到底有谁知道",
     description: '是几点钟方向',
-    // dueDate: DateTime.now().add(const Duration(days: 7)),
-    // expectedCompletionDate: DateTime.now().add(const Duration(days: -1)),
-    // completionDate: DateTime.now().add(const Duration(days: 12)),
-    // priority: 2,
-    // completed: false,
-    // editCount: 2,
+    expectedCompletionDate: DateTime.now().add(const Duration(days: -1)),
+    completionDate: DateTime.now().add(const Duration(days: 12)),
+    priority: 2,
+    completed: false,
+    createdDate: DateTime.now().add(const Duration(days: 1)),
   ));
 
   todos.add(TodoItem(
     title: "密码管理工具",
     description: '默认***，验证后可打开',
-    // dueDate: DateTime.now().add(const Duration(days: 7)),
-    // expectedCompletionDate: DateTime.now().add(const Duration(days: -2)),
-    // completionDate: DateTime.now().add(const Duration(days: 12)),
-    // priority: 2,
-    // completed: false,
-    // editCount: 3,
+    expectedCompletionDate: DateTime.now().add(const Duration(days: -2)),
+    completionDate: DateTime.now().add(const Duration(days: 12)),
+    priority: 2,
+    completed: false,
+    createdDate: DateTime.now().add(const Duration(days: 2)),
   ));
 
 // long long ago
   todos.add(TodoItem(
     title: "Job seek u mf",
     description: 'do it now',
-    // dueDate: DateTime.now().add(const Duration(days: 7)),
-    // expectedCompletionDate: DateTime.now().add(const Duration(days: -20)),
-    // completionDate: DateTime.now().add(const Duration(days: 12)),
-    // priority: 2,
-    // completed: false,
-    // editCount: 3,
+    expectedCompletionDate: DateTime.now().add(const Duration(days: -20)),
+    completionDate: DateTime.now().add(const Duration(days: 12)),
+    priority: 2,
+    completed: false,
+    createdDate: DateTime.now().add(const Duration(days: 33)),
   ));
   return todos;
 }
@@ -143,7 +137,8 @@ class _HomeState extends State<TodoHome> {
                               color: Colors.white,
                             ),
                           ),
-                          onTap: () => modal.mainBottomSheet(context),
+                          onTap: () =>
+                              modal.mainBottomSheet(context, false, todoItem),
                         ),
                       ),
                       SizedBox(

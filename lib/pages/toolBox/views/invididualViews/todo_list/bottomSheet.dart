@@ -4,13 +4,17 @@ import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/pages/toolBox/views/invididualViews/todo_list/model/todoItem.dart';
 import 'package:flutter_course/pages/toolBox/views/invididualViews/todo_list/repo/todoListRepo.dart';
 import 'package:flutter_course/pages/toolBox/views/invididualViews/todo_list/todo_home.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class TodoModal {
   List<String> subTasks = <String>['Call the restaurant ', 'Ask for the date '];
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   DateTime selectedDate = DateTime.now();
-  DateTime selectedCompleteDate = DateTime.now();
+  DateTime selectedExpectedCompleteDate = DateTime.now();
+
+  bool pinned = false;
   List<String> piorityOptions = <String>['高', '中', '低', '择日', '撞日'];
   List<Color> piorityColor = <Color>[
     TodoListCustomColors.PurpleIcon,
@@ -22,46 +26,92 @@ class TodoModal {
 
   int selectedPiority = 0;
 
-  onAddTaskTap(TextEditingController titleEditingController) async {
+  List<TodoItem> fakeTodos = [
+    TodoItem(
+      title: "Flutter完整功能呈现",
+      description: "掌握布局、路由、状态等",
+      completed: true,
+      createdDate: DateTime.now(),
+      expectedCompletionDate: DateTime.now().add(const Duration(days: 1)),
+      completionDate: DateTime.now().add(const Duration(days: 12)),
+      priority: 1,
+    ),
+    TodoItem(
+      title: "123123123123",
+      description: "44545445",
+      completed: false,
+      createdDate: DateTime.now(),
+      expectedCompletionDate: DateTime.now().add(const Duration(days: 2)),
+      completionDate: DateTime.now().add(const Duration(days: 34)),
+      priority: 2,
+    )
+  ];
+
+  onAddTaskTap(BuildContext context) async {
     // TodoListRepo.whereIsMyDb();
-    print(titleEditingController.value.text);
     final title = titleController.value.text;
-    // final description = descriptionController.value.text;
+    final description = descriptionController.value.text;
     if (title.isEmpty) {
       return;
     }
 
-    List<TodoItem>? todoList = await TodoListRepo.getAllNotes();
-    if (todoList != null) {
-      for (var i = 0; i < todoList!.length; i++) {
-        print(todoList[i].title);
-      }
-    }
-    print('after');
-    final TodoItem model = TodoItem(
-      title: title,
-      description: 'dddd',
-    );
-    await TodoListRepo.addNote(model);
-    todoList = await TodoListRepo.getAllNotes();
-    if (todoList != null) {
-      for (var i = 0; i < todoList!.length; i++) {
-        print(todoList[i].title);
-      }
-    }
-    // Navigator.pushReplacement(
-    //   context,
-    //   MaterialPageRoute(
-    //       builder: (context) => TodoHome()),
+    final TodoItem todoModel = TodoItem(
+        title: title,
+        description: description,
+        expectedCompletionDate: selectedExpectedCompleteDate,
+        createdDate: selectedDate,
+        completionDate: selectedExpectedCompleteDate,
+        pinned: pinned);
+
+    print(todoModel.toJson());
+    // List<TodoItem>? todoList = await TodoListRepo.getAllNotes();
+    // if (todoList != null) {
+    //   for (var i = 0; i < todoList!.length; i++) {
+    //     print(todoList[i].title);
+    //   }
+    // }
+    // print('after');
+    // final TodoItem model = TodoItem(
+    //   title: title,
+    //   description: 'dddd',
+    //   expectedCompletionDate: DateTime.now(),
+    //   createdDate: DateTime.now(),
     // );
+    // await TodoListRepo.addNote(model);
+    // todoList = await TodoListRepo.getAllNotes();
+    // if (todoList != null) {
+    //   for (var i = 0; i < todoList!.length; i++) {
+    //     print(todoList[i].title);
+    //   }
+    // }
+
+    Get.to(() => TodoHome());
   }
 
-  mainBottomSheet(BuildContext context) {
+  mainBottomSheet(BuildContext context, bool isAdd, [TodoItem? todoItem]) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (BuildContext context) {
+        if (todoItem != null) {
+          selectedPiority = todoItem.priority;
+          selectedDate = todoItem.createdDate;
+          selectedExpectedCompleteDate = todoItem.expectedCompletionDate;
+          pinned = todoItem.pinned;
+          titleController.text = todoItem.title;
+          descriptionController.text =
+              todoItem.description == null ? '' : todoItem.description!;
+        } else {
+          selectedPiority = fakeTodos[0].priority;
+          selectedDate = fakeTodos[0].createdDate;
+          selectedExpectedCompleteDate = fakeTodos[0].expectedCompletionDate;
+          pinned = fakeTodos[0].pinned;
+          titleController.text = fakeTodos[0].title;
+          descriptionController.text =
+              fakeTodos[0].description == null ? '' : fakeTodos[0].description!;
+        }
+
         return Container(
           height: MediaQuery.of(context).size.height - 80,
           padding:
@@ -83,21 +133,52 @@ class TodoModal {
                   ),
                 ),
               ),
-              Positioned(
-                top: MediaQuery.of(context).size.height / 25 + 20,
-                right: 30,
-                child: RotationTransition(
-                  turns: const AlwaysStoppedAnimation(15 / 360),
-                  child: Container(
-                    height: 100,
-                    width: 100,
-                    decoration: const BoxDecoration(
-                      color: Colors.red,
-                    ),
-                    child: Text("已完成"),
-                  ),
-                ),
-              ),
+              todoItem?.completed == true
+                  ? Positioned(
+                      top: MediaQuery.of(context).size.height / 25 + 20,
+                      right: 30,
+                      child: RotationTransition(
+                        turns: const AlwaysStoppedAnimation(15 / 360),
+                        child: Container(
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Colors.red.shade400, width: 5),
+                            borderRadius: BorderRadius.circular(50),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey.withOpacity(0.1),
+                                  spreadRadius: 3,
+                                  blurRadius: 3,
+                                  offset: const Offset(0, 1))
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                'Finished',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.red.shade400,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                DateFormat('yyyy-MM-dd')
+                                    .format(fakeTodos[0].completionDate!),
+                                style: const TextStyle(
+                                    fontSize: 12, color: Colors.black),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
               Positioned(
                 top: MediaQuery.of(context).size.height / 2 - 340,
                 child: Column(
@@ -236,46 +317,30 @@ class TodoModal {
                             children: [
                               StatefulBuilder(
                                   builder: (context, setStateBottomSheet) {
-                                return InkWell(
-                                    onTap: () async {
-                                      final DateTime? picked =
-                                          await showDatePicker(
-                                              context: context,
-                                              initialDate: selectedDate,
-                                              firstDate: DateTime(2015, 8),
-                                              lastDate: DateTime(2101));
-                                      if (picked != null &&
-                                          picked != selectedDate) {
-                                        setStateBottomSheet(() {
-                                          selectedDate = picked;
-                                        });
-                                      }
-                                    },
-                                    child: Column(
-                                      children: [
-                                        const Text(
-                                          '日期设定',
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(fontSize: 12),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        SizedBox(
-                                          child: Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "${selectedDate.toLocal()}"
-                                                    .split(' ')[0],
-                                                textAlign: TextAlign.left,
-                                                style: const TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                              ),
-                                            ],
+                                return Column(
+                                  children: [
+                                    const Text(
+                                      '创建日期',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    SizedBox(
+                                      child: Row(
+                                        children: <Widget>[
+                                          Text(
+                                            "${selectedDate.toLocal()}"
+                                                .split(' ')[0],
+                                            textAlign: TextAlign.left,
+                                            style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w600),
                                           ),
-                                        )
-                                      ],
-                                    ));
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                );
                               }),
                               const SizedBox(
                                 width: 100,
@@ -287,13 +352,15 @@ class TodoModal {
                                       final DateTime? picked =
                                           await showDatePicker(
                                               context: context,
-                                              initialDate: selectedCompleteDate,
+                                              initialDate:
+                                                  selectedExpectedCompleteDate,
                                               firstDate: DateTime(2015, 8),
                                               lastDate: DateTime(2101));
                                       if (picked != null &&
-                                          picked != selectedCompleteDate) {
+                                          picked !=
+                                              selectedExpectedCompleteDate) {
                                         setStateBottomSheet(() {
-                                          selectedCompleteDate = picked;
+                                          selectedExpectedCompleteDate = picked;
                                         });
                                       }
                                     },
@@ -309,7 +376,7 @@ class TodoModal {
                                           child: Row(
                                             children: <Widget>[
                                               Text(
-                                                "${selectedCompleteDate.toLocal()}"
+                                                "${selectedExpectedCompleteDate.toLocal()}"
                                                     .split(' ')[0],
                                                 textAlign: TextAlign.left,
                                                 style: const TextStyle(
@@ -335,6 +402,9 @@ class TodoModal {
                                 child: Scrollbar(
                                   thickness: 0,
                                   child: TextFormField(
+                                    initialValue: todoItem?.description != null
+                                        ? todoItem!.description
+                                        : '',
                                     decoration: const InputDecoration(
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -349,7 +419,7 @@ class TodoModal {
                         const SizedBox(height: 25),
                         ElevatedButton(
                           onPressed: () {
-                            onAddTaskTap(titleController);
+                            onAddTaskTap(context);
                           },
                           style: ButtonStyle(
                             padding: MaterialStateProperty.all(EdgeInsets.zero),
@@ -381,10 +451,10 @@ class TodoModal {
                                 ),
                               ],
                             ),
-                            child: const Center(
+                            child: Center(
                               child: Text(
-                                '添加',
-                                style: TextStyle(
+                                isAdd ? 'Add' : 'Update',
+                                style: const TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.w500),
                               ),
                             ),
@@ -394,10 +464,10 @@ class TodoModal {
                         Row(
                           children: [
                             Switch(
-                              value: true, //当前状态
+                              value: pinned, //当前状态
                               onChanged: (value) {},
                             ),
-                            Text('Done')
+                            const Text('Pinned')
                           ],
                         ),
                       ],

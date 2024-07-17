@@ -7,7 +7,7 @@ FloatingActionButton customFab(context) {
 
   return FloatingActionButton(
     onPressed: () {
-      modal.mainBottomSheet(context);
+      modal.mainBottomSheet(context, true);
     },
     elevation: 5,
     backgroundColor: Colors.transparent,
