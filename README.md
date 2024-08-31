@@ -1,5 +1,5 @@
-# flutter_course
-https://www.youtube.com/watch?v=_VShCq9b53Y&list=PL3nPgdhXQtHcOCxrusIBlOH8UbwCIP_Qk
+# flutter_home_manager
+
 
 ## Getting Started
 
