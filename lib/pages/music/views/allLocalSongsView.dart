@@ -11,15 +11,15 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class AllLocalSongsView extends StatefulWidget {
-  const AllLocalSongsView({super.key});
-
+  final bool shouldAutoPlay;
+  const AllLocalSongsView({super.key, this.shouldAutoPlay = false});
   @override
   State<AllLocalSongsView> createState() => _AllSongsViewState();
 }
 
 class _AllSongsViewState extends State<AllLocalSongsView> {
   final _audioQuery = new OnAudioQuery();
-
+  bool _hasAutoPlayed = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -29,23 +29,6 @@ class _AllSongsViewState extends State<AllLocalSongsView> {
 
   void requestPermission() {
     Permission.storage.request();
-  }
-
-  List<Map<String, Object?>> CreateListVM(
-      AsyncSnapshot<List<SongModel>> item, int index) {
-    var sObj = item.data![index];
-
-    return item.data!
-        .map((elem) => {
-              'image': "assets/images/s1.png",
-              'name': elem.displayNameWOExt,
-              'artists': elem.artist,
-              'url': elem.uri,
-              'title': elem.displayNameWOExt,
-              'artist': elem.artist,
-              'id': elem.id,
-            })
-        .toList();
   }
 
   @override
@@ -71,6 +54,17 @@ class _AllSongsViewState extends State<AllLocalSongsView> {
                     return Text("No Songs Found...");
                   }
 
+                  // ✅ 自动播放逻辑（只执行一次）
+                  final songs = item.data!;
+                  if (widget.shouldAutoPlay && !_hasAutoPlayed) {
+                    _hasAutoPlayed = true;
+                    final randomIndex = (songs.length > 1)
+                        ? (DateTime.now().millisecondsSinceEpoch % songs.length)
+                        : 0;
+                    final vm = CreateListVM(item, randomIndex);
+                    Future.microtask(
+                        () => playerPlayProcessDebounce(vm, randomIndex));
+                  }
                   return ListView.builder(
                       padding: const EdgeInsets.all(20),
                       itemCount: item.data!.length,

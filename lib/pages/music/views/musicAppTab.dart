@@ -24,6 +24,7 @@ class _MainTabViewState extends State<MusicApp>
     with SingleTickerProviderStateMixin {
   TabController? controller;
   int selectTab = 0;
+  late bool _shouldAutoPlay;
 
   @override
   void initState() {
@@ -35,6 +36,12 @@ class _MainTabViewState extends State<MusicApp>
       selectTab = controller?.index ?? 0;
       setState(() {});
     });
+
+    final args = Get.arguments as Map<String, dynamic>?;
+    _shouldAutoPlay = args?['fromButtonRoll'] == true;
+    if (_shouldAutoPlay) {
+      controller?.animateTo(1); // to songs
+    }
   }
 
   @override
@@ -157,9 +164,9 @@ class _MainTabViewState extends State<MusicApp>
         children: [
           TabBarView(
             controller: controller,
-            children: const [
+            children: [
               MusicHomeView(),
-              SongsView(),
+              SongsView(shouldAutoPlay: _shouldAutoPlay),
               SettingsView(),
             ],
           ),

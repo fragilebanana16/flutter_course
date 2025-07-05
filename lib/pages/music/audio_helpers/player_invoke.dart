@@ -5,6 +5,10 @@ import 'package:audio_service/audio_service.dart';
 import 'package:flutter_course/pages/music/audio_helpers/mediaitem_converter.dart';
 import 'package:flutter_course/pages/music/audio_helpers/page_manager.dart';
 import 'package:flutter_course/pages/music/audio_helpers/service_locator.dart';
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 DateTime playerTapTime = DateTime.now();
 bool get isProcessForPlay {
@@ -12,6 +16,23 @@ bool get isProcessForPlay {
 }
 
 Timer? debounce;
+
+List<Map<String, Object?>> CreateListVM(
+    AsyncSnapshot<List<SongModel>> item, int index) {
+  var sObj = item.data![index];
+
+  return item.data!
+      .map((elem) => {
+            'image': "assets/images/s1.png",
+            'name': elem.displayNameWOExt,
+            'artists': elem.artist,
+            'url': elem.uri,
+            'title': elem.displayNameWOExt,
+            'artist': elem.artist,
+            'id': elem.id,
+          })
+      .toList();
+}
 
 void playerPlayProcessDebounce(List songsList, int index) {
   debounce?.cancel();

@@ -12,18 +12,18 @@ import 'package:flutter_course/pages/toolBox/views/toolboxHomeView.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 var bottomTabs = <BottomNavigationBarItem>[
-  BottomNavigationBarItem(
-      icon: Padding(
-        padding: const EdgeInsets.only(bottom: 8.0),
-        child: _bottomContainer(icon: Icons.home, color: TColor.lightGray),
-      ),
-      activeIcon: Padding(
-        padding: const EdgeInsets.only(bottom: 8.0),
-        child:
-            _bottomContainer(icon: Icons.home, color: AppColors.primaryElement),
-      ),
-      backgroundColor: AppColors.primaryBackground,
-      label: "Home"),
+  // BottomNavigationBarItem(
+  //     icon: Padding(
+  //       padding: const EdgeInsets.only(bottom: 8.0),
+  //       child: _bottomContainer(icon: Icons.home, color: TColor.lightGray),
+  //     ),
+  //     activeIcon: Padding(
+  //       padding: const EdgeInsets.only(bottom: 8.0),
+  //       child:
+  //           _bottomContainer(icon: Icons.home, color: AppColors.primaryElement),
+  //     ),
+  //     backgroundColor: AppColors.primaryBackground,
+  //     label: "Home"),
   BottomNavigationBarItem(
       icon: Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
@@ -81,7 +81,7 @@ Widget _bottomContainer(
 
 Widget appScreens({int index = 0}) {
   List<Widget> screens = [
-    const Home(),
+    // const Home(),
     const MusicStartView(),
     // Center(
     //   child: AppIcon(icon: Icons.wallet, size: 200),

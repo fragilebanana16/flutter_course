@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:flutter/services.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 Future<AudioHandler> initAudioService() async {
   return await AudioService.init(
@@ -129,7 +132,7 @@ class MyAudioHandler extends BaseAudioHandler implements AudioPlayerHandler {
 
   @override
   Future<void> addQueueItems(List<MediaItem> mediaItems) async {
-    final audioSource = createAudioSources(mediaItems);
+    final audioSource = await createAudioSources(mediaItems);
     await playlist.addAll(audioSource);
     final newQueue = queue.value..addAll(mediaItems);
     queue.add(newQueue);
@@ -146,7 +149,7 @@ class MyAudioHandler extends BaseAudioHandler implements AudioPlayerHandler {
   @override
   Future<void> updateQueue(List<MediaItem> queue) async {
     await playlist.clear();
-    await playlist.addAll(createAudioSources(queue));
+    await playlist.addAll(await createAudioSources(queue));
   }
 
   UriAudioSource createAudioSource(MediaItem mediaItem) {
@@ -154,11 +157,39 @@ class MyAudioHandler extends BaseAudioHandler implements AudioPlayerHandler {
         tag: mediaItem);
   }
 
-  List<UriAudioSource> createAudioSources(List<MediaItem> mediaItems) {
-    return mediaItems
-        .map((item) => AudioSource.uri(Uri.parse(item.extras!['url'] as String),
-            tag: item))
-        .toList();
+  Future<Uri> getLocalArtUriFromAsset(String assetPath, String fileName) async {
+    final byteData = await rootBundle.load(assetPath);
+    final file = File('${(await getTemporaryDirectory()).path}/$fileName');
+    await file.writeAsBytes(byteData.buffer.asUint8List());
+    return Uri.file(file.path);
+  }
+
+  Future<List<AudioSource>> createAudioSources(
+      List<MediaItem> mediaItems) async {
+    List<AudioSource> sources = [];
+
+    for (int i = 0; i < mediaItems.length; i++) {
+      final item = mediaItems[i];
+
+      // 获取本地封面图路径（你可以根据 item.id 或 index 命名）
+      final localArtUri = await getLocalArtUriFromAsset(
+        'assets/images/ar_d_1.png',
+        'cover_$i.png',
+      );
+
+      // 构造新的 MediaItem，替换 artUri，保留其他字段
+      final updatedItem = item.copyWith(artUri: localArtUri);
+
+      // 构造 AudioSource
+      final source = AudioSource.uri(
+        Uri.parse(item.extras!['url'] as String),
+        tag: updatedItem,
+      );
+
+      sources.add(source);
+    }
+
+    return sources;
   }
 
   @override
@@ -194,12 +225,12 @@ class MyAudioHandler extends BaseAudioHandler implements AudioPlayerHandler {
 
   @override
   Future<void> skipToNext() async {
-     player.seekToNext();
+    player.seekToNext();
   }
 
   @override
   Future<void> skipToPrevious() async {
-     player.seekToPrevious();
+    player.seekToPrevious();
   }
 
   @override
@@ -230,7 +261,7 @@ class MyAudioHandler extends BaseAudioHandler implements AudioPlayerHandler {
 
   @override
   Future customAction(String name, [Map<String, dynamic>? extras]) async {
-    if(name == 'dispose') {
+    if (name == 'dispose') {
       await player.dispose();
       super.stop();
     }
@@ -239,7 +270,8 @@ class MyAudioHandler extends BaseAudioHandler implements AudioPlayerHandler {
   @override
   Future<void> stop() async {
     await player.stop();
-    playbackState.add( playbackState.value.copyWith(processingState: AudioProcessingState.idle) );
+    playbackState.add(playbackState.value
+        .copyWith(processingState: AudioProcessingState.idle));
     return super.stop();
   }
 
@@ -261,7 +293,7 @@ class MyAudioHandler extends BaseAudioHandler implements AudioPlayerHandler {
 
     var getCount = queue.value.length;
     await playlist.removeRange(0, getCount);
-    final audioSource = createAudioSources(mediaItems);
+    final audioSource = await createAudioSources(mediaItems);
     await playlist.addAll(audioSource);
     final newQueue = queue.value..addAll(mediaItems);
     queue.add(newQueue);

@@ -1,4 +1,5 @@
-# flutter_home_manager
+# flutter\_home\_manager
+
 
 
 ## Getting Started
@@ -9,27 +10,42 @@
 2.Route使用push组件注入的方式进行切换页面
 
 ## 构建
+
 说明：https://flutter.cn/docs/deployment/android
 
+
+
+## 运行
+
+flutter run
+
+修改了 Dart 文件（比如 UI、逻辑），
+
+热重载：在终端中按下 r（小写），保留状态
+
+热重启：在终端中按下	R（大写），重启 app，清除状态，重新构建
+
 ## 快速构建：
+
 使用如下命令：
-1.cd [project]。
-2.flutter build apk --split-per-abi.
+1.cd \[project]。
+2.flutter build apk --split-per-abi
 
 设备安装 APK 文件
 1.用 USB 线将 Android 设备连接到电脑上；
-2.输入命令 cd [project]；
+2.输入命令 cd \[project]；
 3.运行 flutter install
 
 使用app-armeabi-v7a-release.apk
 
-[TODO]
+\[TODO]
 1、服务端启动后主页不更新页面
 2、离线版音乐播放器
 3、filepicker读本地音频路径播放，增加本地页签，自动加入队列
 
-[BUG]
+\[BUG]
 1、chat页面多次选择角色后退出再次点击需多次不确定次数点击才能进入
 
-[NOTES]
-contacts_service: ^0.6.3问题flutter doctor --android-licenses
+\[NOTES]
+contacts\_service: ^0.6.3问题flutter doctor --android-licenses
+

@@ -7,7 +7,7 @@ class StartViewModel extends GetxController {
 
   void loadView() async {
     await Future.delayed(const Duration(milliseconds: 200));
-    Get.to(() => const MusicApp());
+    Get.to(() => const MusicApp(), arguments: {'fromButtonRoll': true});
   }
 
   void openDrawer() {

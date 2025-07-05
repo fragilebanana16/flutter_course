@@ -10,7 +10,9 @@ import 'package:flutter_course/pages/music/views/playListsView.dart';
 import 'package:get/get.dart';
 
 class SongsView extends StatefulWidget {
-  const SongsView({super.key});
+  final bool shouldAutoPlay;
+
+  const SongsView({super.key, this.shouldAutoPlay = false});
 
   @override
   State<SongsView> createState() => _SongsViewState();
@@ -20,7 +22,6 @@ class _SongsViewState extends State<SongsView>
     with SingleTickerProviderStateMixin {
   TabController? controller;
   int selectTab = 0;
-
   @override
   void initState() {
     // TODO: implement initState
@@ -30,6 +31,10 @@ class _SongsViewState extends State<SongsView>
       selectTab = controller?.index ?? 0;
       setState(() {});
     });
+
+    if (widget.shouldAutoPlay) {
+      controller?.animateTo(1); // to local songs
+    }
   }
 
   @override
@@ -117,9 +122,9 @@ class _SongsViewState extends State<SongsView>
               Expanded(
                   child: TabBarView(
                 controller: controller,
-                children: const [
+                children: [
                   AllSongsView(),
-                  AllLocalSongsView(),
+                  AllLocalSongsView(shouldAutoPlay: widget.shouldAutoPlay),
                   PlaylistsView(),
                   AlbumsView(),
                   ArtistsView(),
