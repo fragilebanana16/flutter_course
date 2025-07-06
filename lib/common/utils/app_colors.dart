@@ -67,6 +67,9 @@ class TColor {
   static Color get bg => const Color(0xff181B2C);
   static Color get darkGray => const Color(0xff383B49);
   static Color get lightGray => const Color(0xffD0D1D4);
+  static Color get lightWhite => const Color(0xFFE0E0E0);
+  static Color get lightblue => const Color(0xFF50A0FF); // 极光蓝
+  static Color get lightGreen => const Color(0xFF44F3AA); // 极光蓝
 }
 
 extension HexColor on Color {

@@ -75,6 +75,7 @@ dependencies:
   external_path: ^1.0.3
   flutter_blue_plus: ^1.32.8
   flutter_colorpicker: ^1.1.0
+  fl_chart: ^0.60.0
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   dartz: ^0.10.1
@@ -128,8 +129,10 @@ flutter:
     - assets/images/
     - assets/images/raster/
     - assets/images/vector/
+    - assets/images/poem/
     - assets/icons/
     - assets/fonts/
+    - assets/texts/poems.json
   # File Manage
   fonts:
     - family:  CustomIcons

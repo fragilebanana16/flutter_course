@@ -31,12 +31,9 @@
 2.Route使用push组件注入的方式进行切换页面
 
 ## 构建
-<<<<<<< HEAD
 
 说明：https://flutter.cn/docs/deployment/android
-=======
-https://flutter.cn/docs/deployment/android
->>>>>>> c40ee1b3404251ce6eb79830df275964bbd96123
+
 
 
 
@@ -74,3 +71,16 @@ flutter run
 \[NOTES]
 contacts\_service: ^0.6.3问题flutter doctor --android-licenses
 
+镜像命令行设置
+$env:PUB_HOSTED_URL="https://pub.flutter-io.cn"
+$env:FLUTTER_STORAGE_BASE_URL="https://storage.flutter-io.cn"
+
+生成apk
+flutter build apk --release --target-platform android-arm64
+usb链接安装
+adb install build/app/outputs/flutter-apk/app-release.apk
+
+
+后端启动
+cd D:\Softwares\GitProjects\flutter_course\server
+npm run start 不需要密码，登录后才能进界面

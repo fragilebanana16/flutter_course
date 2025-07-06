@@ -1,43 +1,121 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_course/common/utils/app_colors.dart';
-import 'package:flutter_course/pages/music/viewModel/startViewModel.dart';
 import 'package:get/get.dart';
 import 'package:pedometer/pedometer.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:intl/intl.dart';
 
 class StepViewModel extends GetxController {
   final steps = 0.obs;
   final status = '未知'.obs;
   final distanceKm = 0.0.obs;
+  final durationSeconds = 0.obs;
+  final currentTime = ''.obs;
+  Timer? _timer;
+  bool _hasStarted = false;
 
-  void startTracking() {
-    Pedometer.stepCountStream.listen((event) {
-      print("stepCountStream");
-      steps.value = event.steps;
-      distanceKm.value = (event.steps * 0.75) / 1000;
-    });
+  Future<bool> startTracking() async {
+    final completer = Completer<bool>();
 
-    Pedometer.pedestrianStatusStream.listen((event) {
-      print("pedestrianStatusStream");
-      status.value = _mapStatus(event.status);
+    try {
+      bool stepDetected = false;
+      Pedometer.stepCountStream.listen((event) {
+        steps.value = event.steps;
+        distanceKm.value = (event.steps * 0.75) / 1000;
+
+        if (!_hasStarted) {
+          _hasStarted = true;
+          _startTimer();
+        }
+
+        // 第一次收到步数就认为监听成功
+        if (!stepDetected) {
+          stepDetected = true;
+          if (!completer.isCompleted) completer.complete(true);
+        }
+      }, onError: (e) {
+        print("步数监听失败：$e");
+        if (!completer.isCompleted) completer.complete(false);
+      });
+
+      Pedometer.pedestrianStatusStream.listen((event) {
+        status.value = _mapStatus(event.status);
+      }, onError: (e) {
+        print("状态监听失败：$e");
+      });
+
+      // 设置一个超时机制，防止永远等不到步数
+      Future.delayed(const Duration(seconds: 5), () {
+        if (!completer.isCompleted) completer.complete(false);
+      });
+    } catch (e) {
+      print("设备不支持计步功能：$e");
+      completer.complete(false);
+    }
+
+    return completer.future;
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      final now = DateTime.now();
+      final suffix = _getDaySuffix(now.day);
+      final date = DateFormat('EEE, MMM d').format(now);
+      final time = DateFormat('HH:mm:ss').format(now);
+      currentTime.value = '$date$suffix, ${now.year}, $time';
     });
+  }
+
+  void stopTracking() {
+    _timer?.cancel();
+    _hasStarted = false;
   }
 
   void clearData() {
     steps.value = 0;
-    status.value = '未知';
+    status.value = 'Unknown';
     distanceKm.value = 0.0;
+    durationSeconds.value = 0;
+    stopTracking();
+  }
+
+  String get formattedDuration {
+    final hours = (durationSeconds.value ~/ 3600).toString().padLeft(2, '0');
+    final minutes =
+        ((durationSeconds.value % 3600) ~/ 60).toString().padLeft(2, '0');
+    final seconds = (durationSeconds.value % 60).toString().padLeft(2, '0');
+    return "$hours:$minutes:$seconds";
+  }
+
+  String get formattedDate {
+    final now = DateTime.now();
+    final daySuffix = _getDaySuffix(now.day);
+    final datePart = DateFormat('EEE, MMM d').format(now); // e.g. Mon, Jul 8
+    final timePart = DateFormat('HH:mm:ss').format(now); // 24小时制时间
+    return '$datePart$daySuffix, ${now.year}, $timePart';
+  }
+
+  String _getDaySuffix(int day) {
+    if (day >= 11 && day <= 13) return 'th';
+    switch (day % 10) {
+      case 1:
+        return 'st';
+      case 2:
+        return 'nd';
+      case 3:
+        return 'rd';
+      default:
+        return 'th';
+    }
   }
 
   String _mapStatus(String status) {
     switch (status) {
       case 'walking':
-        return '正在行走';
+        return 'Walking';
       case 'stopped':
-        return '已停止';
+        return 'Stopped';
       default:
-        return '未知';
+        return 'Unknown';
     }
   }
 }
