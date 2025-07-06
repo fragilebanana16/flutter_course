@@ -12,15 +12,20 @@ class StepViewModel extends GetxController {
   final currentTime = ''.obs;
   Timer? _timer;
   bool _hasStarted = false;
-
+  int _initialSteps = 0;
   Future<bool> startTracking() async {
     final completer = Completer<bool>();
 
     try {
       bool stepDetected = false;
       Pedometer.stepCountStream.listen((event) {
-        steps.value = event.steps;
-        distanceKm.value = (event.steps * 0.75) / 1000;
+        if (_initialSteps == 0) {
+          _initialSteps = event.steps;
+        }
+
+        final currentSteps = event.steps - _initialSteps;
+        steps.value = currentSteps;
+        distanceKm.value = (currentSteps * 0.75) / 1000;
 
         if (!_hasStarted) {
           _hasStarted = true;

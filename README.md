@@ -84,3 +84,6 @@ adb install build/app/outputs/flutter-apk/app-release.apk
 后端启动
 cd D:\Softwares\GitProjects\flutter_course\server
 npm run start 不需要密码，登录后才能进界面
+
+断开usb
+adb disconnect

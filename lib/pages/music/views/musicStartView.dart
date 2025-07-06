@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/pages/music/viewModel/StepViewModel.dart';
@@ -36,9 +38,9 @@ class _SplashViewState extends State<MusicStartView> {
   Future<void> _requestPermissionAndStart() async {
     if (await Permission.activityRecognition.request().isGranted) {
       final success = await stepVM.startTracking();
-      trackingColor.value = success ? TColor.lightblue : TColor.lightGreen;
+      trackingColor.value = success ? TColor.lightGreen : TColor.lightblue;
       enRolled.value = success;
-      print("track color is $success");
+      print("track color is ${success ? 'blue' : 'green'}");
     } else {
       print("未授予运动权限");
       trackingColor.value = TColor.lightblue;
@@ -58,11 +60,20 @@ class _SplashViewState extends State<MusicStartView> {
     if (enRolled.value) {
       _clearRollData();
     } else {
-      _requestPermissionAndStart();
+      Navigator.of(context).push(
+        PageRouteBuilder(
+          opaque: false,
+          pageBuilder: (_, __, ___) => FullScreenCountdown(
+            onCountdownEnd: () {
+              Navigator.pop(context); // 移除倒计时
+              _requestPermissionAndStart();
+              _navigatedByButton = true;
+              splashVM.loadView();
+            },
+          ),
+        ),
+      );
     }
-
-    // _navigatedByButton = true;
-    // splashVM.loadView();
   }
 
   @override
@@ -578,6 +589,56 @@ class GoalCard extends StatelessWidget {
             ],
           )
         ],
+      ),
+    );
+  }
+}
+
+class FullScreenCountdown extends StatefulWidget {
+  final VoidCallback onCountdownEnd;
+
+  const FullScreenCountdown({super.key, required this.onCountdownEnd});
+
+  @override
+  State<FullScreenCountdown> createState() => _FullScreenCountdownState();
+}
+
+class _FullScreenCountdownState extends State<FullScreenCountdown> {
+  int count = 3;
+
+  @override
+  void initState() {
+    super.initState();
+    _start();
+  }
+
+  void _start() {
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (count == 1) {
+        timer.cancel();
+        widget.onCountdownEnd(); // 结束后触发逻辑
+      }
+      setState(() => count--);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.black.withOpacity(0.6), // 半透明遮罩
+      child: Center(
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 500),
+          child: Text(
+            '$count',
+            key: ValueKey(count),
+            style: const TextStyle(
+              fontSize: 120,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
       ),
     );
   }
