@@ -87,3 +87,18 @@ npm run start 不需要密码，登录后才能进界面
 
 断开usb
 adb disconnect
+
+天气
+https://api.openweathermap.org/data/2.5/weather?lat=34.27&lon=108.89&appid=
+
+当前天气：通过 /data/2.5/weather
+
+未来 5 天预报：通过 /data/2.5/forecast（每 3 小时一个数据点）
+
+未来 16 天预报：通过 /forecast/daily（部分账号可用）
+
+
+编译常见问题
+
+- A problem occurred evaluating project ':android_path_provider'.
+flutter clean、flutter run

@@ -99,6 +99,11 @@ dependencies:
   sqflite: ^2.3.2
   flutter_native_splash: ^2.3.7
   pedometer: ^4.1.1
+  flutter_spinkit: ^5.2.1
+  geolocator: ^11.1.0
+  flutter_dotenv: ^5.2.1
+  connectivity_plus: ^5.0.2
+  emojis: ^0.9.9
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -133,6 +138,7 @@ flutter:
     - assets/icons/
     - assets/fonts/
     - assets/texts/poems.json
+    - .env
   # File Manage
   fonts:
     - family:  CustomIcons

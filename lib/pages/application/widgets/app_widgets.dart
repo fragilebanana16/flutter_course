@@ -8,6 +8,7 @@ import 'package:flutter_course/pages/fileManage/file_splash_view.dart';
 import 'package:flutter_course/pages/home/view/home.dart';
 import 'package:flutter_course/pages/music/views/musicAppTab.dart';
 import 'package:flutter_course/pages/music/views/musicStartView.dart';
+import 'package:flutter_course/pages/music/views/Widgets/weather/currentWeather.dart';
 import 'package:flutter_course/pages/toolBox/views/toolboxHomeView.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -82,7 +83,8 @@ Widget _bottomContainer(
 Widget appScreens({int index = 0}) {
   List<Widget> screens = [
     // const Home(),
-    const MusicStartView(),
+    // const MusicStartView(),
+    CurrentWeather(),
     // Center(
     //   child: AppIcon(icon: Icons.wallet, size: 200),
     // ),
