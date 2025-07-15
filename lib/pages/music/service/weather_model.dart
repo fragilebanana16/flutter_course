@@ -6,15 +6,18 @@ import 'location_service.dart';
 import 'package:emojis/emoji.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-const String kOpenWeatherMapURL =
-    "https://api.openweathermap.org/data/2.5/weather?";
+const String kOpenWeatherMapURL = "https://api.openweathermap.org/data/2.5/";
 
 class WeatherModel {
+  static const String curWeatherApiKeyword = 'weather';
+  static const String hourlyApiKeyword = 'forecast';
   /*
   Holds the weather data in use
    */
   static var weatherData;
+  static var weatherHourData;
   static String locationName = 'currentLocationTitle';
+
   static String unit = '';
   static final _kOpenWeatherApiKey = dotenv.env['OPENWEATHER_API_KEY'];
 
@@ -28,32 +31,34 @@ class WeatherModel {
    */
   static Future<int> getUserLocationWeather() async {
     initialize();
+    // 最耗时部分：获取定位
+    // if (await (Connectivity().checkConnectivity()) == ConnectivityResult.none) {
+    //   //return a code to show that connection failed
+    //   return 0;
+    // }
+    // //get the user's location
+    // //await LocationService.requestLocationPermission();
+    // await LocationService.getCurrentLocation();
 
-    if (await (Connectivity().checkConnectivity()) == ConnectivityResult.none) {
-      //return a code to show that connection failed
-      return 0;
-    }
-    //get the user's location
-    //await LocationService.requestLocationPermission();
-    await LocationService.getCurrentLocation();
-
-    if (LocationService.latitude == null || LocationService.longitude == null) {
-      weatherData = null;
-      return 1;
-    }
-    print(_kOpenWeatherApiKey);
+    // if (LocationService.latitude == null || LocationService.longitude == null) {
+    //   weatherData = null;
+    //   return 1;
+    // }
     //send a request to OpenWeatherMap one call api
     if (_kOpenWeatherApiKey != "") {
       NetworkHelper networkHelper = NetworkHelper(
         url:
-            "${kOpenWeatherMapURL}lat=${LocationService.latitude}&lon=${LocationService.longitude}&appid=$_kOpenWeatherApiKey&units=$unit}",
+            "${kOpenWeatherMapURL}${curWeatherApiKeyword}?lat=${LocationService.latitude}&lon=${LocationService.longitude}&appid=$_kOpenWeatherApiKey&units=$unit}",
       );
-      print(
-          "${kOpenWeatherMapURL}lat=${LocationService.latitude}&lon=${LocationService.longitude}&appid=$_kOpenWeatherApiKey&units=$unit}");
-      // weatherData = await networkHelper.getData(); //getData gets and decodes the json data
-      weatherData = await networkHelper.getMockData();
-      locationName = "currentLocationTitle";
 
+      // weatherData = await networkHelper.getData(); //getData gets and decodes the json data
+      weatherData = await NetworkHelper(url: '123').getMockData();
+
+      weatherHourData =
+          await NetworkHelper(url: '456').getMockHourPredictData();
+      locationName = "currentLocationTitle";
+      //401：表示 未经授权（Unauthorized），通常是 API 密钥错误或缺失。
+      //429：表示 请求过多（Too Many Requests）。
       if (!(weatherData == 401 || weatherData == 429 || weatherData == null)) {
         return 1;
       }
@@ -82,8 +87,9 @@ class WeatherModel {
       url:
           "${kOpenWeatherMapURL}lat=$latitude&lon=$longitude&appid=$_kOpenWeatherApiKey&units=$unit",
     );
-    var data =
-        await networkHelper.getData(); //getData gets and decodes the json data
+    var data = await NetworkHelper(
+      url: "123",
+    ).getMockData(); //getData gets and decodes the json data
 
     if (data == 401) {
       data = 429;
@@ -103,15 +109,13 @@ class WeatherModel {
   static String getIcon(int id,
       {required DateTime forecastTime,
       required DateTime sunset,
-      required DateTime sunrise,
-      required DateTime tomorrowSunrise}) {
+      required DateTime sunrise}) {
     bool isNight;
     //check if time is between sunrise and sunset, or before sunrise
     if (forecastTime != null) {
       //however if only the id is given, night is false (always get day icon)
       isNight =
-          (forecastTime.isAfter(sunset) || forecastTime.isBefore(sunrise)) &&
-              forecastTime.isBefore(tomorrowSunrise);
+          (forecastTime.isAfter(sunset) || forecastTime.isBefore(sunrise));
     } else {
       isNight = false;
     }
@@ -246,14 +250,4 @@ class WeatherModel {
         return "km/h";
     }
   }
-}
-
-enum WeatherType {
-  sunrise,
-  clearDay,
-  clearAfternoon,
-  clearEvening,
-  clearNight,
-  rain,
-  snow
 }

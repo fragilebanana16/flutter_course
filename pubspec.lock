@@ -1701,6 +1701,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.3"
+  spritewidget:
+    dependency: "direct main"
+    description:
+      name: spritewidget
+      sha256: bb7dfc5252ae3bfa0f5de5efa2b1c40710ae2819d7770cb0faba2d3292b5d0a0
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.1"
   sqflite:
     dependency: "direct main"
     description:

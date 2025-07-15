@@ -104,6 +104,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   connectivity_plus: ^5.0.2
   emojis: ^0.9.9
+  spritewidget: ^2.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -135,9 +136,10 @@ flutter:
     - assets/images/raster/
     - assets/images/vector/
     - assets/images/poem/
+    - assets/images/weather/
     - assets/icons/
     - assets/fonts/
-    - assets/texts/poems.json
+    - assets/texts/
     - .env
   # File Manage
   fonts:

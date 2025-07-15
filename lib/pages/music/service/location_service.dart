@@ -1,8 +1,8 @@
 import 'package:geolocator/geolocator.dart';
 
 class LocationService {
-  static String latitude = 'NaN';
-  static String longitude = 'NaN';
+  static String? latitude;
+  static String? longitude;
 
   static Future<void> getCurrentLocation() async {
     try {

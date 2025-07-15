@@ -72,8 +72,8 @@ flutter run
 contacts\_service: ^0.6.3问题flutter doctor --android-licenses
 
 镜像命令行设置
-$env:PUB_HOSTED_URL="https://pub.flutter-io.cn"
-$env:FLUTTER_STORAGE_BASE_URL="https://storage.flutter-io.cn"
+$env:PUB_HOSTED_URL="https://pub.flutter-io.cn"; $env:FLUTTER_STORAGE_BASE_URL="https://storage.flutter-io.cn"
+
 
 生成apk
 flutter build apk --release --target-platform android-arm64

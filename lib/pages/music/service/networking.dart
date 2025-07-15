@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter/services.dart';
 
 class NetworkHelper {
   final String url;
@@ -59,5 +60,11 @@ class NetworkHelper {
       "name": "Weiyanggong",
       "cod": 200
     };
+  }
+
+  Future<List<dynamic>> getMockHourPredictData() async {
+    String jsonString =
+        await rootBundle.loadString('assets/texts/weather.json');
+    return jsonDecode(jsonString)['list'];
   }
 }
