@@ -63,6 +63,7 @@ class HourlyCard extends StatelessWidget {
                   style: kHourlyCardTime.copyWith(
                       color: Theme.of(context).primaryColorDark),
                 ),
+                // 图标
                 Container(
                   height: 50,
                   width: 50,

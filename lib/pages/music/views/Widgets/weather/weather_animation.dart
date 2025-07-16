@@ -26,7 +26,7 @@ void setWeatherType(WeatherType weatherType) {
 */
 
 class WeatherAnimation extends StatefulWidget {
-  final WeatherType initialWeather = WeatherType.unknown;
+  final WeatherType initialWeather = WeatherType.rain;
   late final WeatherAnimationState state;
   WeatherAnimation({super.key});
 

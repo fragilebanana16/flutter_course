@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/pages/music/viewModel/StepViewModel.dart';
 import 'package:flutter_course/pages/music/viewModel/startViewModel.dart';
+import 'package:flutter_course/pages/music/views/Widgets/weather/currentWeather.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -68,7 +69,7 @@ class _SplashViewState extends State<MusicStartView> {
               Navigator.pop(context); // 移除倒计时
               _requestPermissionAndStart();
               _navigatedByButton = true;
-              splashVM.loadView();
+              splashVM.loadView(fromButtonRoll: true);
             },
           ),
         ),
@@ -87,122 +88,100 @@ class _SplashViewState extends State<MusicStartView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 20.h,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      // ✅ 限制左侧 Column 的宽度
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Obx(() => Text(
-                                stepVM.currentTime.value,
-                                style: TextStyle(
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: TColor.lightWhite),
-                              )),
-                          SizedBox(height: 20.h),
-                          Container(
-                            width: double.infinity, // 自动适配 Column 宽度
-                            constraints: BoxConstraints(
-                              minHeight: 100.h,
-                            ),
-                            padding: EdgeInsets.symmetric(vertical: 10.0.w),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Color(0xFF2F2F72), // 靛蓝紫
-                                  trackingColor.value
-                                ],
-                              ),
-                              image: DecorationImage(
-                                image: AssetImage(
-                                    "assets/images/poem/ink2.jpg"), // 👈 替换成你的背景图路径
-                                fit: BoxFit.cover, // 👌 拉伸铺满容器
-                                colorFilter: ColorFilter.mode(
-                                  Colors.black
-                                      .withOpacity(0.3), // 👈 控制图片的透明度，让渐变透出来
-                                  BlendMode.dstATop,
+              SizedBox(height: 6.h),
+              // 天气
+              Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  child: CurrentWeather()),
+              SizedBox(height: 10.h),
+              // 每日一句
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                child: Ink(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color(0xFF2F2F72),
+                        trackingColor.value,
+                      ],
+                    ),
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/poem/ink2.jpg"),
+                      fit: BoxFit.cover,
+                      colorFilter: ColorFilter.mode(
+                        Colors.black.withOpacity(0.3),
+                        BlendMode.dstATop,
+                      ),
+                    ),
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.4),
+                        offset: Offset(0, 6),
+                        blurRadius: 12,
+                        spreadRadius: 2,
+                      ),
+                    ],
+                  ),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(16), // 👈 水波纹圆角同步
+                    onTap: () {
+                      splashVM.loadView();
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      constraints: BoxConstraints(minHeight: 80.h),
+                      padding: EdgeInsets.symmetric(vertical: 10.0.w),
+                      child: FutureBuilder<Poem>(
+                        future: PoemService.getRandomPoem(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                  color: Colors.white),
+                            );
+                          }
+
+                          final poem = snapshot.data!;
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '"${poem.content}"',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontStyle: FontStyle.italic,
+                                    color: TColor.lightWhite,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  softWrap: true,
                                 ),
-                              ),
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.4), // 阴影颜色
-                                  offset: Offset(0, 6), // 阴影位置偏移
-                                  blurRadius: 12, // 模糊程度
-                                  spreadRadius: 2, // 扩散范围
+                                const SizedBox(height: 8),
+                                Text(
+                                  '- ${poem.author}（${poem.dynasty}）',
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white70,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  softWrap: true,
                                 ),
                               ],
                             ),
-                            child: FutureBuilder<Poem>(
-                              future: PoemService.getRandomPoem(),
-                              builder: (context, snapshot) {
-                                if (!snapshot.hasData) {
-                                  return const Center(
-                                      child: CircularProgressIndicator(
-                                          color: Colors.white));
-                                }
-
-                                final poem = snapshot.data!;
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        '"${poem.content}"',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontStyle: FontStyle.italic,
-                                          color: TColor.lightWhite,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                        softWrap: true,
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        '- ${poem.author}（${poem.dynasty}）',
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.white70,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                        softWrap: true,
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
-                          )
-                        ],
+                          );
+                        },
                       ),
-                    )
-                  ],
+                    ),
+                  ),
                 ),
               ),
-              SizedBox(height: 20.h),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0),
-                child: Text(
-                  'Jogging',
-                  style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
-                      color: TColor.lightWhite),
-                ),
-              ),
-              SizedBox(height: 20.h),
+
+              SizedBox(height: 10.h),
+              // 轨迹
               GestureDetector(
                 onLongPress: () async {
                   final confirmed = await showDialog<bool>(
@@ -240,7 +219,7 @@ class _SplashViewState extends State<MusicStartView> {
                       width: size.width,
                       height: 140.h,
                       padding: EdgeInsets.symmetric(vertical: 20.sp),
-                      margin: EdgeInsets.symmetric(horizontal: 20),
+                      margin: EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
@@ -287,42 +266,43 @@ class _SplashViewState extends State<MusicStartView> {
                       ),
                     )),
               ),
-              SizedBox(height: 20.h),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Speed (km/h)",
-                        style: TextStyle(
-                          color: TColor.lightWhite,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16.sp,
-                        )),
-                    const SizedBox(height: 12),
-                    // fl_chart 的 LineChart 是一个自绘组件，它必须知道自己的尺寸
-                    Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.4), // 阴影颜色
-                              offset: Offset(0, 6), // 阴影位置偏移
-                              blurRadius: 12, // 模糊程度
-                              spreadRadius: 2, // 扩散范围
-                            ),
-                          ],
-                        ),
-                        child: SizedBox(
-                            height: 200, child: _buildSpeedLineChart())),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20.h),
+              SizedBox(height: 10.h),
+              // 曲线图
+              // Container(
+              //   margin: EdgeInsets.symmetric(horizontal: 20),
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       Text("Speed (km/h)",
+              //           style: TextStyle(
+              //             color: TColor.lightWhite,
+              //             fontWeight: FontWeight.w600,
+              //             fontSize: 16.sp,
+              //           )),
+              //       const SizedBox(height: 12),
+              //       // fl_chart 的 LineChart 是一个自绘组件，它必须知道自己的尺寸
+              //       Container(
+              //           decoration: BoxDecoration(
+              //             borderRadius: BorderRadius.circular(16),
+              //             boxShadow: [
+              //               BoxShadow(
+              //                 color: Colors.black.withOpacity(0.4), // 阴影颜色
+              //                 offset: Offset(0, 6), // 阴影位置偏移
+              //                 blurRadius: 12, // 模糊程度
+              //                 spreadRadius: 2, // 扩散范围
+              //               ),
+              //             ],
+              //           ),
+              //           child: SizedBox(
+              //               height: 200, child: _buildSpeedLineChart())),
+              //     ],
+              //   ),
+              // ),
+              // roll
               Obx(() => Container(
                     width: double.infinity,
                     height: 56,
-                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    margin: EdgeInsets.symmetric(horizontal: 6),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [

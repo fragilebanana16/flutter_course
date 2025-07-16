@@ -83,8 +83,7 @@ Widget _bottomContainer(
 Widget appScreens({int index = 0}) {
   List<Widget> screens = [
     // const Home(),
-    // const MusicStartView(),
-    CurrentWeather(),
+    const MusicStartView(),
     // Center(
     //   child: AppIcon(icon: Icons.wallet, size: 200),
     // ),

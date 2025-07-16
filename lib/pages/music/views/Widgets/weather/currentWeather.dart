@@ -165,8 +165,8 @@ class _CurrentWeatherState extends State<CurrentWeather> {
   //refresh data
   Future<void> refresh() async {
     print("refresh start");
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text("loading...")));
+    // ScaffoldMessenger.of(context)
+    //     .showSnackBar(SnackBar(content: Text("loading...")));
     // mock
     if (WeatherModel.locationName == "currentLocationTitle") {
       print('wf');
@@ -196,8 +196,8 @@ class _CurrentWeatherState extends State<CurrentWeather> {
     //   weatherTime = weatherTime.add(DateTime.now().difference(refreshTime));
     // }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("lastUpdatedAt $refreshTimeText")));
+    // ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(content: Text("lastUpdatedAt $refreshTimeText")));
     print("refresh end");
   }
 
@@ -217,114 +217,100 @@ class _CurrentWeatherState extends State<CurrentWeather> {
     //   );
     // }
 
-    return RefreshIndicator(
-      onRefresh: refresh,
-      child: Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
-        extendBodyBehindAppBar: true,
-        body: Stack(
-          alignment: Alignment.topCenter,
-          children: [
-            Container(
-              margin: EdgeInsets.all(8),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 10,
-                  ),
-                ],
+    return Stack(
+      alignment: Alignment.topCenter,
+      children: [
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 10,
               ),
-              child: Column(
-                children: [
-                  // 当日天气 + 动画
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20), // Clip 住内容的圆角
-                    child: SizedBox(
-                      height: 240.h, // 高度可自调
-                      child: isLoading
-                          ? //if is loading
-                          Center(
-                              child: Column(
-                              children: [
-                                SpinKitFadingCircle(
-                                  color: Theme.of(context).primaryColorDark,
-                                  size: 50,
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Text(
-                                  // Language.getTranslation("loading"),
-                                  "loading",
-                                  style: TextStyle(
-                                      color:
-                                          Theme.of(context).primaryColorDark),
-                                ),
-                              ],
-                              mainAxisAlignment: MainAxisAlignment.center,
-                            ))
-                          : Stack(alignment: Alignment.topCenter, children: [
-                              weatherAnimation,
-                              temperatureWidget(),
-                              // infoWidget(),
-                            ]),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  // 3小时预测
-                  Container(
-                    color: Colors.blue,
-                    width: MediaQuery.of(context).size.width,
-                    height: 210.h,
-                    child: MediaQuery.removePadding(
-                      context: context,
-                      removeTop: true,
-                      child: ListView(
-                        physics: BouncingScrollPhysics(),
+            ],
+          ),
+          child: Column(
+            children: [
+              // 当日天气 + 动画
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20), // Clip 住内容的圆角
+                child: SizedBox(
+                  height: 200.h, // 高度可自调
+                  child: isLoading
+                      ? //if is loading
+                      Center(
+                          child: Column(
+                          children: [
+                            SpinKitFadingCircle(
+                              color: Theme.of(context).primaryColorDark,
+                              size: 50,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              // Language.getTranslation("loading"),
+                              "loading",
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColorDark),
+                            ),
+                          ],
+                          mainAxisAlignment: MainAxisAlignment.center,
+                        ))
+                      : Stack(alignment: Alignment.topCenter, children: [
+                          weatherAnimation,
+                          temperatureWidget(),
+                          // infoWidget(),
+                        ]),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              // 3小时预测
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 180.h,
+                child: MediaQuery.removePadding(
+                  context: context,
+                  removeTop: true,
+                  child: ListView(
+                    physics: BouncingScrollPhysics(),
+                    children: [
+                      Column(
                         children: [
-                          //add a spacer
-                          SizedBox(
-                            height: 10.h,
-                          ),
-                          Column(
-                            children: [
-                              createHourlyForecastCard(),
-                              // createInfoCards(),
-                              // radarInfoCards(),
-                            ],
-                          ),
+                          createHourlyForecastCard(),
+                          // createInfoCards(),
+                          // radarInfoCards(),
                         ],
                       ),
-                    ),
-                  ),
-                  // 天气debug按钮
-                  debugWeatherBtns()
-                ],
-              ),
-            ),
-
-            Positioned(
-              top: 10.h,
-              right: 10.h,
-              child: SafeArea(
-                child: IconButton(
-                  onPressed: refresh,
-                  icon: Icon(
-                    Icons.refresh_outlined,
-                    size: 27,
-                    color: Color.fromARGB(255, 255, 255, 255),
+                    ],
                   ),
                 ),
               ),
-            ),
-            // test btns
-          ],
+              // 天气debug按钮
+              // debugWeatherBtns()
+            ],
+          ),
         ),
-      ),
+
+        Positioned(
+          top: 10.h,
+          right: 10.h,
+          child: SafeArea(
+            child: IconButton(
+              onPressed: refresh,
+              icon: Icon(
+                Icons.refresh_outlined,
+                size: 27,
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
+            ),
+          ),
+        ),
+        // test btns
+      ],
     );
   }
 
@@ -475,59 +461,54 @@ class _CurrentWeatherState extends State<CurrentWeather> {
 
   Widget createHourlyForecastCard() {
     return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).backgroundColor,
-      ),
-      child: Container(
-        height: 200,
-        width: double.infinity,
-        // margin: kPanelCardMargin,
-        child: ListView.builder(
-          physics: BouncingScrollPhysics(),
-          itemBuilder: (context, index) {
-            int temp;
-            String icon;
-            DateTime forecastTime;
-            String displayTime;
-            var weatherData;
+      height: 180.h,
+      width: double.infinity,
+      // margin: kPanelCardMargin,
+      child: ListView.builder(
+        physics: BouncingScrollPhysics(),
+        itemBuilder: (context, index) {
+          int temp;
+          String icon;
+          DateTime forecastTime;
+          String displayTime;
+          var weatherData;
 
-            if (hourlyData.isEmpty || hourlyData[index] == null) {
-              temp = 0;
-              icon = "☀";
-              displayTime = "00:00";
-            } else {
-              temp = hourlyData[index]["main"]["temp"].round();
+          if (hourlyData.isEmpty || hourlyData[index] == null) {
+            temp = 0;
+            icon = "☀";
+            displayTime = "00:00";
+          } else {
+            temp = hourlyData[index]["main"]["temp"].round();
 
-              forecastTime = TimeHelper.getDateTimeSinceEpoch(
-                  hourlyData[index]["dt"], timeZoneOffset);
-              displayTime = TimeHelper.getShortReadableTime(forecastTime);
+            forecastTime = TimeHelper.getDateTimeSinceEpoch(
+                hourlyData[index]["dt"], timeZoneOffset);
+            displayTime = TimeHelper.getShortReadableTime(forecastTime);
 
-              icon = WeatherModel.getIcon(hourlyData[index]["weather"][0]["id"],
-                  forecastTime: forecastTime,
-                  sunrise: sunriseTime,
-                  sunset: sunsetTime);
-            }
-            int pop = -1;
-            if (hourlyData.isNotEmpty) {
-              weatherData = hourlyData[index];
-              pop = (weatherData["pop"].toDouble() * 100)
-                  .round(); //probability of precipitation
-            }
+            icon = WeatherModel.getIcon(hourlyData[index]["weather"][0]["id"],
+                forecastTime: forecastTime,
+                sunrise: sunriseTime,
+                sunset: sunsetTime);
+          }
+          int pop = -1;
+          if (hourlyData.isNotEmpty) {
+            weatherData = hourlyData[index];
+            pop = (weatherData["pop"].toDouble() * 100)
+                .round(); //probability of precipitation
+          }
 
-            return HourlyCard(
-              context: context,
-              icon: icon,
-              temp: temp,
-              displayTime: displayTime,
-              weatherData: weatherData,
-              pop: pop,
-              isCurrent: index == 0,
-            );
-          },
-          scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          itemCount: 12, // 默认几个预测，8个包含了一天范围
-        ),
+          return HourlyCard(
+            context: context,
+            icon: icon,
+            temp: temp,
+            displayTime: displayTime,
+            weatherData: weatherData,
+            pop: pop,
+            isCurrent: index == 0,
+          );
+        },
+        scrollDirection: Axis.horizontal,
+        shrinkWrap: true,
+        itemCount: 12, // 默认几个预测，8个包含了一天范围
       ),
     );
   }

@@ -19,8 +19,8 @@ class ImageRes {
 }
 
 const kLargeTempTextStyle = TextStyle(
-  fontSize: 110,
-  fontWeight: FontWeight.w200,
+  fontSize: 80,
+  fontWeight: FontWeight.w500,
   color: Colors.white,
 );
 
