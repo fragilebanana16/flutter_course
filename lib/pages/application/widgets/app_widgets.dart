@@ -33,8 +33,8 @@ var bottomTabs = <BottomNavigationBarItem>[
       ),
       activeIcon: Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
-          child: _bottomContainer(
-              icon: Icons.music_note, color: AppColors.primaryElement)),
+          child:
+              _bottomContainer(icon: Icons.music_note, color: Colors.black45)),
       backgroundColor: AppColors.primaryBackground,
       label: "Music"),
   BottomNavigationBarItem(
@@ -43,8 +43,7 @@ var bottomTabs = <BottomNavigationBarItem>[
           child: _bottomContainer(icon: Icons.chat, color: TColor.lightGray)),
       activeIcon: Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
-          child: _bottomContainer(
-              icon: Icons.chat, color: AppColors.primaryElement)),
+          child: _bottomContainer(icon: Icons.chat, color: Colors.black45)),
       backgroundColor: AppColors.primaryBackground,
       label: "Chat"),
   BottomNavigationBarItem(
@@ -54,8 +53,8 @@ var bottomTabs = <BottomNavigationBarItem>[
               _bottomContainer(icon: Icons.file_copy, color: TColor.lightGray)),
       activeIcon: Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
-          child: _bottomContainer(
-              icon: Icons.chat, color: AppColors.primaryElement)),
+          child:
+              _bottomContainer(icon: Icons.file_copy, color: Colors.black45)),
       backgroundColor: AppColors.primaryBackground,
       label: "File"),
   BottomNavigationBarItem(
@@ -66,7 +65,7 @@ var bottomTabs = <BottomNavigationBarItem>[
       activeIcon: Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
           child: _bottomContainer(
-              icon: Icons.chat, color: AppColors.primaryElement)),
+              icon: Icons.home_repair_service, color: Colors.black45)),
       backgroundColor: AppColors.primaryBackground,
       label: "Toolbox")
 ];

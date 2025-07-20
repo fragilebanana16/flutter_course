@@ -88,7 +88,7 @@ class _SplashViewState extends State<MusicStartView> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: TColor.darkGray,
+      backgroundColor: AppColors.primary_bg,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -189,6 +189,7 @@ class _SplashViewState extends State<MusicStartView> {
               SizedBox(height: 10.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Obx(() => Container(
                         padding: EdgeInsets.symmetric(
@@ -411,8 +412,7 @@ class _SplashViewState extends State<MusicStartView> {
                   // Let's Roll
                   Obx(() => Expanded(
                         child: Container(
-                          height: 56,
-                          margin: EdgeInsets.symmetric(horizontal: 6),
+                          height: 56.h,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [

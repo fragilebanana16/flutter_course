@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_course/common/routes/routes.dart';
+import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/common/utils/app_styles.dart';
 import 'package:flutter_course/global.dart';
 import 'package:flutter_course/pages/application/application.dart';
@@ -19,6 +21,16 @@ Future<void> main() async {
   await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
   getIt<PageManager>().init(); // how to dispose ?
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: AppColors.primary_bg, // 头部导航栏，颜色不要带透明度，系统默认有层黑色遮罩
+    statusBarIconBrightness: Brightness.light,
+    statusBarBrightness: Brightness.light,
+    systemNavigationBarColor: AppColors.primary_bg, // 底部系统导航栏
+    systemNavigationBarIconBrightness: Brightness.light,
+  ));
+  // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+  //     overlays: []); // 全不显示，沉浸式
+
   runApp(const ProviderScope(child: MyApp()));
 }
 
