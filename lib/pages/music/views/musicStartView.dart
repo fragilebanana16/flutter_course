@@ -1,12 +1,18 @@
 import 'dart:async';
+import 'dart:ui';
 
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
+import 'package:flutter_course/pages/fileManage/constants/app_constants.dart';
+import 'package:flutter_course/pages/fileManage/shared_components/card_cloud.dart';
 import 'package:flutter_course/pages/music/viewModel/StepViewModel.dart';
 import 'package:flutter_course/pages/music/viewModel/startViewModel.dart';
 import 'package:flutter_course/pages/music/views/Widgets/weather/currentWeather.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_course/pages/music/service/poem_service.dart';
@@ -181,168 +187,283 @@ class _SplashViewState extends State<MusicStartView> {
               ),
 
               SizedBox(height: 10.h),
-              // 轨迹
-              GestureDetector(
-                onLongPress: () async {
-                  final confirmed = await showDialog<bool>(
-                    context: context,
-                    builder: (_) => AlertDialog(
-                      title: const Text('确认清除？'),
-                      content: const Text('这将重置你的步数、距离、状态和时间统计。是否继续？'),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context, false);
-                          },
-                          child: const Text('取消'),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            _clearRollData();
-                            Navigator.pop(context, true);
-                          },
-                          child: const Text('确认'),
-                        ),
-                      ],
-                    ),
-                  );
-
-                  if (confirmed == true) {
-                    stepVM.clearData();
-                    Get.delete<StepViewModel>();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('数据已清除 🧹')),
-                    );
-                  }
-                },
-                child: Obx(() => Container(
-                      width: size.width,
-                      height: 140.h,
-                      padding: EdgeInsets.symmetric(vertical: 20.sp),
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [Color(0xFF2F2F72), trackingColor.value],
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.4),
-                            offset: const Offset(0, 6),
-                            blurRadius: 12,
-                            spreadRadius: 2,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Obx(() => Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 6.sp, vertical: 6.sp),
+                        margin: EdgeInsets.symmetric(horizontal: 10.h),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [Color(0xFF2F2F72), trackingColor.value],
                           ),
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Obx(() => JoggingItem(
-                                icon: Icons.directions_run,
-                                value: "${stepVM.steps.value}",
-                                measure: "Steps",
-                              )),
-                          Obx(() => JoggingItem(
-                                icon: Icons.location_on,
-                                value:
-                                    "${stepVM.distanceKm.value.toStringAsFixed(2)}",
-                                measure: "Km",
-                              )),
-                          Obx(() => JoggingItem(
-                                icon: Icons.flash_on,
-                                value: "${stepVM.status.value}",
-                                measure: "State",
-                              )),
-                          Obx(() => JoggingItem(
-                                icon: Icons.watch_later_outlined,
-                                value: stepVM.formattedDuration,
-                                measure: "Time",
-                              )),
-                          // 可选：你可以移除 TextButton，长按即是触发点
-                        ],
-                      ),
-                    )),
-              ),
-              SizedBox(height: 10.h),
-              // 曲线图
-              // Container(
-              //   margin: EdgeInsets.symmetric(horizontal: 20),
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       Text("Speed (km/h)",
-              //           style: TextStyle(
-              //             color: TColor.lightWhite,
-              //             fontWeight: FontWeight.w600,
-              //             fontSize: 16.sp,
-              //           )),
-              //       const SizedBox(height: 12),
-              //       // fl_chart 的 LineChart 是一个自绘组件，它必须知道自己的尺寸
-              //       Container(
-              //           decoration: BoxDecoration(
-              //             borderRadius: BorderRadius.circular(16),
-              //             boxShadow: [
-              //               BoxShadow(
-              //                 color: Colors.black.withOpacity(0.4), // 阴影颜色
-              //                 offset: Offset(0, 6), // 阴影位置偏移
-              //                 blurRadius: 12, // 模糊程度
-              //                 spreadRadius: 2, // 扩散范围
-              //               ),
-              //             ],
-              //           ),
-              //           child: SizedBox(
-              //               height: 200, child: _buildSpeedLineChart())),
-              //     ],
-              //   ),
-              // ),
-              // roll
-              Obx(() => Container(
-                    width: double.infinity,
-                    height: 56,
-                    margin: EdgeInsets.symmetric(horizontal: 6),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          enRolled.value ? Colors.redAccent : Color(0xFF00C853),
-                          enRolled.value
-                              ? Color.fromARGB(192, 226, 171, 179)
-                              : Color.fromARGB(255, 134, 173, 136)
-                        ],
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.4), // 阴影颜色
-                          offset: Offset(0, 6), // 阴影位置偏移
-                          blurRadius: 12, // 模糊程度
-                          spreadRadius: 2, // 扩散范围
+                          borderRadius: BorderRadius.circular(16),
                         ),
-                      ],
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(12),
-                        onTap: _navigateToMusicApp,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              enRolled.value ? "Peace out!" : "Let's Roll",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: TColor.lightWhite,
+                        child: SizedBox(
+                          width: 136.h,
+                          height: 166.h,
+                          child: CarouselSlider(
+                            items: [
+                              // 1轨迹
+                              Stack(
+                                alignment: Alignment.bottomCenter,
+                                children: [
+                                  GestureDetector(
+                                    onLongPress: () async {
+                                      final confirmed = await showDialog<bool>(
+                                        context: context,
+                                        builder: (_) => AlertDialog(
+                                          title: const Text('确认清除？'),
+                                          content: const Text(
+                                              '这将重置你的步数、距离、状态和时间统计。是否继续？'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context, false);
+                                              },
+                                              child: const Text('取消'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                _clearRollData();
+                                                Navigator.pop(context, true);
+                                              },
+                                              child: const Text('确认'),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+
+                                      if (confirmed == true) {
+                                        stepVM.clearData();
+                                        Get.delete<StepViewModel>();
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                              content: Text('数据已清除 🧹')),
+                                        );
+                                      }
+                                    },
+                                    child: CircularPercentIndicator(
+                                      radius: 140.0, // 你可以根据 UI 需求调整
+                                      lineWidth: 12.0,
+                                      animation: true,
+                                      percent: 0.62, // 假设已完成 62%
+                                      circularStrokeCap:
+                                          CircularStrokeCap.round,
+                                      progressColor:
+                                          Theme.of(context).primaryColor,
+                                      backgroundColor: Colors.grey.shade300,
+                                      center: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "6.2", // 假数据，表示 km
+                                            style: TextStyle(
+                                              fontSize: 28,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          SizedBox(height: 4),
+                                          Text(
+                                            "km",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                          SizedBox(height: 8),
+                                          Text(
+                                            "00:28:37", // 假数据，可换成动态格式化值
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  // 顶部按钮 + 文本
+                                  Positioned(
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        // 重置
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          child: BackdropFilter(
+                                            filter: ImageFilter.blur(
+                                                sigmaX: 8, sigmaY: 8),
+                                            child: Container(
+                                              width: 30,
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white24,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
+                                                    color: Colors.white
+                                                        .withOpacity(0.2)),
+                                              ),
+                                              child: IconButton(
+                                                icon: Icon(Icons.refresh,
+                                                    color: Colors.white),
+                                                padding: EdgeInsets.zero,
+                                                onPressed: () {
+                                                  // 设置目标
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          "Breath",
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          child: BackdropFilter(
+                                            filter: ImageFilter.blur(
+                                                sigmaX: 8, sigmaY: 8),
+                                            child: Container(
+                                              width: 30,
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white24,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
+                                                    color: Colors.white
+                                                        .withOpacity(0.2)),
+                                              ),
+                                              child: IconButton(
+                                                icon: Icon(Icons.settings,
+                                                    color: Colors.white),
+                                                padding: EdgeInsets.zero,
+                                                onPressed: () {
+                                                  // 设置目标
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+
+                              // 曲线图
+                              Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Speed (km/h)",
+                                        style: TextStyle(
+                                          color: TColor.lightWhite,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14.sp,
+                                        )),
+                                    SizedBox(
+                                      height: 4.h,
+                                    ),
+                                    Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                        ),
+                                        child: SizedBox(
+                                            height: 140.h,
+                                            child: _buildSpeedLineChart())),
+                                  ],
+                                ),
+                              ),
+                            ],
+                            options: CarouselOptions(
+                              enlargeCenterPage: true,
+                              // autoPlay: true,
+                              autoPlayCurve: Curves.fastOutSlowIn,
+                              enableInfiniteScroll: true,
+                              autoPlayAnimationDuration: Duration(seconds: 2),
+                              autoPlayInterval: Duration(seconds: 5),
+                              viewportFraction: 1,
+                            ),
+                          ),
+                        ),
+                      )),
+
+                  // Let's Roll
+                  Obx(() => Expanded(
+                        child: Container(
+                          height: 56,
+                          margin: EdgeInsets.symmetric(horizontal: 6),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                enRolled.value
+                                    ? Colors.redAccent
+                                    : Color(0xFF00C853),
+                                enRolled.value
+                                    ? Color.fromARGB(192, 226, 171, 179)
+                                    : Color.fromARGB(255, 134, 173, 136)
+                              ],
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.4), // 阴影颜色
+                                offset: Offset(0, 6), // 阴影位置偏移
+                                blurRadius: 12, // 模糊程度
+                                spreadRadius: 2, // 扩散范围
+                              ),
+                            ],
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(12),
+                              onTap: _navigateToMusicApp,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    enRolled.value
+                                        ? "Peace out!"
+                                        : "Let's Roll",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: TColor.lightWhite,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  )),
+                      )),
+                ],
+              ),
+
+              SizedBox(height: 10.h),
+
+              // roll
             ],
           ),
         ),
@@ -365,7 +486,7 @@ class _SplashViewState extends State<MusicStartView> {
         color: const Color(0xFF1E1E1E),
         borderRadius: BorderRadius.circular(16),
       ),
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(3),
       child: LineChart(
         LineChartData(
           backgroundColor: const Color(0xFF1E1E1E),
@@ -388,7 +509,7 @@ class _SplashViewState extends State<MusicStartView> {
             leftTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: true,
-                reservedSize: 40,
+                reservedSize: 28,
                 getTitlesWidget: (value, meta) => _buildAxisLabel(
                   text: value.toStringAsFixed(1),
                   alignment: Alignment.centerRight,
@@ -398,14 +519,25 @@ class _SplashViewState extends State<MusicStartView> {
             bottomTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: true,
+                reservedSize: 20,
                 getTitlesWidget: (value, meta) => _buildAxisLabel(
                   text: "T${value.toInt() + 1}",
                   alignment: Alignment.topCenter,
                 ),
               ),
             ),
-            topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            topTitles: AxisTitles(
+                sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 18,
+              getTitlesWidget: (value, meta) => Container(), // 空组件占位
+            )),
+            rightTitles: AxisTitles(
+                sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 18,
+              getTitlesWidget: (value, meta) => Container(), // 空组件占位
+            )),
           ),
           borderData: FlBorderData(show: true),
           lineBarsData: [
@@ -413,7 +545,7 @@ class _SplashViewState extends State<MusicStartView> {
               spots: speedData,
               isCurved: true,
               color: Colors.greenAccent,
-              barWidth: 4,
+              barWidth: 1,
               dotData: FlDotData(show: true),
               belowBarData: BarAreaData(
                 show: true,
