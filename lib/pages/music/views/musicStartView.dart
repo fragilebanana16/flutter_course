@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/pages/fileManage/constants/app_constants.dart';
 import 'package:flutter_course/pages/fileManage/shared_components/card_cloud.dart';
+import 'package:flutter_course/pages/music/repo/today_in_history_repo.dart';
 import 'package:flutter_course/pages/music/viewModel/StepViewModel.dart';
 import 'package:flutter_course/pages/music/viewModel/startViewModel.dart';
 import 'package:flutter_course/pages/music/views/Widgets/weather/currentWeather.dart';
@@ -321,8 +322,19 @@ class _SplashViewState extends State<MusicStartView> {
                                                 icon: Icon(Icons.refresh,
                                                     color: Colors.white),
                                                 padding: EdgeInsets.zero,
-                                                onPressed: () {
+                                                onPressed: () async {
                                                   // 设置目标
+                                                  final repo =
+                                                      TodayInHistoryRepo();
+                                                  await repo.open();
+                                                  final records = await repo
+                                                      .getTodayRecords();
+                                                  await repo
+                                                      .close(); // 用完关闭释放资源
+                                                  for (var item in records) {
+                                                    print(
+                                                        '${item['year']}年: ${item['data']}');
+                                                  }
                                                 },
                                               ),
                                             ),

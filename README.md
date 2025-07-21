@@ -102,3 +102,9 @@ https://api.openweathermap.org/data/2.5/weather?lat=34.27&lon=108.89&appid=
 
 - A problem occurred evaluating project ':android_path_provider'.
 flutter clean、flutter run
+
+数据库sqflite
+assets\repo下存储，.db，可新建空文件夹，vscode SQlite插件，ctrl shift p -new query
+
+android目录，/data/data/com.example.myapp/databases/example.db，使用AS打开Device Explorer
+
