@@ -8,8 +8,10 @@ import 'package:flutter_course/common/utils/app_colors.dart';
 import 'package:flutter_course/pages/fileManage/constants/app_constants.dart';
 import 'package:flutter_course/pages/fileManage/shared_components/card_cloud.dart';
 import 'package:flutter_course/pages/music/repo/today_in_history_repo.dart';
+import 'package:flutter_course/pages/music/service/history_of_today_service.dart';
 import 'package:flutter_course/pages/music/viewModel/StepViewModel.dart';
 import 'package:flutter_course/pages/music/viewModel/startViewModel.dart';
+import 'package:flutter_course/pages/music/views/Widgets/flipCardWidget.dart';
 import 'package:flutter_course/pages/music/views/Widgets/weather/currentWeather.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -93,7 +95,7 @@ class _SplashViewState extends State<MusicStartView> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 6.h),
               // 天气
@@ -101,100 +103,84 @@ class _SplashViewState extends State<MusicStartView> {
                   margin: EdgeInsets.symmetric(horizontal: 10),
                   child: CurrentWeather()),
               SizedBox(height: 10.h),
-              // 每日一句
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 10),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Color(0xFF2F2F72),
-                        trackingColor.value,
-                      ],
-                    ),
-                    image: DecorationImage(
-                      image: AssetImage("assets/images/poem/ink2.jpg"),
-                      fit: BoxFit.cover,
-                      colorFilter: ColorFilter.mode(
-                        Colors.black.withOpacity(0.3),
-                        BlendMode.dstATop,
-                      ),
-                    ),
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.4),
-                        offset: Offset(0, 6),
-                        blurRadius: 12,
-                        spreadRadius: 2,
-                      ),
-                    ],
+              // 翻转历史上的今天与音乐入口
+              FlipCardWidget(
+                  // 历史上的今天
+                  front: buildFutureCardWrapper<Map<String, dynamic>>(
+                    future: HistoryTodayService.getRandomHistoryToday(),
+                    backgroundImagePath: "assets/images/poem/ink.jpg",
+                    childBuilder: (context, data) {
+                      final year = data['year'];
+                      final info = data['data'];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '📅 历史上的今天 · ${DateTime.now().month}月${DateTime.now().day}日',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              '$year年：$info',
+                              style: const TextStyle(
+                                  fontFamily: 'DunHuangFeiTian',
+                                  fontSize: 16,
+                                  color: Colors.white),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(16), // 👈 水波纹圆角同步
-                    onTap: () {
+                  back:
+                      // 每日一句
+                      GestureDetector(
+                    onLongPress: () {
                       splashVM.loadView();
                     },
-                    child: Container(
-                      width: double.infinity,
-                      constraints: BoxConstraints(minHeight: 80.h),
-                      padding: EdgeInsets.symmetric(vertical: 10.0.w),
-                      child: FutureBuilder<Poem>(
-                        future: PoemService.getRandomPoem(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return const Center(
-                              child: CircularProgressIndicator(
+                    child: buildFutureCardWrapper<Poem>(
+                      future: PoemService.getRandomPoem(),
+                      backgroundImagePath: "assets/images/poem/ink2.jpg",
+                      childBuilder: (context, poem) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '"${poem.content}"',
+                              style: const TextStyle(
+                                  fontFamily: 'weiruanyahei',
+                                  fontSize: 16,
                                   color: Colors.white),
-                            );
-                          }
-
-                          final poem = snapshot.data!;
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '"${poem.content}"',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontStyle: FontStyle.italic,
-                                    color: TColor.lightWhite,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                  softWrap: true,
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  '- ${poem.author}（${poem.dynasty}）',
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.white70,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                  softWrap: true,
-                                ),
-                              ],
+                              textAlign: TextAlign.center,
+                              softWrap: true,
                             ),
-                          );
-                        },
+                            const SizedBox(height: 8),
+                            Text(
+                              '- ${poem.author}（${poem.dynasty}）',
+                              style: const TextStyle(
+                                fontFamily: 'weiruanyahei',
+                                fontSize: 14,
+                                color: Colors.white70,
+                              ),
+                              textAlign: TextAlign.center,
+                              softWrap: true,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
+                  )),
 
               SizedBox(height: 10.h),
-              Text(
-                '书法之美',
-                style: TextStyle(
-                    fontFamily: 'DunHuangFeiTian',
-                    fontSize: 12,
-                    color: Colors.white),
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,12 +190,12 @@ class _SplashViewState extends State<MusicStartView> {
                             horizontal: 6.sp, vertical: 6.sp),
                         margin: EdgeInsets.symmetric(horizontal: 10.h),
                         decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
                           gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [Color(0xFF2F2F72), trackingColor.value],
                           ),
-                          borderRadius: BorderRadius.circular(16),
                         ),
                         child: SizedBox(
                           width: 136.h,
@@ -329,20 +315,7 @@ class _SplashViewState extends State<MusicStartView> {
                                                 icon: Icon(Icons.refresh,
                                                     color: Colors.white),
                                                 padding: EdgeInsets.zero,
-                                                onPressed: () async {
-                                                  // 设置目标
-                                                  final repo =
-                                                      TodayInHistoryRepo();
-                                                  await repo.open();
-                                                  final records = await repo
-                                                      .getTodayRecords();
-                                                  await repo
-                                                      .close(); // 用完关闭释放资源
-                                                  for (var item in records) {
-                                                    print(
-                                                        '${item['year']}年: ${item['data']}');
-                                                  }
-                                                },
+                                                onPressed: () async {},
                                               ),
                                             ),
                                           ),
@@ -773,4 +746,48 @@ class _FullScreenCountdownState extends State<FullScreenCountdown> {
       ),
     );
   }
+}
+
+Widget buildFutureCardWrapper<T>({
+  required Future<T> future,
+  required Widget Function(BuildContext context, T data) childBuilder,
+  double minHeight = 100,
+  String? backgroundImagePath,
+  BorderRadiusGeometry radius = const BorderRadius.all(Radius.circular(16)),
+}) {
+  return ClipRRect(
+    borderRadius: radius,
+    child: Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+        borderRadius: radius,
+        image: backgroundImagePath != null
+            ? DecorationImage(
+                image: AssetImage(backgroundImagePath),
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.2),
+                  BlendMode.darken,
+                ),
+              )
+            : null,
+      ),
+      child: Container(
+        width: double.infinity,
+        constraints: BoxConstraints(minHeight: minHeight),
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: FutureBuilder<T>(
+          future: future,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(
+                child: CircularProgressIndicator(color: Colors.white),
+              );
+            }
+            return childBuilder(context, snapshot.data as T);
+          },
+        ),
+      ),
+    ),
+  );
 }
