@@ -188,6 +188,13 @@ class _SplashViewState extends State<MusicStartView> {
               ),
 
               SizedBox(height: 10.h),
+              Text(
+                '书法之美',
+                style: TextStyle(
+                    fontFamily: 'DunHuangFeiTian',
+                    fontSize: 12,
+                    color: Colors.white),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,

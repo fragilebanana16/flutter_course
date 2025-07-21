@@ -146,6 +146,9 @@ flutter:
     - family:  CustomIcons
       fonts:
       - asset: assets/icons/fonts/CustomIcons.ttf
+    - family: DunHuangFeiTian
+      fonts:
+      - asset: assets/fonts/DunHuangFeiTian-XingKaiTi-2.ttf
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
